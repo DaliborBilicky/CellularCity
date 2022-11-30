@@ -2,15 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4bfc27f2-b967-400a-9284-80f80cf3aa3f" name="Changes" comment="nothing">
-      <change afterPath="$PROJECT_DIR$/res/EmptyCell.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/pixil-frame-0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/red.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/EmptyCell.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/PowerPlant.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/Reservoir.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/green.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/infra/PowerLine.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/infra/Road.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/infra/WaterPipe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/noInfra/NoPower.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/noInfra/NoRoad.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/noInfra/NoWater.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/pixil-frame-0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/red.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tools/Canvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Canvas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/CellType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/CellType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/MouseInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/MouseInput.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/CheckBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/CheckBox.java" afterDir="false" />
@@ -60,7 +66,7 @@
     &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/dbili/Documents/SP_INF/DaliborBilicky/CellularCity&quot;,
     &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors&quot;
   }
 }</component>
   <component name="RunManager">
@@ -106,6 +112,16 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="nothing" />
     <option name="LAST_COMMIT_MESSAGE" value="nothing" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ArrayIndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -42,7 +42,6 @@ public class GameFrame extends JFrame implements Runnable {
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
                 this.gamePanel.setFpsLabel("FPS: " + Frames);
-                System.out.println(Frames);
                 Frames = 0;
             }
         }

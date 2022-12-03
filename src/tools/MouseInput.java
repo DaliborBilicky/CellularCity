@@ -20,17 +20,23 @@ public class MouseInput implements MouseListener, MouseMotionListener {
         return this.posX;
     }
 
+    public void setPosX(int x) {
+        this.posX = x;
+    }
+
     public int getPosY() {
         return this.posY;
+    }
+
+    public void setPosY(int y) {
+        this.posY = y;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getX() < this.gamePanelWidth) {
             this.posX = (e.getX() - (e.getX() % this.cellSize)) / this.cellSize;
-            System.out.println(this.posX);
             this.posY = (e.getY() - (e.getY() % this.cellSize)) / this.cellSize;
-            System.out.println(this.posY);
         }
     }
 

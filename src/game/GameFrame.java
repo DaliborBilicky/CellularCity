@@ -1,27 +1,21 @@
 package game;
 
 import javax.swing.JFrame;
-// import java.awt.BorderLayout;
-// import java.awt.GraphicsDevice;
-// import java.awt.GraphicsEnvironment;
 
 public class GameFrame extends JFrame implements Runnable {
-    //private static final GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
     private final GamePanel gamePanel;
 
     public GameFrame() {
-        String TITLE = "Cellular City";
 
         this.gamePanel = new GamePanel();
         this.gamePanel.requestFocus();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle(TITLE);
+        this.setTitle("Cellular City");
         this.setResizable(false);
         this.setVisible(true);
         this.add(this.gamePanel);
         this.pack();
         this.startGameLoop();
-        //device.setFullScreenWindow(this);
     }
 
     @Override

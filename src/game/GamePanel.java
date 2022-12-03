@@ -2,8 +2,10 @@ package game;
 
 import tools.Canvas;
 import tools.CellType;
+import tools.Grid;
 import tools.MouseInput;
 import ui.CheckBox;
+import ui.Graph;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -18,17 +20,24 @@ public class GamePanel extends JPanel {
     private static final int PANEL_HEIGHT = 900;
     private static final int SIDE_PANEL_WIDTH = (PANEL_WIDTH - PANEL_HEIGHT) / 2;
     private static final int GAME_PANEL_WIDTH = PANEL_WIDTH - SIDE_PANEL_WIDTH;
-
     private final MouseInput mouseInput;
     private final JLabel label;
-    private final BufferedImage[][] grid;
-
+    private final Grid grid;
     private final BufferedImage[] imageList;
-    private CheckBox checkBox, checkBox1, checkBox2,
-            checkBox3, checkBox4, checkBox5, checkBox6;
+    private final CheckBox[] checkBoxes;
+    private final CellType[] cellTypesList;
+    private final Graph graph;
 
     public GamePanel() {
-        this.mouseInput = new MouseInput(CELL_SIZE, GAME_PANEL_WIDTH);
+        this.checkBoxes = new CheckBox[]{
+                new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE * 2, 25, CellType.EMPTY_CELL),
+                new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE * 2, 125, CellType.RESIDENTIAL),
+                new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE * 2, 225, CellType.COMMERCIAL),
+                new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE * 2, 325, CellType.INDUSTRIAL),
+                new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE * 2, 425, CellType.PIPE),
+                new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE * 2, 525, CellType.POWER_LINE),
+                new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE * 2, 625, CellType.ROAD),
+        };
         this.imageList = new BufferedImage[]{
                 this.getImage(CellType.EMPTY_CELL.getImagePath()[0]),
                 this.getImage(CellType.RESIDENTIAL.getImagePath()[0]),
@@ -37,24 +46,26 @@ public class GamePanel extends JPanel {
                 this.getImage(CellType.PIPE.getImagePath()[0]),
                 this.getImage(CellType.POWER_LINE.getImagePath()[0]),
                 this.getImage(CellType.ROAD.getImagePath()[0]),
+                this.getImage("res/Power.png"),
+                this.getImage("res/Water.png")
         };
-
-        this.grid = new BufferedImage[PANEL_HEIGHT / CELL_SIZE][GAME_PANEL_WIDTH / CELL_SIZE];
-        for (int i = 0; i < PANEL_HEIGHT / CELL_SIZE; i++) {
-            for (int j = 0; j < GAME_PANEL_WIDTH / CELL_SIZE; j++) {
-                this.grid[i][j] = this.imageList[0];
-            }
-        }
-
-        this.setBackground(Color.CYAN);
-        this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        this.setFocusable(true);
-        this.setLayout(null);
-
-        this.mouseInputs();
+        this.cellTypesList = new CellType[]{
+                CellType.EMPTY_CELL,
+                CellType.RESIDENTIAL,
+                CellType.COMMERCIAL,
+                CellType.INDUSTRIAL,
+                CellType.PIPE,
+                CellType.POWER_LINE,
+                CellType.ROAD
+        };
+        this.mouseInput = new MouseInput(CELL_SIZE, GAME_PANEL_WIDTH);
+        this.graph = new Graph(GAME_PANEL_WIDTH + CELL_SIZE * 2, 700);
+        this.grid = new Grid(this.imageList, PANEL_HEIGHT, GAME_PANEL_WIDTH, CELL_SIZE);
         this.label = new JLabel();
-
+        this.add(this.graph);
+        this.mouseInputs();
         this.setCheckBoxes();
+        this.setPanel();
     }
 
     public BufferedImage getImage(String imagePath) {
@@ -68,25 +79,13 @@ public class GamePanel extends JPanel {
     }
 
     public void paintComponent(Graphics graphics) {
-        Canvas canvas = new Canvas(graphics, CELL_SIZE, SIDE_PANEL_WIDTH);
         super.paintComponent(graphics);
+        Canvas canvas = new Canvas(graphics, CELL_SIZE, SIDE_PANEL_WIDTH);
         canvas.drawGrid(PANEL_WIDTH, PANEL_HEIGHT);
-        canvas.drawEnergyBuildings(this.imageList[0], this.imageList[0]);
-        canvas.drawInfra(grid, PANEL_HEIGHT / CELL_SIZE, GAME_PANEL_WIDTH / CELL_SIZE);
-        this.setModifiedGrid(this.mouseInput.getPosY(), this.mouseInput.getPosX(), this.imageList[0], this.checkBox);
-        this.checkBox.setSwitchLook();
-        this.setModifiedGrid(this.mouseInput.getPosY(), this.mouseInput.getPosX(), this.imageList[1], this.checkBox1);
-        this.checkBox1.setSwitchLook();
-        this.setModifiedGrid(this.mouseInput.getPosY(), this.mouseInput.getPosX(), this.imageList[2], this.checkBox2);
-        this.checkBox2.setSwitchLook();
-        this.setModifiedGrid(this.mouseInput.getPosY(), this.mouseInput.getPosX(), this.imageList[3], this.checkBox3);
-        this.checkBox3.setSwitchLook();
-        this.setModifiedGrid(this.mouseInput.getPosY(), this.mouseInput.getPosX(), this.imageList[4], this.checkBox4);
-        this.checkBox4.setSwitchLook();
-        this.setModifiedGrid(this.mouseInput.getPosY(), this.mouseInput.getPosX(), this.imageList[5], this.checkBox5);
-        this.checkBox5.setSwitchLook();
-        this.setModifiedGrid(this.mouseInput.getPosY(), this.mouseInput.getPosX(), this.imageList[6], this.checkBox6);
-        this.checkBox6.setSwitchLook();
+        canvas.drawInfra(this.grid.getImageGrid());
+        this.checkBoxesFunction();
+        canvas.drawEnergyBuildings(this.imageList[7], this.imageList[8]);
+        this.graph.setRightGraph(this.grid.getTypeGrid());
     }
 
     public void setFpsLabel(String text) {
@@ -97,20 +96,22 @@ public class GamePanel extends JPanel {
     }
 
     private void setCheckBoxes() {
-        this.checkBox = new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE, 0, CellType.EMPTY_CELL);
-        this.add(this.checkBox);
-        this.checkBox1 = new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE, 75, CellType.RESIDENTIAL);
-        this.add(this.checkBox1);
-        this.checkBox2 = new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE, 150, CellType.COMMERCIAL);
-        this.add(this.checkBox2);
-        this.checkBox3 = new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE, 225, CellType.INDUSTRIAL);
-        this.add(this.checkBox3);
-        this.checkBox4 = new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE, 300, CellType.PIPE);
-        this.add(this.checkBox4);
-        this.checkBox5 = new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE, 375, CellType.POWER_LINE);
-        this.add(this.checkBox5);
-        this.checkBox6 = new CheckBox(GAME_PANEL_WIDTH + CELL_SIZE, 450, CellType.ROAD);
-        this.add(this.checkBox6);
+        for (CheckBox checkBox : this.checkBoxes) {
+            this.add(checkBox);
+        }
+    }
+
+    private void checkBoxesFunction() {
+        for (int i = 0; i < this.checkBoxes.length; i++) {
+            if (this.checkBoxes[i].wasSelected()) {
+                this.grid.getImageGrid()[this.mouseInput.getPosY()][this.mouseInput.getPosX()] = this.imageList[i];
+                this.grid.getImageGrid()[0][0] = this.imageList[0];
+                this.grid.getTypeGrid()[this.mouseInput.getPosY()][this.mouseInput.getPosX()] = this.cellTypesList[i];
+                this.mouseInput.setPosX(0);
+                this.mouseInput.setPosY(0);
+            }
+            this.checkBoxes[i].setSwitchLook();
+        }
     }
 
     private void mouseInputs() {
@@ -118,10 +119,10 @@ public class GamePanel extends JPanel {
         this.addMouseMotionListener(this.mouseInput);
     }
 
-
-    private void setModifiedGrid(int i, int j, BufferedImage cellImage, CheckBox checkBox) {
-        if (checkBox.wasSelected()) {
-            this.grid[i][j] = cellImage;
-        }
+    private void setPanel() {
+        this.setBackground(new Color(80, 200, 120));
+        this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+        this.setFocusable(true);
+        this.setLayout(null);
     }
 }

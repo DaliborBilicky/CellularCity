@@ -1,7 +1,10 @@
 package tools;
 
-import java.awt.Graphics;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Canvas {
     private final Graphics graphics;
@@ -31,6 +34,11 @@ public class Canvas {
 
     public void drawEnergyBuildings(BufferedImage image1, BufferedImage image2) {
         int sideSize = 4;
+        this.graphics.fillRect(
+                0,
+                0,
+                (sideSize * 2) * this.cellSize,
+                sideSize * this.cellSize);
         this.graphics.drawImage(
                 image1,
                 0,
@@ -47,20 +55,16 @@ public class Canvas {
                 null);
     }
 
-    public void drawInfra(BufferedImage[][] grid, int height, int width) {
-        for (int i = 0; i < height; i++) {
-            if (i > 3) {
-                for (int j = 0; j < width; j++) {
-                    if (j > 7) {
-                        this.graphics.drawImage(
-                                grid[i][j],
-                                this.cellSize * j,
-                                this.cellSize * i,
-                                this.cellSize,
-                                this.cellSize,
-                                null);
-                    }
-                }
+    public void drawInfra(BufferedImage[][] grid) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                this.graphics.drawImage(
+                        grid[i][j],
+                        this.cellSize * j,
+                        this.cellSize * i,
+                        this.cellSize,
+                        this.cellSize,
+                        null);
             }
         }
     }

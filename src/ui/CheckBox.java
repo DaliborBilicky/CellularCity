@@ -6,14 +6,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CheckBox extends JCheckBox {
-    private static final int C_B_WIDTH = 125;
-    private static final int C_B_HEIGHT = 50;
+    private static final int C_B_WIDTH = 200;
+    private static final int C_B_HEIGHT = 75;
 
     private final CellType cellType;
 
     public CheckBox(int posX, int posY, CellType cellType) {
         this.cellType = cellType;
         this.setBounds(posX, posY, C_B_WIDTH, C_B_HEIGHT);
+        this.setFont(new Font("Arial", Font.BOLD, 20));
+        this.setFocusable(false);
+        this.setIconTextGap(15);
+        this.setBackground(Color.LIGHT_GRAY);
+        this.setHorizontalAlignment(SwingConstants.CENTER);
+        this.setBorderPainted(true);
     }
 
     public void setSwitchLook() {

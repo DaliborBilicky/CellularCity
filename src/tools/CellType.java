@@ -4,50 +4,63 @@ package tools;
 public enum CellType {
     EMPTY_CELL(
             new String[]{
-                    "res/Nove/EmptyCell.png",
-                    "res/Nove/Bulldozer.png",
-                    "res/Nove/SelectedBulldozer.png"
+                    "res/EmptyCell.png",
+                    "res/Bulldozer.png",
+                    "res/SelectedBulldozer.png"
             },
             "Clear"),
-    // Infra
-    POWER_LINE(
+    RESIDENTIAL(
             new String[]{
-                    "res/Nove/PowerLine.png",
-                    "res/Nove/SelectedPowerLine.png"
+                    "res/Residential.png",
+                    "res/SelectedResidential.png"
             },
-            "Power line"),
-    ROAD(
-            new String[]{
-                    "res/Nove/Road.png",
-                    "res/Nove/SelectedRoad.png"
-            },
-            "Road"),
-    PIPE(
-            new String[]{
-                    "res/Nove/Pipe.png",
-                    "res/Nove/SelectedPipe.png"
-            },
-            "Water pipe"),
-    // Zones
+            "Residential"),
     COMMERCIAL(
             new String[]{
-                    "res/Nove/EmptyCell.png",
-                    "res/Nove/SelectedBulldozer.png"
+                    "res/Commercial.png",
+                    "res/SelectedCommercial.png"
             },
             "Commercial"),
     INDUSTRIAL(
             new String[]{
-                    "res/Nove/EmptyCell.png",
-                    "res/Nove/SelectedBulldozer.png"
+                    "res/Industrial.png",
+                    "res/SelectedIndustrial.png"
             },
             "Industrial"),
-    RESIDENTIAL(
+    PIPE(
             new String[]{
-                    "res/Nove/EmptyCell.png",
-                    "res/Nove/SelectedBulldozer.png"
+                    "res/Pipe.png",
+                    "res/SelectedPipe.png"
             },
-            "Residential");
+            "Water pipe"),
+    NO_WATER(
+            new String[]{
+                    "res/NoWater.png"
+            },
+            "Water pipe"),
 
+    POWER_LINE(
+            new String[]{
+                    "res/PowerLine.png",
+                    "res/SelectedPowerLine.png"
+            },
+            "Power line"),
+    NO_POWER(
+            new String[]{
+                    "res/NoPower.png"
+            },
+            "Power line"),
+    ROAD(
+            new String[]{
+                    "res/Road.png",
+                    "res/SelectedRoad.png"
+            },
+            "Road"),
+    NO_ROAD(
+            new String[]{
+                    "res/NoRoad.png"
+            },
+            "Road");
     private final String[] imagePaths;
     private final String cellName;
 
@@ -63,4 +76,5 @@ public enum CellType {
     public String getCellName() {
         return this.cellName;
     }
+
 }

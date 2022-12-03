@@ -1,10 +1,7 @@
 package tools;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class Canvas {
     private final Graphics graphics;
@@ -17,18 +14,20 @@ public class Canvas {
         this.sidePanelWidth = sidePanelWidth;
     }
 
-    public void drawGrid(int wWidth, int wHeight) {
-        for (int i = 0; i <= (wWidth - this.sidePanelWidth) / this.cellSize; i++) {
-            this.graphics.drawLine(
-                    i * this.cellSize,
-                    0,
-                    i * this.cellSize,
-                    wHeight);
-            this.graphics.drawLine(
-                    0,
-                    i * cellSize,
-                    wWidth - this.sidePanelWidth,
-                    i * this.cellSize);
+    public void drawGrid(int width, int height) {
+        for (int i = 0; i <= (width - this.sidePanelWidth) / this.cellSize; i++) {
+            for (int j = 0; j <= height / this.cellSize; j++) {
+                this.graphics.drawLine(
+                        i * this.cellSize,
+                        0,
+                        i * this.cellSize,
+                        height);
+                this.graphics.drawLine(
+                        0,
+                        j * cellSize,
+                        width - this.sidePanelWidth,
+                        j * this.cellSize);
+            }
         }
     }
 

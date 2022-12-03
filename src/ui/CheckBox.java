@@ -2,18 +2,20 @@ package ui;
 
 import tools.CellType;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.Font;
 
 public class CheckBox extends JCheckBox {
     private static final int C_B_WIDTH = 200;
     private static final int C_B_HEIGHT = 75;
-
     private final CellType cellType;
 
     public CheckBox(int posX, int posY, CellType cellType) {
         this.cellType = cellType;
-        this.setBounds(posX, posY, C_B_WIDTH, C_B_HEIGHT);
+        this.setBounds(posX - (C_B_WIDTH / 2), posY, C_B_WIDTH, C_B_HEIGHT);
         this.setFont(new Font("Arial", Font.BOLD, 20));
         this.setFocusable(false);
         this.setIconTextGap(15);
@@ -80,7 +82,6 @@ public class CheckBox extends JCheckBox {
                 break;
         }
     }
-
 
     public boolean wasSelected() {
         return this.isSelected();

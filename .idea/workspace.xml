@@ -1,60 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="4bfc27f2-b967-400a-9284-80f80cf3aa3f" name="Changes" comment="nothing">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/Bulldozer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/CellMoney.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/Commercial.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/Industrial.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/NoPower.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/NoRoad.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/NoWater.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/Pipe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/Power.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/PowerLine.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/Residential.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/Road.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/SelectedBulldozer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/SelectedCommercial.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/SelectedIndustrial.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/SelectedPipe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/SelectedPowerLine.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/SelectedResidential.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/SelectedRoad.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/Water.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/graphs/1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/graphs/2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/graphs/3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/graphs/4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/graphs/5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/graphs/6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/Bulldozer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/EmptyCell.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/NoPower.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/NoRoad.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/NoWater.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/Pipe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/Power.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/PowerLine.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/Road.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/SelectedBulldozer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/SelectedPipe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/SelectedPowerLIne.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/SelectedRoad.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/Nove/Water.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/zones/Commercial.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/zones/Industrial.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/zones/Residential.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Grid.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/Canvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Canvas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/CellType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/CellType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tools/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Grid.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/MouseInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/MouseInput.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/CheckBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/CheckBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Graph.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,6 +40,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2IDsqromMMRkZrh2DIB4zhSEfWp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -102,7 +64,7 @@
     "code.cleanup.on.save": "true",
     "last_opened_file_path": "C:/Users/dbili/Documents/SP_INF/DaliborBilicky/CellularCity",
     "rearrange.code.on.save": "true",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+    "settings.editor.selected.configurable": "editor.preferences.tabs"
   }
 }]]></component>
   <component name="RunManager">

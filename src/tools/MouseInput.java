@@ -1,6 +1,5 @@
 package tools;
 
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -8,12 +7,14 @@ import java.awt.event.MouseMotionListener;
 public class MouseInput implements MouseListener, MouseMotionListener {
     private final int cellSize;
     private final int gamePanelWidth;
+    private final int gamePanelHeight;
     private int posX;
     private int posY;
 
-    public MouseInput(int cellSize, int gamePanelWidth) {
+    public MouseInput(int cellSize, int gamePanelWidth, int gamePanelHeight) {
         this.cellSize = cellSize;
         this.gamePanelWidth = gamePanelWidth;
+        this.gamePanelHeight = gamePanelHeight;
     }
 
     public int getPosX() {
@@ -34,7 +35,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getX() < this.gamePanelWidth) {
+        if (e.getX() < this.gamePanelWidth && e.getY() < this.gamePanelHeight) {
             this.posX = (e.getX() - (e.getX() % this.cellSize)) / this.cellSize;
             this.posY = (e.getY() - (e.getY() % this.cellSize)) / this.cellSize;
         }

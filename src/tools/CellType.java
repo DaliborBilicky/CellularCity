@@ -1,66 +1,62 @@
 package tools;
 
-
 public enum CellType {
     EMPTY_CELL(
-            new String[]{
-                    "res/EmptyCell.png",
-                    "res/Bulldozer.png",
-                    "res/SelectedBulldozer.png"
-            },
-            "Clear"),
-    RESIDENTIAL(
-            new String[]{
-                    "res/Residential.png",
-                    "res/SelectedResidential.png"
-            },
-            "Residential"),
-    COMMERCIAL(
-            new String[]{
-                    "res/Commercial.png",
-                    "res/SelectedCommercial.png"
-            },
-            "Commercial"),
-    INDUSTRIAL(
-            new String[]{
-                    "res/Industrial.png",
-                    "res/SelectedIndustrial.png"
-            },
-            "Industrial"),
-    PIPE(
-            new String[]{
-                    "res/Pipe.png",
-                    "res/SelectedPipe.png"
-            },
-            "Water pipe"),
-    NO_WATER(
-            new String[]{
-                    "res/NoWater.png"
-            },
-            "Water pipe"),
+        new String[]{
+            "res/EmptyCell.png",
+            "res/Bulldozer.png",
+            "res/SelectedBulldozer.png"
+        },
+        "Clear"),
+    RESIDENTIAL(new String[]{
+        "res/Residential.png",
+        "res/SelectedResidential.png"
+    },
+        "Residential"),
 
-    POWER_LINE(
-            new String[]{
-                    "res/PowerLine.png",
-                    "res/SelectedPowerLine.png"
-            },
-            "Power line"),
-    NO_POWER(
-            new String[]{
-                    "res/NoPower.png"
-            },
-            "Power line"),
-    ROAD(
-            new String[]{
-                    "res/Road.png",
-                    "res/SelectedRoad.png"
-            },
-            "Road"),
-    NO_ROAD(
-            new String[]{
-                    "res/NoRoad.png"
-            },
-            "Road");
+    COMMERCIAL(new String[]{
+        "res/Commercial.png",
+        "res/SelectedCommercial.png"
+    },
+        "Commercial"),
+
+    INDUSTRIAL(new String[]{
+        "res/Industrial.png",
+        "res/SelectedIndustrial.png"
+    },
+        "Industrial"),
+
+    PIPE(new String[]{
+        "res/Pipe.png",
+        "res/SelectedPipe.png"
+    },
+        "Water pipe"),
+
+    NO_WATER(new String[]{
+        "res/NoWater.png"
+    },
+        "Water pipe"),
+
+    POWER_LINE(new String[]{
+        "res/PowerLine.png",
+        "res/SelectedPowerLine.png"
+    },
+        "Power line"),
+    NO_POWER(new String[]{
+        "res/NoPower.png"
+    },
+        "Power line"),
+
+    ROAD(new String[]{
+        "res/Road.png",
+        "res/SelectedRoad.png"
+    },
+        "Road"),
+
+    NO_ROAD(new String[]{
+        "res/NoRoad.png"
+    },
+        "Road");
     private final String[] imagePaths;
     private final String cellName;
 

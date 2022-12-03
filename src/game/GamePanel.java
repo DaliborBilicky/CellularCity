@@ -16,6 +16,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Trieda na vykreslovanie komponentov do GameFramu.
+ * !!! To, ze trieda dedi od JPanel mam naucene z internetu. !!!
+ */
 public class GamePanel extends JPanel {
     public static final int CELL_SIZE = 25;
     private static final int PANEL_WIDTH = 1600;
@@ -68,6 +72,10 @@ public class GamePanel extends JPanel {
         this.setPanel();
     }
 
+    /**
+     * Metoda na vykreslovanie tvarou a obrazkov pomocou Graphics.
+     * !!! Nazov metody a riadok pod tym mam naucene z internetu. !!!
+     */
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         Canvas canvas = new Canvas(graphics, CELL_SIZE, SIDE_PANEL_WIDTH);
@@ -78,6 +86,10 @@ public class GamePanel extends JPanel {
         this.graph.setRightGraph(this.grid.getTypeGrid());
     }
 
+    /**
+     * Metoda na nastavenie hodnot panelu.
+     * Oddelene od konstruktora pre citatelnost.
+     */
     private void setPanel() {
         this.setBackground(new Color(80, 200, 120));
         this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -85,28 +97,53 @@ public class GamePanel extends JPanel {
         this.setLayout(null);
     }
 
+    /**
+     * Metoda nacita obrazok zo zadanej cetsty k obrazku.
+     * Ak sa obrazok nenajde vyhodi chybu a program bezi dalej.
+     * !!! Metoda je zobrana z TvaryV4 trieda Obrazok. !!!
+     */
     private BufferedImage getMyImage(String imagePath) {
-        BufferedImage image;
+        BufferedImage image = null;
         try {
             image = ImageIO.read(new File(imagePath));
         } catch (IOException exception) {
-            throw new RuntimeException(exception);
+            javax.swing.JOptionPane.showMessageDialog(
+                null,
+                "Subor " + imagePath + " sa nenasiel.");
         }
         return image;
     }
 
+    /**
+     * Metoda zoberie array check boxov a interaciu ich prida na panel.
+     */
     private void setCheckBoxes() {
         for (CheckBox checkBox : this.checkBoxes) {
             this.add(checkBox);
         }
     }
 
+    /**
+     * Metoda interuje cez check boxy a ked je daky z nich oznaceny vykona telo
+     * cyklu. To pozostava z nastavenia bunky a typu bunky do 2D array. Na konci
+     * uz len premeni check box iconu na selected
+     */
     private void checkBoxesFunction() {
         for (int i = 0; i < this.checkBoxes.length; i++) {
             if (this.checkBoxes[i].wasSelected()) {
-                this.grid.getImageGrid()[this.mouseInput.getPosY()][this.mouseInput.getPosX()] = this.imageList[i];
+                this.grid.getImageGrid()
+                    [this.mouseInput.getPosY()]
+                    [this.mouseInput.getPosX()] = this.imageList[i];
+                /*
+                 * Riadok pod komentarom  je potrebny lebo riadok nad nim musi
+                 * nastavit indexi na 0. Sposobovalo to, ze bunka 00 a este
+                 * zakliknuta sa zmenili na zvolenu bunku co nechcem.
+                 */
                 this.grid.getImageGrid()[0][0] = this.imageList[0];
-                this.grid.getTypeGrid()[this.mouseInput.getPosY()][this.mouseInput.getPosX()] = this.cellTypesList[i];
+                this.grid.getTypeGrid()
+                    [this.mouseInput.getPosY()]
+                    [this.mouseInput.getPosX()] = this.cellTypesList[i];
+                // To iste ako riadky hore.
                 this.grid.getTypeGrid()[0][0] = this.cellTypesList[0];
                 this.mouseInput.setPosX(0);
                 this.mouseInput.setPosY(0);
@@ -115,6 +152,10 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Metoda pridava do Listenerov moju triedu MouseInput
+     * Oddelene od konstruktora pre citatelnost.
+     */
     private void mouseInputs() {
         this.addMouseListener(this.mouseInput);
         this.addMouseMotionListener(this.mouseInput);

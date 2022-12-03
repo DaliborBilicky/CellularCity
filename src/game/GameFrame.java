@@ -6,10 +6,18 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Font;
 
+/**
+ * Trieda na zobrazenie okna a zabezpecuje aby sa okno obnovovalo podla
+ * nastavenej hodnoty fps.
+ * !!! To, ze trieda dedi od JFrame mam naucene z internetu. !!!
+ */
 public class GameFrame extends JFrame implements Runnable {
     private final GamePanel gamePanel;
     private final JLabel label;
 
+    /**
+     * V kostruktore okrem inicializacie sa nastavuju hodnoty pre okno.
+     */
     public GameFrame() {
         this.gamePanel = new GamePanel();
         this.label = new JLabel();
@@ -26,6 +34,10 @@ public class GameFrame extends JFrame implements Runnable {
         this.startGameLoop();
     }
 
+    /**
+     * Metoda na obnovovanie platna v urcenej hodnote fps.
+     * !!! Metoda je z internetu. Link v dokumentacii. !!!
+     */
     @Override
     public void run() {
         int fps = 60;
@@ -49,6 +61,9 @@ public class GameFrame extends JFrame implements Runnable {
         }
     }
 
+    /**
+     * Metoda ktora vypisuje fps do okna hry.
+     */
     private void setFpsLabel(String text) {
         this.label.setFont(new Font("Arial", Font.BOLD, 12));
         this.label.setBounds(0, 0, 60, 20);
@@ -57,6 +72,10 @@ public class GameFrame extends JFrame implements Runnable {
         this.gamePanel.add(this.label);
     }
 
+    /**
+     * Metoda spusti game loop.
+     * !!! Metoda je z internetu (spolu s run()). Link v dokumentacii. !!!
+     */
     private void startGameLoop() {
         Thread gameThread = new Thread(this);
         gameThread.start();

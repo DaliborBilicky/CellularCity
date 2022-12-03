@@ -3,6 +3,9 @@ package tools;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+/**
+ * Trieda ktora vykresluje komplexnejsie veci ako len stvorec a pod.
+ */
 public class Canvas {
     private final Graphics graphics;
     private final int cellSize;
@@ -14,56 +17,66 @@ public class Canvas {
         this.sidePanelWidth = sidePanelWidth;
     }
 
+    /**
+     * Metoda zoberie parametre vysku a sirku a podla nich vykresli mriezku.
+     */
     public void drawGrid(int width, int height) {
         for (int i = 0; i <= (width - this.sidePanelWidth) / this.cellSize; i++) {
             for (int j = 0; j <= height / this.cellSize; j++) {
                 this.graphics.drawLine(
-                        i * this.cellSize,
-                        0,
-                        i * this.cellSize,
-                        height);
+                    i * this.cellSize,
+                    0,
+                    i * this.cellSize,
+                    height);
                 this.graphics.drawLine(
-                        0,
-                        j * cellSize,
-                        width - this.sidePanelWidth,
-                        j * this.cellSize);
+                    0,
+                    j * cellSize,
+                    width - this.sidePanelWidth,
+                    j * this.cellSize);
             }
         }
     }
 
+    /**
+     * Metoda zoberie pridelene obrazky a vykresli do laveho horneho rohu
+     * elektraren a vodnu nadrz.
+     */
     public void drawEnergyBuildings(BufferedImage image1, BufferedImage image2) {
         int sideSize = 4;
         this.graphics.fillRect(
-                0,
-                0,
-                (sideSize * 2) * this.cellSize,
-                sideSize * this.cellSize);
+            0,
+            0,
+            (sideSize * 2) * this.cellSize,
+            sideSize * this.cellSize);
         this.graphics.drawImage(
-                image1,
-                0,
-                0,
-                this.cellSize * sideSize,
-                this.cellSize * sideSize,
-                null);
+            image1,
+            0,
+            0,
+            this.cellSize * sideSize,
+            this.cellSize * sideSize,
+            null);
         this.graphics.drawImage(
-                image2,
-                this.cellSize * sideSize,
-                0,
-                this.cellSize * sideSize,
-                this.cellSize * sideSize,
-                null);
+            image2,
+            this.cellSize * sideSize,
+            0,
+            this.cellSize * sideSize,
+            this.cellSize * sideSize,
+            null);
     }
 
+    /**
+     * Metoda zoberie 2D array a vykresli ho do mriezky.
+     */
     public void drawInfra(BufferedImage[][] grid) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 this.graphics.drawImage(
-                        grid[i][j],
-                        this.cellSize * j,
-                        this.cellSize * i,
-                        this.cellSize,
-                        this.cellSize,
-                        null);
+                    grid[i][j],
+                    this.cellSize * j,
+                    this.cellSize * i,
+                    this.cellSize,
+                    this.cellSize,
+                    null);
             }
         }
     }

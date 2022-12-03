@@ -4,6 +4,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+/**
+ * Trieda implementuje Listenerer a obashuje metody na overrideovanie.
+ * !!! Napad na vznik triedy je z internetu. Link v dokumentacii !!!
+ */
 public class MouseInput implements MouseListener, MouseMotionListener {
     private final int cellSize;
     private final int gamePanelWidth;
@@ -33,6 +37,9 @@ public class MouseInput implements MouseListener, MouseMotionListener {
         this.posY = y;
     }
 
+    /**
+     * Metoda nastavje x a y po kliknuti ak je splnena podmienka.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getX() < this.gamePanelWidth && e.getY() < this.gamePanelHeight) {

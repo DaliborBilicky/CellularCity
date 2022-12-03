@@ -1,5 +1,8 @@
 package tools;
 
+/**
+ * Enum uchovava typ bunky, cesty k obrazkom a nazov bunky.
+ */
 public enum CellType {
     EMPTY_CELL(
         new String[]{
@@ -8,6 +11,7 @@ public enum CellType {
             "res/SelectedBulldozer.png"
         },
         "Clear"),
+
     RESIDENTIAL(new String[]{
         "res/Residential.png",
         "res/SelectedResidential.png"
@@ -35,17 +39,18 @@ public enum CellType {
     NO_WATER(new String[]{
         "res/NoWater.png"
     },
-        "Water pipe"),
+        "No water pipe"),
 
     POWER_LINE(new String[]{
         "res/PowerLine.png",
         "res/SelectedPowerLine.png"
     },
         "Power line"),
+
     NO_POWER(new String[]{
         "res/NoPower.png"
     },
-        "Power line"),
+        "No power line"),
 
     ROAD(new String[]{
         "res/Road.png",
@@ -56,7 +61,8 @@ public enum CellType {
     NO_ROAD(new String[]{
         "res/NoRoad.png"
     },
-        "Road");
+        "No road");
+
     private final String[] imagePaths;
     private final String cellName;
 
@@ -72,5 +78,4 @@ public enum CellType {
     public String getCellName() {
         return this.cellName;
     }
-
 }

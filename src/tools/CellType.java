@@ -36,32 +36,17 @@ public enum CellType {
     },
         "Water pipe"),
 
-    NO_WATER(new String[]{
-        "res/NoWater.png"
-    },
-        "No water pipe"),
-
     POWER_LINE(new String[]{
         "res/PowerLine.png",
         "res/SelectedPowerLine.png"
     },
         "Power line"),
 
-    NO_POWER(new String[]{
-        "res/NoPower.png"
-    },
-        "No power line"),
-
     ROAD(new String[]{
         "res/Road.png",
         "res/SelectedRoad.png"
     },
-        "Road"),
-
-    NO_ROAD(new String[]{
-        "res/NoRoad.png"
-    },
-        "No road");
+        "Road");
 
     private final String[] imagePaths;
     private final String cellName;

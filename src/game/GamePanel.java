@@ -27,7 +27,6 @@ public class GamePanel extends JPanel {
     private static final int SIDE_PANEL_WIDTH = (PANEL_WIDTH - PANEL_HEIGHT) / 2;
     private static final int GAME_PANEL_WIDTH = PANEL_WIDTH - SIDE_PANEL_WIDTH;
     private final BufferedImage[] imageList;
-    private final CellType[] cellTypesList;
     private final CheckBox[] checkBoxes;
     private final Graph graph;
     private final Grid grid;
@@ -50,18 +49,7 @@ public class GamePanel extends JPanel {
             this.getMyImage(CellType.INDUSTRIAL.getImagePath()[0]),
             this.getMyImage(CellType.PIPE.getImagePath()[0]),
             this.getMyImage(CellType.POWER_LINE.getImagePath()[0]),
-            this.getMyImage(CellType.ROAD.getImagePath()[0]),
-            this.getMyImage("res/Power.png"),
-            this.getMyImage("res/Water.png")
-        };
-        this.cellTypesList = new CellType[]{
-            CellType.EMPTY_CELL,
-            CellType.RESIDENTIAL,
-            CellType.COMMERCIAL,
-            CellType.INDUSTRIAL,
-            CellType.PIPE,
-            CellType.POWER_LINE,
-            CellType.ROAD
+            this.getMyImage(CellType.ROAD.getImagePath()[0])
         };
         this.mouseInput = new MouseInput(CELL_SIZE, GAME_PANEL_WIDTH, PANEL_HEIGHT);
         this.graph = new Graph(GAME_PANEL_WIDTH + CELL_SIZE * 2, 700);
@@ -82,7 +70,9 @@ public class GamePanel extends JPanel {
         canvas.drawGrid(PANEL_WIDTH, PANEL_HEIGHT);
         canvas.drawInfra(this.grid.getImageGrid());
         this.checkBoxesFunction();
-        canvas.drawEnergyBuildings(this.imageList[7], this.imageList[8]);
+        canvas.drawEnergyBuildings(
+            this.getMyImage("res/Power.png"),
+            this.getMyImage("res/Water.png"));
         this.graph.setRightGraph(this.grid.getTypeGrid());
     }
 
@@ -142,9 +132,9 @@ public class GamePanel extends JPanel {
                 this.grid.getImageGrid()[0][0] = this.imageList[0];
                 this.grid.getTypeGrid()
                     [this.mouseInput.getPosY()]
-                    [this.mouseInput.getPosX()] = this.cellTypesList[i];
+                    [this.mouseInput.getPosX()] = CellType.values()[i];
                 // To iste ako riadky hore.
-                this.grid.getTypeGrid()[0][0] = this.cellTypesList[0];
+                this.grid.getTypeGrid()[0][0] = CellType.values()[0];
                 this.mouseInput.setPosX(0);
                 this.mouseInput.setPosY(0);
             }

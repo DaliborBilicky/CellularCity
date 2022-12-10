@@ -58,6 +58,7 @@ public class Graph extends JLabel {
                 }
             }
         }
+//todo skus sa zbavit toho slizoveho kodu.
         if (residential > commercial && residential > industrial) {
             this.setIcon(this.getImageIcon("res/graphs/1.png"));
         }

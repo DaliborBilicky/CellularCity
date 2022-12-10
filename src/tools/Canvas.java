@@ -9,29 +9,27 @@ import java.awt.image.BufferedImage;
 public class Canvas {
     private final Graphics graphics;
     private final int cellSize;
-    private final int sidePanelWidth;
 
-    public Canvas(Graphics graphics, int cellSize, int sidePanelWidth) {
+    public Canvas(Graphics graphics, int cellSize) {
         this.graphics = graphics;
         this.cellSize = cellSize;
-        this.sidePanelWidth = sidePanelWidth;
     }
 
     /**
      * Metoda zoberie parametre vysku a sirku a podla nich vykresli mriezku.
      */
     public void drawGrid(int width, int height) {
-        for (int i = 0; i <= (width - this.sidePanelWidth) / this.cellSize; i++) {
+        for (int i = 0; i <= width / this.cellSize; i++) {
             for (int j = 0; j <= height / this.cellSize; j++) {
                 this.graphics.drawLine(
                     i * this.cellSize,
                     0,
                     i * this.cellSize,
-                    height);
+                    height - (height % this.cellSize));
                 this.graphics.drawLine(
                     0,
                     j * cellSize,
-                    width - this.sidePanelWidth,
+                    width - (width % this.cellSize),
                     j * this.cellSize);
             }
         }
@@ -67,11 +65,11 @@ public class Canvas {
     /**
      * Metoda zoberie 2D array a vykresli ho do mriezky.
      */
-    public void drawInfra(BufferedImage[][] grid) {
+    public void drawInfra(CellType[][] grid) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 this.graphics.drawImage(
-                    grid[i][j],
+                    grid[i][j].getImage(),
                     this.cellSize * j,
                     this.cellSize * i,
                     this.cellSize,

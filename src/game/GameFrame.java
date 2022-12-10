@@ -3,8 +3,7 @@ package game;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 /**
  * Trieda na zobrazenie okna a zabezpecuje aby sa okno obnovovalo podla
@@ -12,6 +11,8 @@ import java.awt.Font;
  * !!! To, ze trieda dedi od JFrame mam naucene z internetu. !!!
  */
 public class GameFrame extends JFrame implements Runnable {
+    private static final GraphicsDevice device =
+        GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
     private final GamePanel gamePanel;
     private final JLabel label;
 
@@ -28,10 +29,12 @@ public class GameFrame extends JFrame implements Runnable {
         this.setIconImage(image.getImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
+        this.setUndecorated(true);
         this.setVisible(true);
         this.add(this.gamePanel);
         this.pack();
         this.startGameLoop();
+        device.setFullScreenWindow(this);
     }
 
     /**

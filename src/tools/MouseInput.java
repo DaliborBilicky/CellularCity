@@ -14,6 +14,8 @@ public class MouseInput implements MouseListener, MouseMotionListener {
     private final int gamePanelHeight;
     private int posX;
     private int posY;
+    private boolean doubleClicked;
+    private boolean tripleClicked;
 
     public MouseInput(int cellSize, int gamePanelWidth, int gamePanelHeight) {
         this.cellSize = cellSize;
@@ -37,6 +39,22 @@ public class MouseInput implements MouseListener, MouseMotionListener {
         this.posY = y;
     }
 
+    public boolean getDoubleClicked() {
+        return this.doubleClicked;
+    }
+
+    private void setDoubleClicked(MouseEvent event) {
+        this.doubleClicked = event.getClickCount() == 2;
+    }
+
+    public boolean getTripleClicked() {
+        return this.tripleClicked;
+    }
+
+    private void setTripleClicked(MouseEvent event) {
+        this.tripleClicked = event.getClickCount() == 3;
+    }
+
     /**
      * Metoda nastavje x a y po kliknuti ak je splnena podmienka.
      */
@@ -46,6 +64,8 @@ public class MouseInput implements MouseListener, MouseMotionListener {
             this.posX = (e.getX() - (e.getX() % this.cellSize)) / this.cellSize;
             this.posY = (e.getY() - (e.getY() % this.cellSize)) / this.cellSize;
         }
+        this.setDoubleClicked(e);
+        this.setTripleClicked(e);
     }
 
     @Override
@@ -77,4 +97,5 @@ public class MouseInput implements MouseListener, MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
 
     }
+
 }

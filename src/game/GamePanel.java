@@ -3,61 +3,40 @@ package game;
 import tools.Canvas;
 import tools.CellType;
 import tools.Grid;
+import tools.Image;
 import tools.MouseInput;
 import ui.CheckBox;
 import ui.Graph;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.*;
 
 /**
  * Trieda na vykreslovanie komponentov do GameFramu.
  * !!! To, ze trieda dedi od JPanel mam naucene z internetu. !!!
  */
 public class GamePanel extends JPanel {
-    public static final int CELL_SIZE = 25;
-    private static final int PANEL_WIDTH = 1600;
-    private static final int PANEL_HEIGHT = 900;
+    public static final int CELL_SIZE = 28;
+    private static final int PANEL_WIDTH =
+        (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    private static final int PANEL_HEIGHT =
+        (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     private static final int SIDE_PANEL_WIDTH = (PANEL_WIDTH - PANEL_HEIGHT) / 2;
     private static final int GAME_PANEL_WIDTH = PANEL_WIDTH - SIDE_PANEL_WIDTH;
-    private final BufferedImage[] imageList;
     private final CheckBox[] checkBoxes;
     private final Graph graph;
     private final Grid grid;
     private final MouseInput mouseInput;
 
     public GamePanel() {
-        this.checkBoxes = new CheckBox[]{
-            new CheckBox(GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2, 25, CellType.EMPTY_CELL),
-            new CheckBox(GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2, 125, CellType.RESIDENTIAL),
-            new CheckBox(GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2, 225, CellType.COMMERCIAL),
-            new CheckBox(GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2, 325, CellType.INDUSTRIAL),
-            new CheckBox(GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2, 425, CellType.PIPE),
-            new CheckBox(GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2, 525, CellType.POWER_LINE),
-            new CheckBox(GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2, 625, CellType.ROAD),
-        };
-        this.imageList = new BufferedImage[]{
-            this.getMyImage(CellType.EMPTY_CELL.getImagePath()[0]),
-            this.getMyImage(CellType.RESIDENTIAL.getImagePath()[0]),
-            this.getMyImage(CellType.COMMERCIAL.getImagePath()[0]),
-            this.getMyImage(CellType.INDUSTRIAL.getImagePath()[0]),
-            this.getMyImage(CellType.PIPE.getImagePath()[0]),
-            this.getMyImage(CellType.POWER_LINE.getImagePath()[0]),
-            this.getMyImage(CellType.ROAD.getImagePath()[0])
-        };
+        this.checkBoxes = new CheckBox[CellType.values().length];
         this.mouseInput = new MouseInput(CELL_SIZE, GAME_PANEL_WIDTH, PANEL_HEIGHT);
         this.graph = new Graph(GAME_PANEL_WIDTH + CELL_SIZE * 2, 700);
-        this.grid = new Grid(this.imageList, PANEL_HEIGHT, GAME_PANEL_WIDTH, CELL_SIZE);
+        this.grid = new Grid(PANEL_HEIGHT, GAME_PANEL_WIDTH, CELL_SIZE);
         this.add(this.graph);
-        this.mouseInputs();
-        this.setCheckBoxes();
         this.setPanel();
+        this.setCheckBoxes();
+        this.setMouseInputs();
     }
 
     /**
@@ -66,14 +45,14 @@ public class GamePanel extends JPanel {
      */
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        Canvas canvas = new Canvas(graphics, CELL_SIZE, SIDE_PANEL_WIDTH);
-        canvas.drawGrid(PANEL_WIDTH, PANEL_HEIGHT);
-        canvas.drawInfra(this.grid.getImageGrid());
+        Canvas canvas = new Canvas(graphics, CELL_SIZE);
+        canvas.drawGrid(GAME_PANEL_WIDTH, PANEL_HEIGHT);
+        canvas.drawInfra(this.grid.getGrid());
         this.checkBoxesFunction();
         canvas.drawEnergyBuildings(
-            this.getMyImage("res/Power.png"),
-            this.getMyImage("res/Water.png"));
-        this.graph.setRightGraph(this.grid.getTypeGrid());
+            new Image().getMyImage("res/Power.png"),
+            new Image().getMyImage("res/Water.png"));
+        this.graph.setRightGraph(this.grid.getGrid());
     }
 
     /**
@@ -87,30 +66,28 @@ public class GamePanel extends JPanel {
         this.setLayout(null);
     }
 
-    /**
-     * Metoda nacita obrazok zo zadanej cetsty k obrazku.
-     * Ak sa obrazok nenajde vyhodi chybu a program bezi dalej.
-     * !!! Metoda je zobrana z TvaryV4 trieda Obrazok. !!!
-     */
-    private BufferedImage getMyImage(String imagePath) {
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File(imagePath));
-        } catch (IOException exception) {
-            javax.swing.JOptionPane.showMessageDialog(
-                null,
-                "Subor " + imagePath + " sa nenasiel.");
-        }
-        return image;
-    }
 
     /**
      * Metoda zoberie array check boxov a interaciu ich prida na panel.
      */
     private void setCheckBoxes() {
-        for (CheckBox checkBox : this.checkBoxes) {
-            this.add(checkBox);
+        for (int i = 0; i < CellType.values().length; i++) {
+            this.checkBoxes[i] = new CheckBox(
+                GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2,
+                25 + (100 * i),
+                CellType.values()[i]);
+            this.add(this.checkBoxes[i]);
         }
+    }
+
+
+    /**
+     * Metoda pridava do Listenerov moju triedu MouseInput
+     * Oddelene od konstruktora pre citatelnost.
+     */
+    private void setMouseInputs() {
+        this.addMouseListener(this.mouseInput);
+        this.addMouseMotionListener(this.mouseInput);
     }
 
     /**
@@ -121,33 +98,14 @@ public class GamePanel extends JPanel {
     private void checkBoxesFunction() {
         for (int i = 0; i < this.checkBoxes.length; i++) {
             if (this.checkBoxes[i].wasSelected()) {
-                this.grid.getImageGrid()
-                    [this.mouseInput.getPosY()]
-                    [this.mouseInput.getPosX()] = this.imageList[i];
-                /*
-                 * Riadok pod komentarom  je potrebny lebo riadok nad nim musi
-                 * nastavit indexi na 0. Sposobovalo to, ze bunka 00 a este
-                 * zakliknuta sa zmenili na zvolenu bunku co nechcem.
-                 */
-                this.grid.getImageGrid()[0][0] = this.imageList[0];
-                this.grid.getTypeGrid()
+                this.grid.getGrid()
                     [this.mouseInput.getPosY()]
                     [this.mouseInput.getPosX()] = CellType.values()[i];
-                // To iste ako riadky hore.
-                this.grid.getTypeGrid()[0][0] = CellType.values()[0];
+                this.grid.getGrid()[0][0] = CellType.values()[0];
                 this.mouseInput.setPosX(0);
                 this.mouseInput.setPosY(0);
             }
-            this.checkBoxes[i].setSwitchLook();
+            this.checkBoxes[i].setLook();
         }
-    }
-
-    /**
-     * Metoda pridava do Listenerov moju triedu MouseInput
-     * Oddelene od konstruktora pre citatelnost.
-     */
-    private void mouseInputs() {
-        this.addMouseListener(this.mouseInput);
-        this.addMouseMotionListener(this.mouseInput);
     }
 }

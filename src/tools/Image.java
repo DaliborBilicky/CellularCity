@@ -1,6 +1,7 @@
 package tools;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +17,7 @@ public class Image {
         try {
             image = ImageIO.read(new File(imagePath));
         } catch (IOException exception) {
-            javax.swing.JOptionPane.showMessageDialog(
+            JOptionPane.showMessageDialog(
                 null,
                 "Subor " + imagePath + " sa nenasiel.");
         }

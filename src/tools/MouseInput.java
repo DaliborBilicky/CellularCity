@@ -14,14 +14,21 @@ public class MouseInput implements MouseListener, MouseMotionListener {
     private final int gamePanelHeight;
     private int posX;
     private int posY;
-    private boolean doubleClicked;
-    private boolean tripleClicked;
+    private int posXReleased;
+    private int posYReleased;
+
+    private boolean wasClicked;
 
     public MouseInput(int cellSize, int gamePanelWidth, int gamePanelHeight) {
         this.cellSize = cellSize;
         this.gamePanelWidth = gamePanelWidth;
         this.gamePanelHeight = gamePanelHeight;
     }
+
+    public boolean getWasClicked() {
+        return this.wasClicked;
+    }
+
 
     public int getPosX() {
         return this.posX;
@@ -39,20 +46,20 @@ public class MouseInput implements MouseListener, MouseMotionListener {
         this.posY = y;
     }
 
-    public boolean getDoubleClicked() {
-        return this.doubleClicked;
+    public int getPosXReleased() {
+        return this.posXReleased;
     }
 
-    private void setDoubleClicked(MouseEvent event) {
-        this.doubleClicked = event.getClickCount() == 2;
+    public void setPosXReleased(int x) {
+        this.posXReleased = x;
     }
 
-    public boolean getTripleClicked() {
-        return this.tripleClicked;
+    public int getPosYReleased() {
+        return this.posYReleased;
     }
 
-    private void setTripleClicked(MouseEvent event) {
-        this.tripleClicked = event.getClickCount() == 3;
+    public void setPosYReleased(int y) {
+        this.posYReleased = y;
     }
 
     /**
@@ -60,22 +67,24 @@ public class MouseInput implements MouseListener, MouseMotionListener {
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getX() < this.gamePanelWidth && e.getY() < this.gamePanelHeight) {
-            this.posX = (e.getX() - (e.getX() % this.cellSize)) / this.cellSize;
-            this.posY = (e.getY() - (e.getY() % this.cellSize)) / this.cellSize;
-        }
-        this.setDoubleClicked(e);
-        this.setTripleClicked(e);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (e.getX() < this.gamePanelWidth && e.getY() < this.gamePanelHeight) {
+            this.posX = (e.getX() - (e.getX() % this.cellSize)) / this.cellSize;
+            this.posY = (e.getY() - (e.getY() % this.cellSize)) / this.cellSize;
+        }
+        this.wasClicked = false;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        if (e.getX() < this.gamePanelWidth && e.getY() < this.gamePanelHeight) {
+            this.posXReleased = (e.getX() - (e.getX() % this.cellSize)) / this.cellSize;
+            this.posYReleased = (e.getY() - (e.getY() % this.cellSize)) / this.cellSize;
+        }
+        this.wasClicked = true;
     }
 
     @Override

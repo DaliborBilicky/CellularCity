@@ -16,7 +16,7 @@ import java.awt.*;
  * !!! To, ze trieda dedi od JPanel mam naucene z internetu. !!!
  */
 public class GamePanel extends JPanel {
-    public static final int CELL_SIZE = 28;
+    public static final int CELL_SIZE = 35;
     private static final int PANEL_WIDTH =
         (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     private static final int PANEL_HEIGHT =
@@ -66,7 +66,6 @@ public class GamePanel extends JPanel {
         this.setLayout(null);
     }
 
-
     /**
      * Metoda zoberie array check boxov a interaciu ich prida na panel.
      */
@@ -80,6 +79,66 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Metoda interuje cez check boxy a ked je daky z nich oznaceny vykona telo
+     * cyklu. To pozostava z nastavenia bunky a typu bunky do 2D array. Na konci
+     * uz len premeni check box iconu na selected
+     */
+    private void checkBoxesFunction() {
+        for (int index = 0; index < this.checkBoxes.length; index++) {
+            if (this.checkBoxes[index].wasSelected() && this.mouseInput.getWasClicked()) {
+                if (this.mouseInput.getPosY() >= this.mouseInput.getPosYReleased() ||
+                    this.mouseInput.getPosX() >= this.mouseInput.getPosXReleased()) {
+                    for (int i = this.mouseInput.getPosY(); i >= this.mouseInput.getPosYReleased(); i--) {
+                        for (int j = this.mouseInput.getPosX(); j >= this.mouseInput.getPosXReleased(); j--) {
+                            this.grid.getGrid()
+                                [i][j] = CellType.values()[index];
+                        }
+                    }
+                }
+                if (this.mouseInput.getPosY() <= this.mouseInput.getPosYReleased() ||
+                    this.mouseInput.getPosX() <= this.mouseInput.getPosXReleased()) {
+                    for (int i = this.mouseInput.getPosY(); i <= this.mouseInput.getPosYReleased(); i++) {
+                        for (int j = this.mouseInput.getPosX(); j <= this.mouseInput.getPosXReleased(); j++) {
+                            this.grid.getGrid()
+                                [i][j] = CellType.values()[index];
+                        }
+                    }
+                }
+                if (this.mouseInput.getPosY() <= this.mouseInput.getPosYReleased() ||
+                    this.mouseInput.getPosX() >= this.mouseInput.getPosXReleased()) {
+                    for (int i = this.mouseInput.getPosY(); i <= this.mouseInput.getPosYReleased(); i++) {
+                        for (int j = this.mouseInput.getPosX(); j >= this.mouseInput.getPosXReleased(); j--) {
+                            this.grid.getGrid()
+                                [i][j] = CellType.values()[index];
+                        }
+                    }
+                }
+                if (this.mouseInput.getPosY() >= this.mouseInput.getPosYReleased() ||
+                    this.mouseInput.getPosX() <= this.mouseInput.getPosXReleased()) {
+                    for (int i = this.mouseInput.getPosY(); i >= this.mouseInput.getPosYReleased(); i--) {
+                        for (int j = this.mouseInput.getPosX(); j <= this.mouseInput.getPosXReleased(); j++) {
+                            this.grid.getGrid()
+                                [i][j] = CellType.values()[index];
+                        }
+                    }
+                }
+                this.resetXYPos();
+                /*
+                todo inac to neviem vyriesit
+                 */
+            } else if (!this.checkBoxes[0].wasSelected()
+                && !this.checkBoxes[1].wasSelected()
+                && !this.checkBoxes[2].wasSelected()
+                && !this.checkBoxes[3].wasSelected()
+                && !this.checkBoxes[4].wasSelected()
+                && !this.checkBoxes[5].wasSelected()
+                && !this.checkBoxes[6].wasSelected()) {
+                this.resetXYPos();
+            }
+            this.checkBoxes[index].setLook();
+        }
+    }
 
     /**
      * Metoda pridava do Listenerov moju triedu MouseInput
@@ -90,22 +149,11 @@ public class GamePanel extends JPanel {
         this.addMouseMotionListener(this.mouseInput);
     }
 
-    /**
-     * Metoda interuje cez check boxy a ked je daky z nich oznaceny vykona telo
-     * cyklu. To pozostava z nastavenia bunky a typu bunky do 2D array. Na konci
-     * uz len premeni check box iconu na selected
-     */
-    private void checkBoxesFunction() {
-        for (int i = 0; i < this.checkBoxes.length; i++) {
-            if (this.checkBoxes[i].wasSelected()) {
-                this.grid.getGrid()
-                    [this.mouseInput.getPosY()]
-                    [this.mouseInput.getPosX()] = CellType.values()[i];
-                this.grid.getGrid()[0][0] = CellType.values()[0];
-                this.mouseInput.setPosX(0);
-                this.mouseInput.setPosY(0);
-            }
-            this.checkBoxes[i].setLook();
-        }
+    private void resetXYPos() {
+        this.mouseInput.setPosX(0);
+        this.mouseInput.setPosY(0);
+        this.mouseInput.setPosXReleased(0);
+        this.mouseInput.setPosYReleased(0);
+        this.grid.getGrid()[0][0] = CellType.values()[0];
     }
 }

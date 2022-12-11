@@ -39,7 +39,8 @@ public class CheckBox extends JCheckBox {
         this.setIcon(this.getImageIcon(
             this.cellType.getImagePaths()[0]));
         if (this.isSelected()) {
-            this.setSelectedIcon(this.getImageIcon(this.cellType.getImagePaths()[1]));
+            this.setSelectedIcon(this.getImageIcon(
+                this.cellType.getImagePaths()[1]));
         }
     }
 

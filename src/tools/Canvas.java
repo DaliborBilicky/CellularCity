@@ -1,5 +1,7 @@
 package tools;
 
+import enums.CellType;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -7,12 +9,15 @@ import java.awt.image.BufferedImage;
  * Trieda ktora vykresluje komplexnejsie veci ako len stvorec a pod.
  */
 public class Canvas {
-    private final Graphics graphics;
     private final int cellSize;
+    private Graphics graphics;
 
-    public Canvas(Graphics graphics, int cellSize) {
-        this.graphics = graphics;
+    public Canvas(int cellSize) {
         this.cellSize = cellSize;
+    }
+
+    public void setGraphics(Graphics graphics) {
+        this.graphics = graphics;
     }
 
     /**
@@ -65,11 +70,11 @@ public class Canvas {
     /**
      * Metoda zoberie 2D array a vykresli ho do mriezky.
      */
-    public void drawInfra(CellType[][] grid) {
+    public void drawGridWithInfra(CellType[][] grid) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 this.graphics.drawImage(
-                    grid[i][j].getImage(),
+                    grid[i][j].getBufferedImage(),
                     this.cellSize * j,
                     this.cellSize * i,
                     this.cellSize,

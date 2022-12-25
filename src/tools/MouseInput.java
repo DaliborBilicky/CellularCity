@@ -1,14 +1,15 @@
 package tools;
 
+import enums.CheckBoxType;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 /**
  * Trieda implementuje Listenerer a obashuje metody na overrideovanie.
  * !!! Napad na vznik triedy je z internetu. Link v dokumentacii !!!
  */
-public class MouseInput implements MouseListener, MouseMotionListener {
+public class MouseInput implements MouseListener {
     private final int cellSize;
     private final int gamePanelWidth;
     private final int gamePanelHeight;
@@ -17,7 +18,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
     private int posXReleased;
     private int posYReleased;
 
-    private boolean wasClicked;
+    private boolean isClicked;
 
     public MouseInput(int cellSize, int gamePanelWidth, int gamePanelHeight) {
         this.cellSize = cellSize;
@@ -25,41 +26,84 @@ public class MouseInput implements MouseListener, MouseMotionListener {
         this.gamePanelHeight = gamePanelHeight;
     }
 
-    public boolean getWasClicked() {
-        return this.wasClicked;
+    public boolean isClicked() {
+        return this.isClicked;
     }
 
-
-    public int getPosX() {
-        return this.posX;
+    public void dragMouseWestNorth(
+        Grid grid, View view, CheckBoxType checkBoxType, int index) {
+        if (this.posY >= this.posYReleased || this.posX >= this.posXReleased) {
+            for (int i = this.posY; i >= this.posYReleased; i--) {
+                for (int j = this.posX; j >= this.posXReleased; j--) {
+                    if (view.isUnderground()) {
+                        grid.getUndergroundGrid()[i][j] =
+                            checkBoxType.getCellTypes()[index];
+                    } else {
+                        grid.getOvergroundGrid()[i][j] =
+                            checkBoxType.getCellTypes()[index];
+                    }
+                }
+            }
+        }
     }
 
-    public void setPosX(int x) {
-        this.posX = x;
+    public void dragMouseEastSouth(
+        Grid grid, View view, CheckBoxType checkBoxType, int index) {
+        if (this.posY <= this.posYReleased || this.posX <= this.posXReleased) {
+            for (int i = this.posY; i <= this.posYReleased; i++) {
+                for (int j = this.posX; j <= this.posXReleased; j++) {
+                    if (view.isUnderground()) {
+                        grid.getUndergroundGrid()[i][j] =
+                            checkBoxType.getCellTypes()[index];
+                    } else {
+                        grid.getOvergroundGrid()[i][j] =
+                            checkBoxType.getCellTypes()[index];
+                    }
+                }
+            }
+        }
     }
 
-    public int getPosY() {
-        return this.posY;
+    public void dragMouseWestSouth(
+        Grid grid, View view, CheckBoxType checkBoxType, int index) {
+        if (this.posY <= this.posYReleased ||
+            this.posX >= this.posXReleased) {
+            for (int i = this.posY; i <= this.posYReleased; i++) {
+                for (int j = this.posX; j >= this.posXReleased; j--) {
+                    if (view.isUnderground()) {
+                        grid.getUndergroundGrid()[i][j] =
+                            checkBoxType.getCellTypes()[index];
+                    } else {
+                        grid.getOvergroundGrid()[i][j] =
+                            checkBoxType.getCellTypes()[index];
+                    }
+                }
+            }
+        }
     }
 
-    public void setPosY(int y) {
-        this.posY = y;
+    public void dragMouseEastNorth(
+        Grid grid, View view, CheckBoxType checkBoxType, int index) {
+        if (this.posY >= this.posYReleased || this.posX <= this.posXReleased) {
+            for (int i = this.posY; i >= this.posYReleased; i--) {
+                for (int j = this.posX; j <= this.posXReleased; j++) {
+                    if (view.isUnderground()) {
+                        grid.getUndergroundGrid()[i][j] =
+                            checkBoxType.getCellTypes()[index];
+                    } else {
+                        grid.getOvergroundGrid()[i][j] =
+                            checkBoxType.getCellTypes()[index];
+                    }
+                }
+            }
+        }
     }
 
-    public int getPosXReleased() {
-        return this.posXReleased;
-    }
-
-    public void setPosXReleased(int x) {
-        this.posXReleased = x;
-    }
-
-    public int getPosYReleased() {
-        return this.posYReleased;
-    }
-
-    public void setPosYReleased(int y) {
-        this.posYReleased = y;
+    public void resetPos() {
+        this.posX = 0;
+        this.posY = 0;
+        this.posXReleased = 0;
+        this.posYReleased = 0;
     }
 
     /**
@@ -75,7 +119,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
             this.posX = (e.getX() - (e.getX() % this.cellSize)) / this.cellSize;
             this.posY = (e.getY() - (e.getY() % this.cellSize)) / this.cellSize;
         }
-        this.wasClicked = false;
+        this.isClicked = false;
     }
 
     @Override
@@ -84,7 +128,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
             this.posXReleased = (e.getX() - (e.getX() % this.cellSize)) / this.cellSize;
             this.posYReleased = (e.getY() - (e.getY() % this.cellSize)) / this.cellSize;
         }
-        this.wasClicked = true;
+        this.isClicked = true;
     }
 
     @Override
@@ -94,16 +138,6 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
 
     }
 

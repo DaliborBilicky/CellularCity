@@ -1,4 +1,4 @@
-import game.GameFrame;
+import game.Game;
 
 /**
  * @author Dalibor Bilicky
@@ -7,6 +7,6 @@ import game.GameFrame;
 public class Main {
 
     public static void main(String[] args) {
-        new GameFrame();
+        new Game();
     }
 }

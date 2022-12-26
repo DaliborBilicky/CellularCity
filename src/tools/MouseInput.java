@@ -30,8 +30,7 @@ public class MouseInput implements MouseListener {
         return this.isClicked;
     }
 
-    public void dragMouseWestNorth(
-        Grid grid, View view, CheckBoxType checkBoxType, int index) {
+    public void drag(Grid grid, View view, CheckBoxType checkBoxType, int index) {
         if (this.posY >= this.posYReleased || this.posX >= this.posXReleased) {
             for (int i = this.posY; i >= this.posYReleased; i--) {
                 for (int j = this.posX; j >= this.posXReleased; j--) {
@@ -45,10 +44,6 @@ public class MouseInput implements MouseListener {
                 }
             }
         }
-    }
-
-    public void dragMouseEastSouth(
-        Grid grid, View view, CheckBoxType checkBoxType, int index) {
         if (this.posY <= this.posYReleased || this.posX <= this.posXReleased) {
             for (int i = this.posY; i <= this.posYReleased; i++) {
                 for (int j = this.posX; j <= this.posXReleased; j++) {
@@ -62,12 +57,7 @@ public class MouseInput implements MouseListener {
                 }
             }
         }
-    }
-
-    public void dragMouseWestSouth(
-        Grid grid, View view, CheckBoxType checkBoxType, int index) {
-        if (this.posY <= this.posYReleased ||
-            this.posX >= this.posXReleased) {
+        if (this.posY <= this.posYReleased || this.posX >= this.posXReleased) {
             for (int i = this.posY; i <= this.posYReleased; i++) {
                 for (int j = this.posX; j >= this.posXReleased; j--) {
                     if (view.isUnderground()) {
@@ -80,10 +70,6 @@ public class MouseInput implements MouseListener {
                 }
             }
         }
-    }
-
-    public void dragMouseEastNorth(
-        Grid grid, View view, CheckBoxType checkBoxType, int index) {
         if (this.posY >= this.posYReleased || this.posX <= this.posXReleased) {
             for (int i = this.posY; i >= this.posYReleased; i--) {
                 for (int j = this.posX; j <= this.posXReleased; j++) {
@@ -98,6 +84,7 @@ public class MouseInput implements MouseListener {
             }
         }
     }
+
 
     public void resetPos() {
         this.posX = 0;

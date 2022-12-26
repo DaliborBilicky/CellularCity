@@ -3,10 +3,9 @@ package game;
 import enums.CellType;
 import enums.CheckBoxType;
 import enums.GridView;
+import tools.*;
 import tools.Canvas;
-import tools.Grid;
 import tools.Image;
-import tools.MouseInput;
 import ui.Button;
 import ui.CheckBox;
 import ui.Graph;
@@ -35,17 +34,19 @@ public class Panel extends JPanel implements ActionListener {
     private final MouseInput mouseInput;
     private final JLabel label;
     private final Canvas canvas;
+    private final View view;
     private CheckBox bulldozerCheckBoxes;
     private CheckBox viewCheckBox;
 
     public Panel() {
-        this.checkBoxes = new CheckBox[CheckBoxType.values().length];
-        this.buttons = new Button[CheckBoxType.values().length];
+        this.checkBoxes = new CheckBox[CheckBoxType.values().length - 1];
+        this.buttons = new Button[CheckBoxType.values().length - 1];
         this.mouseInput = new MouseInput(CELL_SIZE, GAME_PANEL_WIDTH, PANEL_HEIGHT);
         this.graph = new Graph(GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4, 750);
         this.grid = new Grid(PANEL_HEIGHT, GAME_PANEL_WIDTH, CELL_SIZE);
         this.label = new JLabel();
         this.canvas = new Canvas(CELL_SIZE);
+        this.view = new View();
 
         this.add(this.graph);
         this.setPanel();
@@ -68,10 +69,7 @@ public class Panel extends JPanel implements ActionListener {
         this.canvas.drawGridWithInfra(this.grid.getUndergroundGrid());
         this.canvas.drawGridWithInfra(this.grid.getOvergroundGrid());
         this.graph.setRightGraph(this.grid.getOvergroundGrid());
-        for (int i = 0; i < 3; i++) {
-            this.setCheckBoxesLook(this.checkBoxes[i], i, this.buttons[i].getCounter());
-        }
-        //this.checkBoxesFunction();
+        this.checkBoxesFunction();
     }
 
     /**
@@ -116,14 +114,16 @@ public class Panel extends JPanel implements ActionListener {
         this.add(this.viewCheckBox);
     }
 
-    public void setCheckBoxesLook(CheckBox checkBox, int checkBoxIndex, int index) {
-        checkBox.setLook(
+    public void setCheckBoxesLook(int checkBoxIndex, int index) {
+        System.out.println(checkBoxIndex + " - " + index);
+        this.checkBoxes[checkBoxIndex].setLook(
             CheckBoxType.values()[checkBoxIndex].getCellTypes()[index].getImageIcons()[0],
             CheckBoxType.values()[checkBoxIndex].getCellTypes()[index].getImageIcons()[1]
         );
         this.bulldozerCheckBoxes.setLook(
-            CellType.EMPTY_CELL.getImageIcons()[0],
-            CellType.EMPTY_CELL.getImageIcons()[1]);
+            CheckBoxType.EMPTY_CELL.getCellTypes()[0].getImageIcons()[0],
+            CheckBoxType.EMPTY_CELL.getCellTypes()[0].getImageIcons()[1]
+        );
         this.viewCheckBox.setLook(
             GridView.OVERGROUND.getImageIcon(),
             GridView.UNDERGROUND.getImageIcon());
@@ -135,25 +135,17 @@ public class Panel extends JPanel implements ActionListener {
                 GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * 3 / 4,
                 250 + (150 * i));
             this.add(this.buttons[i]);
-            this.buttons[i].setCounter(CheckBoxType.values()[i].getCellTypes().length);
+            this.buttons[i].setObjective(CheckBoxType.values()[i].getCellTypes().length);
             this.buttons[i].addActionListener(this);
         }
-    }
-
-    public Button[] getButtons() {
-        return this.buttons;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < this.buttons.length; i++) {
             if (e.getSource() == this.buttons[i]) {
-                if (this.buttons[i].getCounter() == 0) {
-                    this.buttons[i].resetCounter();
-                } else {
-                    System.out.println(i + ". -> " + this.buttons[i].getCounter());
-                    this.buttons[i].subtractFromCounter();
-                }
+                System.out.println(i + ". -> " + this.buttons[i].getCounter());
+                this.buttons[i].addToCounter();
             }
         }
     }
@@ -163,29 +155,32 @@ public class Panel extends JPanel implements ActionListener {
      * cyklu. To pozostava z nastavenia bunky a typu bunky do 2D array. Na konci
      * uz len premeni check box iconu na selected
      */
-//    private void checkBoxesFunction() {
-//        for (int index = 0; index < this.checkBoxes.length; index++) {
-//            if (this.checkBoxes[index].wasSelected() && this.mouseInput.isClicked()) {
-//                this.mouseInput.dragMouseEastNorth(this.grid, index);
-//                this.mouseInput.dragMouseEastSouth(this.grid, index);
-//                this.mouseInput.dragMouseWestNorth(this.grid, index);
-//                this.mouseInput.dragMouseWestSouth(this.grid, index);
-//                this.mouseInput.resetPos();
-//                this.grid.getGrid()[0][0] = CellTools.values()[0];
-//                /*
-//                todo inac to neviem vyriesit
-//                 */
-//            } else if (!this.checkBoxes[0].wasSelected()
-//                && !this.checkBoxes[1].wasSelected()
-//                && !this.checkBoxes[2].wasSelected()
-//                && !this.checkBoxes[3].wasSelected()
-//                && !this.checkBoxes[4].wasSelected()
-//                && !this.checkBoxes[5].wasSelected()
-//                && !this.checkBoxes[6].wasSelected()) {
-//                this.mouseInput.resetPos();
-//                this.grid.getGrid()[0][0] = CellTools.values()[0];
-//            }
-//            this.checkBoxes[index].setLook();
-//        }
-//    }
+    private void checkBoxesFunction() {
+        for (int i = 0; i < this.checkBoxes.length; i++) {
+            if (this.checkBoxes[i].isSelected() && this.mouseInput.isClicked()) {
+                this.mouseInput.drag(
+                    this.grid,
+                    this.view,
+                    CheckBoxType.values()[i],
+                    this.buttons[i].getCounter());
+                this.reset();
+            } else if (this.bulldozerCheckBoxes.isSelected() && this.mouseInput.isClicked()) {
+                this.mouseInput.drag(
+                    this.grid, this.view, CheckBoxType.EMPTY_CELL, 0);
+                this.reset();
+            } else if (!this.bulldozerCheckBoxes.isSelected()
+                && !this.checkBoxes[0].isSelected()
+                && !this.checkBoxes[1].isSelected()
+                && !this.checkBoxes[2].isSelected()) {
+                this.reset();
+            }
+            this.setCheckBoxesLook(i, this.buttons[i].getCounter());
+        }
+    }
+
+    private void reset() {
+        this.mouseInput.resetPos();
+        this.grid.setOvergroundGridCell(0, 0, CellType.EMPTY_CELL);
+        this.grid.setUndergroundGridCell(0, 0, CellType.EMPTY_CELL);
+    }
 }

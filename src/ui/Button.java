@@ -4,15 +4,13 @@ import tools.Image;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Button extends JButton {
 
     private static final int BUTTON_WIDTH = 125;
     private static final int BUTTON_HEIGHT = 125;
+    private int objective;
     private int counter;
-    private int tempCounter;
 
     public Button(int posX, int posY) {
         this.setBounds(
@@ -32,16 +30,16 @@ public class Button extends JButton {
         return this.counter;
     }
 
-    public void setCounter(int counter) {
-        this.counter = counter - 1;
-        this.tempCounter = counter - 1;
+    public void setObjective(int num) {
+        this.objective = num - 1;
     }
 
-    public void subtractFromCounter() {
-        this.counter--;
+    public void addToCounter() {
+        if (this.counter < this.objective) {
+            this.counter++;
+        } else {
+            this.counter = 0;
+        }
     }
 
-    public void resetCounter() {
-        this.counter = this.tempCounter;
-    }
 }

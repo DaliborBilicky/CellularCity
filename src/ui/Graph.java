@@ -14,7 +14,6 @@ public class Graph extends JLabel {
     private static final int GRAPH_HEIGHT = 150;
 
     public Graph(int posX, int posY) {
-        this.setBackground(Color.BLACK);
         this.setBounds(
             posX - (GRAPH_WIDTH / 2),
             posY - (GRAPH_HEIGHT / 2),

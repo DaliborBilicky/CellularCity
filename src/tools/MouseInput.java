@@ -106,12 +106,11 @@ public class MouseInput implements MouseListener {
         Grid grid, View view, int i,
         int j, CheckBoxType checkBoxType, int index) {
         if (view.isUnderground()) {
-            grid.getUndergroundGrid()[i][j] =
-                checkBoxType.getCellTypes()[index];
+            grid.setUndergroundGridCell(
+                i, j, checkBoxType.getCellTypes()[index]);
         } else {
-            grid.getOvergroundGrid()[i][j] =
-                checkBoxType.getCellTypes()[index];
+            grid.setOvergroundGridCell(
+                i, j, checkBoxType.getCellTypes()[index]);
         }
     }
-
 }

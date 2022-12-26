@@ -5,14 +5,14 @@ import tools.Image;
 import javax.swing.*;
 import java.awt.*;
 
-public class Button extends JButton {
+public class GameButton extends JButton {
 
     private static final int BUTTON_WIDTH = 125;
     private static final int BUTTON_HEIGHT = 125;
     private int counterLimit;
     private int counter;
 
-    public Button(int posX, int posY) {
+    public GameButton(int posX, int posY) {
         this.setBounds(
             posX - (BUTTON_WIDTH / 2),
             posY - (BUTTON_HEIGHT / 2),
@@ -23,7 +23,7 @@ public class Button extends JButton {
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setBorderPainted(true);
         this.setIcon(new Image().getImageIcon(
-            "res/gameTools/Button.png", 100));
+            "res/gameTools/Button.png", 125));
     }
 
     public int getCounter() {
@@ -41,5 +41,4 @@ public class Button extends JButton {
             this.counter = 0;
         }
     }
-
 }

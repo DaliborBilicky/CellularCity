@@ -36,4 +36,8 @@ public class Image {
         imageIcon = new ImageIcon(newImage);
         return imageIcon;
     }
+
+    public ImageIcon getImageIcon(String imagePath) {
+        return this.getImageIcon(imagePath, 100);
+    }
 }

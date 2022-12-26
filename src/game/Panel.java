@@ -20,39 +20,39 @@ import java.awt.event.ActionListener;
  * !!! To, ze trieda dedi od JPanel mam naucene z internetu. !!!
  */
 public class Panel extends JPanel implements ActionListener {
-    public static final int CELL_SIZE = 35;
     private static final int PANEL_WIDTH =
         (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     private static final int PANEL_HEIGHT =
         (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     private static final int SIDE_PANEL_WIDTH = (PANEL_WIDTH - PANEL_HEIGHT) / 2;
     private static final int GAME_PANEL_WIDTH = PANEL_WIDTH - SIDE_PANEL_WIDTH;
+    private static final int CELL_SIZE = 35;
     private final CheckBox[] checkBoxes;
+    private final MouseInput mouseInput;
     private final Button[] buttons;
+    private final Canvas canvas;
+    private final JLabel label;
     private final Graph graph;
     private final Grid grid;
-    private final MouseInput mouseInput;
-    private final JLabel label;
-    private final Canvas canvas;
     private final View view;
     private CheckBox bulldozerCheckBoxes;
     private CheckBox viewCheckBox;
 
     public Panel() {
-        this.checkBoxes = new CheckBox[CheckBoxType.values().length - 1];
-        this.buttons = new Button[CheckBoxType.values().length - 1];
-        this.mouseInput = new MouseInput(CELL_SIZE, GAME_PANEL_WIDTH, PANEL_HEIGHT);
         this.graph = new Graph(GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4, 750);
+        this.mouseInput = new MouseInput(CELL_SIZE, GAME_PANEL_WIDTH, PANEL_HEIGHT);
+        this.checkBoxes = new CheckBox[CheckBoxType.values().length - 1];
         this.grid = new Grid(PANEL_HEIGHT, GAME_PANEL_WIDTH, CELL_SIZE);
-        this.label = new JLabel();
+        this.buttons = new Button[CheckBoxType.values().length - 1];
         this.canvas = new Canvas(CELL_SIZE);
+        this.label = new JLabel();
         this.view = new View();
 
+        this.addMouseListener(this.mouseInput);
         this.add(this.graph);
-        this.setPanel();
         this.setCheckBoxes();
         this.setButtons();
-        this.addMouseListener(this.mouseInput);
+        this.setPanel();
     }
 
     /**
@@ -66,8 +66,10 @@ public class Panel extends JPanel implements ActionListener {
         this.canvas.drawEnergyBuildings(
             new Image().getBufferedImage("res/resources/Power.png"),
             new Image().getBufferedImage("res/resources/Water.png"));
-        this.canvas.drawGridWithInfra(this.grid.getUndergroundGrid());
         this.canvas.drawGridWithInfra(this.grid.getOvergroundGrid());
+        if (this.view.isUnderground()) {
+            this.canvas.drawGridWithInfra(this.grid.getUndergroundGrid());
+        }
         this.graph.setRightGraph(this.grid.getOvergroundGrid());
         this.checkBoxesFunction();
     }
@@ -88,7 +90,6 @@ public class Panel extends JPanel implements ActionListener {
      * Oddelene od konstruktora pre citatelnost.
      */
     private void setPanel() {
-        this.setBackground(new Color(80, 200, 120));
         this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         this.setFocusable(true);
         this.setLayout(null);
@@ -115,10 +116,11 @@ public class Panel extends JPanel implements ActionListener {
     }
 
     public void setCheckBoxesLook(int checkBoxIndex, int index) {
-        System.out.println(checkBoxIndex + " - " + index);
         this.checkBoxes[checkBoxIndex].setLook(
-            CheckBoxType.values()[checkBoxIndex].getCellTypes()[index].getImageIcons()[0],
-            CheckBoxType.values()[checkBoxIndex].getCellTypes()[index].getImageIcons()[1]
+            CheckBoxType.values()[checkBoxIndex]
+                .getCellTypes()[index].getImageIcons()[0],
+            CheckBoxType.values()[checkBoxIndex]
+                .getCellTypes()[index].getImageIcons()[1]
         );
         this.bulldozerCheckBoxes.setLook(
             CheckBoxType.EMPTY_CELL.getCellTypes()[0].getImageIcons()[0],
@@ -134,18 +136,18 @@ public class Panel extends JPanel implements ActionListener {
             this.buttons[i] = new Button(
                 GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * 3 / 4,
                 250 + (150 * i));
-            this.add(this.buttons[i]);
-            this.buttons[i].setObjective(CheckBoxType.values()[i].getCellTypes().length);
+            this.buttons[i].setCounterLimit(
+                CheckBoxType.values()[i].getCellTypes().length);
             this.buttons[i].addActionListener(this);
+            this.add(this.buttons[i]);
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        for (int i = 0; i < this.buttons.length; i++) {
-            if (e.getSource() == this.buttons[i]) {
-                System.out.println(i + ". -> " + this.buttons[i].getCounter());
-                this.buttons[i].addToCounter();
+        for (Button button : this.buttons) {
+            if (e.getSource() == button) {
+                button.increaseCounter();
             }
         }
     }
@@ -157,28 +159,36 @@ public class Panel extends JPanel implements ActionListener {
      */
     private void checkBoxesFunction() {
         for (int i = 0; i < this.checkBoxes.length; i++) {
-            if (this.checkBoxes[i].isSelected() && this.mouseInput.isClicked()) {
+            if (this.checkBoxes[i].isSelected()
+                && this.mouseInput.isClicked()) {
                 this.mouseInput.drag(
                     this.grid,
                     this.view,
                     CheckBoxType.values()[i],
                     this.buttons[i].getCounter());
-                this.reset();
-            } else if (this.bulldozerCheckBoxes.isSelected() && this.mouseInput.isClicked()) {
+                this.resetPanel();
+            } else if (this.bulldozerCheckBoxes.isSelected()
+                && this.mouseInput.isClicked()) {
                 this.mouseInput.drag(
                     this.grid, this.view, CheckBoxType.EMPTY_CELL, 0);
-                this.reset();
+                this.resetPanel();
+            } else if (this.viewCheckBox.isSelected()) {
+                this.view.setGridView(GridView.UNDERGROUND);
+                this.setBackground(new Color(131, 101, 57));
             } else if (!this.bulldozerCheckBoxes.isSelected()
                 && !this.checkBoxes[0].isSelected()
                 && !this.checkBoxes[1].isSelected()
-                && !this.checkBoxes[2].isSelected()) {
-                this.reset();
+                && !this.checkBoxes[2].isSelected()
+                && !this.viewCheckBox.isSelected()) {
+                this.resetPanel();
+                this.view.setGridView(GridView.OVERGROUND);
+                this.setBackground(new Color(80, 200, 120));
             }
             this.setCheckBoxesLook(i, this.buttons[i].getCounter());
         }
     }
 
-    private void reset() {
+    private void resetPanel() {
         this.mouseInput.resetPos();
         this.grid.setOvergroundGridCell(0, 0, CellType.EMPTY_CELL);
         this.grid.setUndergroundGridCell(0, 0, CellType.EMPTY_CELL);

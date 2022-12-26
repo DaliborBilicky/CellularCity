@@ -1,13 +1,8 @@
 package game;
 
-import ui.Button;
-
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Trieda na zobrazenie okna.
@@ -16,10 +11,8 @@ import java.awt.event.ActionListener;
 public class Frame extends JFrame {
     private static final GraphicsDevice device =
         GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-    private final Panel panel;
 
     public Frame(Panel panel) {
-        this.panel = panel;
         ImageIcon image = new ImageIcon("res/zones/Commercial.png");
 
         panel.requestFocus();

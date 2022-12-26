@@ -9,7 +9,7 @@ public class Button extends JButton {
 
     private static final int BUTTON_WIDTH = 125;
     private static final int BUTTON_HEIGHT = 125;
-    private int objective;
+    private int counterLimit;
     private int counter;
 
     public Button(int posX, int posY) {
@@ -23,19 +23,19 @@ public class Button extends JButton {
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setBorderPainted(true);
         this.setIcon(new Image().getImageIcon(
-            "res/gameTools/ButtonSelected.png", 100));
+            "res/gameTools/Button.png", 100));
     }
 
     public int getCounter() {
         return this.counter;
     }
 
-    public void setObjective(int num) {
-        this.objective = num - 1;
+    public void setCounterLimit(int num) {
+        this.counterLimit = num - 1;
     }
 
-    public void addToCounter() {
-        if (this.counter < this.objective) {
+    public void increaseCounter() {
+        if (this.counter < this.counterLimit) {
             this.counter++;
         } else {
             this.counter = 0;

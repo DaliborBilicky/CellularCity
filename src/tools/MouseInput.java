@@ -34,57 +34,32 @@ public class MouseInput implements MouseListener {
         if (this.posY >= this.posYReleased || this.posX >= this.posXReleased) {
             for (int i = this.posY; i >= this.posYReleased; i--) {
                 for (int j = this.posX; j >= this.posXReleased; j--) {
-                    if (view.isUnderground()) {
-                        grid.getUndergroundGrid()[i][j] =
-                            checkBoxType.getCellTypes()[index];
-                    } else {
-                        grid.getOvergroundGrid()[i][j] =
-                            checkBoxType.getCellTypes()[index];
-                    }
+                    this.setCell(grid, view, i, j, checkBoxType, index);
                 }
             }
         }
         if (this.posY <= this.posYReleased || this.posX <= this.posXReleased) {
             for (int i = this.posY; i <= this.posYReleased; i++) {
                 for (int j = this.posX; j <= this.posXReleased; j++) {
-                    if (view.isUnderground()) {
-                        grid.getUndergroundGrid()[i][j] =
-                            checkBoxType.getCellTypes()[index];
-                    } else {
-                        grid.getOvergroundGrid()[i][j] =
-                            checkBoxType.getCellTypes()[index];
-                    }
+                    this.setCell(grid, view, i, j, checkBoxType, index);
                 }
             }
         }
         if (this.posY <= this.posYReleased || this.posX >= this.posXReleased) {
             for (int i = this.posY; i <= this.posYReleased; i++) {
                 for (int j = this.posX; j >= this.posXReleased; j--) {
-                    if (view.isUnderground()) {
-                        grid.getUndergroundGrid()[i][j] =
-                            checkBoxType.getCellTypes()[index];
-                    } else {
-                        grid.getOvergroundGrid()[i][j] =
-                            checkBoxType.getCellTypes()[index];
-                    }
+                    this.setCell(grid, view, i, j, checkBoxType, index);
                 }
             }
         }
         if (this.posY >= this.posYReleased || this.posX <= this.posXReleased) {
             for (int i = this.posY; i >= this.posYReleased; i--) {
                 for (int j = this.posX; j <= this.posXReleased; j++) {
-                    if (view.isUnderground()) {
-                        grid.getUndergroundGrid()[i][j] =
-                            checkBoxType.getCellTypes()[index];
-                    } else {
-                        grid.getOvergroundGrid()[i][j] =
-                            checkBoxType.getCellTypes()[index];
-                    }
+                    this.setCell(grid, view, i, j, checkBoxType, index);
                 }
             }
         }
     }
-
 
     public void resetPos() {
         this.posX = 0;
@@ -93,9 +68,6 @@ public class MouseInput implements MouseListener {
         this.posYReleased = 0;
     }
 
-    /**
-     * Metoda nastavje x a y po kliknuti ak je splnena podmienka.
-     */
     @Override
     public void mouseClicked(MouseEvent e) {
     }
@@ -112,8 +84,10 @@ public class MouseInput implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (e.getX() < this.gamePanelWidth && e.getY() < this.gamePanelHeight) {
-            this.posXReleased = (e.getX() - (e.getX() % this.cellSize)) / this.cellSize;
-            this.posYReleased = (e.getY() - (e.getY() % this.cellSize)) / this.cellSize;
+            this.posXReleased = (
+                e.getX() - (e.getX() % this.cellSize)) / this.cellSize;
+            this.posYReleased = (
+                e.getY() - (e.getY() % this.cellSize)) / this.cellSize;
         }
         this.isClicked = true;
     }
@@ -126,6 +100,18 @@ public class MouseInput implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    private void setCell(
+        Grid grid, View view, int i,
+        int j, CheckBoxType checkBoxType, int index) {
+        if (view.isUnderground()) {
+            grid.getUndergroundGrid()[i][j] =
+                checkBoxType.getCellTypes()[index];
+        } else {
+            grid.getOvergroundGrid()[i][j] =
+                checkBoxType.getCellTypes()[index];
+        }
     }
 
 }

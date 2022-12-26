@@ -44,7 +44,7 @@ public class Canvas {
      * Metoda zoberie pridelene obrazky a vykresli do laveho horneho rohu
      * elektraren a vodnu nadrz.
      */
-    public void drawEnergyBuildings(BufferedImage image1, BufferedImage image2) {
+    public void drawEnergyBuildings(BufferedImage power, BufferedImage water) {
         int sideSize = 4;
         this.graphics.fillRect(
             0,
@@ -52,14 +52,14 @@ public class Canvas {
             (sideSize * 2) * this.cellSize,
             sideSize * this.cellSize);
         this.graphics.drawImage(
-            image1,
+            power,
             0,
             0,
             this.cellSize * sideSize,
             this.cellSize * sideSize,
             null);
         this.graphics.drawImage(
-            image2,
+            water,
             this.cellSize * sideSize,
             0,
             this.cellSize * sideSize,

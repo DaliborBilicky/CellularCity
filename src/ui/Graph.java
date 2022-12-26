@@ -3,7 +3,6 @@ package ui;
 import enums.CellType;
 import tools.Image;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Color;
 
@@ -48,7 +47,6 @@ public class Graph extends JLabel {
                 }
             }
         }
-//todo skus sa zbavit toho slizoveho kodu.
         if (residential > commercial && residential > industrial) {
             this.setIcon(new Image().getImageIcon("res/graphs/1.png", 100));
         }

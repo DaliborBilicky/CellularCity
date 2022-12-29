@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 /**
  * Trieda na vykreslovanie komponentov do GameFramu.
@@ -37,6 +38,7 @@ public class Panel extends JPanel implements ActionListener {
     private final Graph graph;
     private final Grid grid;
     private final View view;
+    private final Save save;
     private CheckBox bulldozerCheckBoxes;
     private CheckBox viewCheckBox;
 
@@ -44,7 +46,8 @@ public class Panel extends JPanel implements ActionListener {
         this.graph = new Graph(GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4, 830);
         this.mouseInput = new MouseInput(CELL_SIZE, GAME_PANEL_WIDTH, PANEL_HEIGHT);
         this.checkBoxes = new CheckBox[CheckBoxType.values().length - 1];
-        this.grid = new Grid(PANEL_HEIGHT, GAME_PANEL_WIDTH, CELL_SIZE);
+        this.save = new Save();
+        this.grid = new Grid(PANEL_HEIGHT, GAME_PANEL_WIDTH, CELL_SIZE, this.save);
         this.gameButtons = new GameButton[CheckBoxType.values().length - 1];
         this.controlButtons = new ControlButton[2];
         this.canvas = new Canvas(CELL_SIZE);
@@ -67,11 +70,11 @@ public class Panel extends JPanel implements ActionListener {
         this.canvas.setGraphics(graphics);
         this.canvas.drawGrid(GAME_PANEL_WIDTH, PANEL_HEIGHT);
         this.canvas.drawGridWithInfra(this.grid.getOvergroundGrid());
+        this.canvas.drawEnergyBuildings(
+            new Image().getBufferedImage("res/power/Power.png"),
+            new Image().getBufferedImage("res/water/Water.png"));
         if (this.view.isUnderground()) {
             this.canvas.drawGridWithInfra(this.grid.getUndergroundGrid());
-            this.canvas.drawEnergyBuildings(
-                new Image().getBufferedImage("res/power/Power.png"),
-                new Image().getBufferedImage("res/water/Water.png"));
         }
         this.graph.setRightGraph(this.grid.getOvergroundGrid());
         this.checkBoxesFunction();
@@ -81,9 +84,9 @@ public class Panel extends JPanel implements ActionListener {
      * Metoda ktora vypisuje fps do okna hry.
      */
     public void setFpsLabel(String text) {
-        this.label.setFont(new Font("Arial", Font.BOLD, 12));
-        this.label.setBounds(0, 0, 60, 20);
-        this.label.setForeground(Color.GREEN);
+        this.label.setFont(new Font("Arial", Font.BOLD, 20));
+        this.label.setBounds(PANEL_WIDTH - 25, 0, 25, 25);
+        this.label.setForeground(Color.ORANGE);
         this.label.setText(text);
         this.add(this.label);
     }
@@ -147,9 +150,9 @@ public class Panel extends JPanel implements ActionListener {
         for (int i = 0; i < this.controlButtons.length; i++) {
             this.controlButtons[i] = new ControlButton(
                 GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * (1 + 2 * i) / 4,
-                1030,
-                "QUIT"
+                1030
             );
+            this.controlButtons[i].setName(i);
             this.controlButtons[i].addActionListener(this);
             this.add(this.controlButtons[i]);
         }
@@ -162,10 +165,14 @@ public class Panel extends JPanel implements ActionListener {
                 button.increaseCounter();
             }
         }
-        for (ControlButton button : this.controlButtons) {
-            if (e.getSource() == button) {
-                System.exit(0);
-            }
+        if (e.getSource() == this.controlButtons[0]) {
+            this.save.saveGame(
+                "saves/saveOverground.txt", this.grid.getOvergroundGrid());
+            this.save.saveGame(
+                "saves/saveUnderground.txt", this.grid.getUndergroundGrid());
+        }
+        if (e.getSource() == this.controlButtons[1]) {
+            System.exit(0);
         }
     }
 
@@ -184,14 +191,14 @@ public class Panel extends JPanel implements ActionListener {
                         this.view,
                         CheckBoxType.values()[i],
                         this.gameButtons[i].getCounter());
-                    this.resetPanel();
+                    this.mouseInput.resetPos();
                 } else if (i < 2 && !this.view.isUnderground()) {
                     this.mouseInput.drag(
                         this.grid,
                         this.view,
                         CheckBoxType.values()[i],
                         this.gameButtons[i].getCounter());
-                    this.resetPanel();
+                    this.mouseInput.resetPos();
                 }
             }
 
@@ -206,7 +213,7 @@ public class Panel extends JPanel implements ActionListener {
                 && !this.checkBoxes[1].isSelected()
                 && !this.checkBoxes[2].isSelected()
                 && !this.checkBoxes[3].isSelected()) {
-                this.resetPanel();
+                this.mouseInput.resetPos();
             }
 
             if (this.viewCheckBox.isSelected()) {
@@ -218,11 +225,5 @@ public class Panel extends JPanel implements ActionListener {
             }
             this.setCheckBoxesLook(i, this.gameButtons[i].getCounter());
         }
-    }
-
-    private void resetPanel() {
-        this.mouseInput.resetPos();
-        this.grid.setOvergroundGridCell(0, 0, CellType.EMPTY_CELL);
-        this.grid.setUndergroundGridCell(0, 0, CellType.EMPTY_CELL);
     }
 }

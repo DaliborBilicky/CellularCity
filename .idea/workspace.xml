@@ -8,43 +8,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4bfc27f2-b967-400a-9284-80f80cf3aa3f" name="Changes" comment="nothing">
-      <change afterPath="$PROJECT_DIR$/res/power/CrossCable.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/power/CrossCableSelected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/power/HorizontalCable.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/power/HorizontalCableSelected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/power/NoPower.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/power/Power.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/power/VerticalCable.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/power/VerticalCableSelected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/water/CrossPipe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/water/CrossPipeSelected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/water/HorizontalPipe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/water/HorizontalPipeSelected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/water/NoWater.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/water/VerticalPipe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/water/VerticalPipeSelected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/water/Water.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/ControlButton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/gameTools/ThumbDown.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/gameTools/ThumbMiddle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/gameTools/ThumbUp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/saves/saveOverground.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/saves/saveUnderground.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/tools/Save.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/resources/CrossPipe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/resources/CrossPipeSelected.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/resources/HorizontalPipe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/resources/HorizontalPipeSelected.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/resources/NoPower.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/resources/NoWater.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/resources/Power.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/resources/PowerLine.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/resources/PowerLineSelected.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/resources/VerticalPipe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/resources/VerticalPipeSelected.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/resources/Water.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enums/CellType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/CellType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/gameTools/BulldozerSelected.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/gameTools/BulldozerSelected.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/power/CrossCable.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/power/CrossCable.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/power/CrossCableSelected.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/power/CrossCableSelected.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/power/HorizontalCable.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/power/HorizontalCable.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/power/HorizontalCableSelected.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/power/HorizontalCableSelected.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/power/VerticalCable.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/power/VerticalCable.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/power/VerticalCableSelected.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/power/VerticalCableSelected.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/enums/CheckBoxType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/CheckBoxType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/GridView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/GridView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Panel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tools/Canvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Canvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tools/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Grid.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Image.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/MouseInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/MouseInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/Button.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/GameButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Graph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tools/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/ControlButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/ControlButton.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +80,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;19&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/dbili/Documents/SP_INF/DaliborBilicky/CellularCity&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,

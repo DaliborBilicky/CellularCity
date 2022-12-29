@@ -6,8 +6,9 @@ import java.awt.*;
 public class ControlButton extends JButton {
     private static final int BUTTON_WIDTH = 200;
     private static final int BUTTON_HEIGHT = 50;
+    private static final String[] NAMES = new String[]{"SAVE", "QUIT"};
 
-    public ControlButton(int posX, int posY, String text) {
+    public ControlButton(int posX, int posY) {
         this.setBounds(
             posX - (BUTTON_WIDTH / 2),
             posY - (BUTTON_HEIGHT / 2),
@@ -17,6 +18,9 @@ public class ControlButton extends JButton {
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setBorderPainted(true);
         this.setFont(new Font("Arial", Font.PLAIN, 16));
-        this.setText(text);
+    }
+
+    public void setName(int num) {
+        this.setText(NAMES[num]);
     }
 }

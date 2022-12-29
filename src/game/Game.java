@@ -33,7 +33,7 @@ public class Game implements Runnable {
 
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                this.panel.setFpsLabel("FPS: " + frames);
+                this.panel.setFpsLabel("" + frames);
                 frames = 0;
             }
         }

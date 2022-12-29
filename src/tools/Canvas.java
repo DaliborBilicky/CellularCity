@@ -45,7 +45,7 @@ public class Canvas {
      * elektraren a vodnu nadrz.
      */
     public void drawEnergyBuildings(BufferedImage power, BufferedImage water) {
-        int sideSize = 4;
+        int sideSize = 2;
         this.graphics.fillRect(
             0,
             0,

@@ -12,7 +12,7 @@ public class View {
 
     public void setGridView(GridView view) {
         this.underground =
-            !view.getStringValue().equals(GridView.OVERGROUND.getStringValue());
+            !view.name().equals(GridView.OVERGROUND.name());
         this.gridView = view;
     }
 

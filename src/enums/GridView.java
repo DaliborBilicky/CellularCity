@@ -9,28 +9,20 @@ import javax.swing.*;
  */
 public enum GridView {
     UNDERGROUND(
-        new Image().getImageIcon("res/gameTools/Underground.png", 75),
-        "Underground"
+        new Image().getImageIcon("res/gameTools/Underground.png", 75)
     ),
     OVERGROUND(
-        new Image().getImageIcon("res/gameTools/Overground.png", 75),
-        "Overground"
+        new Image().getImageIcon("res/gameTools/Overground.png", 75)
     );
 
     private final ImageIcon imageIcon;
-    private final String stringValue;
 
-    GridView(ImageIcon imageIcon, String stringValue) {
+    GridView(ImageIcon imageIcon) {
         this.imageIcon = imageIcon;
-        this.stringValue = stringValue;
     }
 
     public ImageIcon getImageIcon() {
         return this.imageIcon;
-    }
-
-    public String getStringValue() {
-        return this.stringValue;
     }
 
 }

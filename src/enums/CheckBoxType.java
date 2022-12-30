@@ -15,14 +15,14 @@ public enum CheckBoxType {
             CellType.HORIZONTAL_ROAD
         }
     ),
-    WATER(
+    PIPE(
         new CellType[]{
             CellType.CROSS_PIPE,
             CellType.VERTICAL_PIPE,
             CellType.HORIZONTAL_PIPE
         }
     ),
-    POWER(
+    CABLE(
         new CellType[]{
             CellType.CROSS_CABLE,
             CellType.VERTICAL_CABLE,

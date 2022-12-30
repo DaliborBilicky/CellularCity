@@ -27,9 +27,12 @@ public class CheckBox extends JCheckBox {
     }
 
     public void setLook(ImageIcon imageIcon, ImageIcon selectedImageIcon) {
+        this.setIcon(imageIcon);
         if (this.isSelected()) {
             this.setSelectedIcon(selectedImageIcon);
+        } else {
+            // resetovat ikonu lebo si program pamatal predchadzajucu ikonu
+            this.setSelectedIcon(null);
         }
-        this.setIcon(imageIcon);
     }
 }

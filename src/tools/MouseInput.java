@@ -31,7 +31,7 @@ public class MouseInput implements MouseListener {
     }
 
     public void drag(Grid grid, View view, CheckBoxType checkBoxType, int index) {
-        if (this.posX > -1) {
+        if (this.posX > -1 && this.posY > -1) {
             if (this.posY >= this.posYReleased || this.posX >= this.posXReleased) {
                 for (int i = this.posY; i >= this.posYReleased; i--) {
                     for (int j = this.posX; j >= this.posXReleased; j--) {

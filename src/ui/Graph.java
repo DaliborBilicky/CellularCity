@@ -4,7 +4,6 @@ import enums.CellType;
 import tools.Image;
 
 import javax.swing.JLabel;
-import java.awt.Color;
 
 /**
  * Trieda pridava na platno stlpcovy graf dopytu po zonach.
@@ -19,8 +18,8 @@ public class Graph extends JLabel {
             posY - (GRAPH_HEIGHT / 2),
             GRAPH_WIDTH,
             GRAPH_HEIGHT);
-        this.setIcon(
-            new Image().getImageIcon("res/graphs/4.png", 150));
+        this.setFocusable(false);
+        this.setGraphIcon(4);
     }
 
     /**
@@ -47,22 +46,28 @@ public class Graph extends JLabel {
             }
         }
         if (residential > commercial && residential > industrial) {
-            this.setIcon(new Image().getImageIcon("res/graphs/1.png", 100));
+            this.setGraphIcon(1);
         }
         if (residential == commercial && residential > industrial) {
-            this.setIcon(new Image().getImageIcon("res/graphs/2.png", 100));
+            this.setGraphIcon(2);
         }
         if (commercial > industrial && commercial > residential) {
-            this.setIcon(new Image().getImageIcon("res/graphs/3.png", 100));
+            this.setGraphIcon(3);
         }
         if (commercial == industrial && commercial > residential) {
-            this.setIcon(new Image().getImageIcon("res/graphs/4.png", 100));
+            this.setGraphIcon(4);
         }
         if (industrial > residential && industrial > commercial) {
-            this.setIcon(new Image().getImageIcon("res/graphs/5.png", 100));
+            this.setGraphIcon(5);
         }
         if (industrial == residential && industrial > commercial) {
-            this.setIcon(new Image().getImageIcon("res/graphs/6.png", 100));
+            this.setGraphIcon(6);
         }
+    }
+
+    private void setGraphIcon(int num) {
+        this.setIcon(new Image().getImageIcon(
+            String.format("res/graphs/%d.png", num),
+            GRAPH_WIDTH));
     }
 }

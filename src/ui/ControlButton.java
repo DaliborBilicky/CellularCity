@@ -16,8 +16,9 @@ public class ControlButton extends JButton {
             BUTTON_HEIGHT);
         this.setFocusable(false);
         this.setHorizontalAlignment(SwingConstants.CENTER);
+        this.setBackground(Color.LIGHT_GRAY);
         this.setBorderPainted(true);
-        this.setFont(new Font("Arial", Font.PLAIN, 16));
+        this.setFont(new Font("Arial", Font.BOLD, 32));
     }
 
     public void setName(int num) {

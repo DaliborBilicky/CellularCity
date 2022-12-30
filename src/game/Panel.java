@@ -1,21 +1,16 @@
 package game;
 
-import enums.CellType;
 import enums.CheckBoxType;
 import enums.GridView;
 import tools.*;
 import tools.Canvas;
 import tools.Image;
-import ui.ControlButton;
-import ui.GameButton;
-import ui.CheckBox;
-import ui.Graph;
+import ui.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 
 /**
  * Trieda na vykreslovanie komponentov do GameFramu.
@@ -32,7 +27,9 @@ public class Panel extends JPanel implements ActionListener {
     private final ControlButton[] controlButtons;
     private final GameButton[] gameButtons;
     private final CheckBox[] checkBoxes;
+    private final Satisfaction satisfaction;
     private final MouseInput mouseInput;
+    private final MoneyBar moneyBar;
     private final Canvas canvas;
     private final JLabel label;
     private final Graph graph;
@@ -43,19 +40,38 @@ public class Panel extends JPanel implements ActionListener {
     private CheckBox viewCheckBox;
 
     public Panel() {
-        this.graph = new Graph(GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4, 830);
-        this.mouseInput = new MouseInput(CELL_SIZE, GAME_PANEL_WIDTH, PANEL_HEIGHT);
-        this.checkBoxes = new CheckBox[CheckBoxType.values().length - 1];
+        this.mouseInput = new MouseInput(
+            CELL_SIZE, GAME_PANEL_WIDTH,
+            PANEL_HEIGHT);
+        this.canvas = new Canvas(CELL_SIZE);
+        this.view = new View();
         this.save = new Save();
-        this.grid = new Grid(PANEL_HEIGHT, GAME_PANEL_WIDTH, CELL_SIZE, this.save);
+
+        this.checkBoxes = new CheckBox[CheckBoxType.values().length - 1];
         this.gameButtons = new GameButton[CheckBoxType.values().length - 1];
         this.controlButtons = new ControlButton[2];
-        this.canvas = new Canvas(CELL_SIZE);
+
+        this.satisfaction = new Satisfaction(
+            GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4,
+            830);
+        this.graph = new Graph(
+            GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * 3 / 4,
+            830);
+        this.moneyBar = new MoneyBar(
+            GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2,
+            955);
+        this.grid = new Grid(
+            PANEL_HEIGHT,
+            GAME_PANEL_WIDTH,
+            CELL_SIZE,
+            this.save);
         this.label = new JLabel();
-        this.view = new View();
 
         this.addMouseListener(this.mouseInput);
+        this.add(this.satisfaction);
+        this.add(this.moneyBar);
         this.add(this.graph);
+
         this.setCheckBoxes();
         this.setButtons();
         this.setPanel();
@@ -77,6 +93,7 @@ public class Panel extends JPanel implements ActionListener {
             this.canvas.drawGridWithInfra(this.grid.getUndergroundGrid());
         }
         this.graph.setRightGraph(this.grid.getOvergroundGrid());
+        this.moneyBar.countCells(this.grid.getOvergroundGrid());
         this.checkBoxesFunction();
     }
 

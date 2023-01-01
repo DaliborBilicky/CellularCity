@@ -45,21 +45,30 @@ public class Grid {
         }
     }
 
+    public void setOvergroundGridCell(int i, int j, CellType cellType) {
+        this.overgroundGrid[i][j] = cellType;
+    }
+
+    public CellType getOvergroundGridCell(int i, int j) {
+        return this.overgroundGrid[i][j];
+    }
+
+    public CellType[][] getOvergroundGrid() {
+        return this.overgroundGrid;
+    }
+
     public void setUndergroundGridCell(int i, int j, CellType cellType) {
         this.undergroundGrid[i][j] = cellType;
+    }
+
+    public CellType getUndergroundGridCell(int i, int j) {
+        return this.undergroundGrid[i][j];
     }
 
     public CellType[][] getUndergroundGrid() {
         return this.undergroundGrid;
     }
 
-    public void setOvergroundGridCell(int i, int j, CellType cellType) {
-        this.overgroundGrid[i][j] = cellType;
-    }
-
-    public CellType[][] getOvergroundGrid() {
-        return this.overgroundGrid;
-    }
 
     private void setGrid() {
         for (int i = 0; i < this.panelHeight / this.cellSize; i++) {

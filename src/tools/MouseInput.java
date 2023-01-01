@@ -1,6 +1,7 @@
 package tools;
 
 import enums.CheckBoxType;
+import enums.GridState;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -30,38 +31,37 @@ public class MouseInput implements MouseListener {
         return this.isClicked;
     }
 
-    public void drag(Grid grid, View view, CheckBoxType checkBoxType, int index) {
+    public void drag(Grid grid, CheckBoxType checkBoxType, int index) {
         if (this.posX > -1 && this.posY > -1) {
             if (this.posY >= this.posYReleased || this.posX >= this.posXReleased) {
                 for (int i = this.posY; i >= this.posYReleased; i--) {
                     for (int j = this.posX; j >= this.posXReleased; j--) {
-                        this.setCell(grid, view, i, j, checkBoxType, index);
+                        this.setCell(grid, i, j, checkBoxType, index);
                     }
                 }
             }
             if (this.posY <= this.posYReleased || this.posX <= this.posXReleased) {
                 for (int i = this.posY; i <= this.posYReleased; i++) {
                     for (int j = this.posX; j <= this.posXReleased; j++) {
-                        this.setCell(grid, view, i, j, checkBoxType, index);
+                        this.setCell(grid, i, j, checkBoxType, index);
                     }
                 }
             }
             if (this.posY <= this.posYReleased || this.posX >= this.posXReleased) {
                 for (int i = this.posY; i <= this.posYReleased; i++) {
                     for (int j = this.posX; j >= this.posXReleased; j--) {
-                        this.setCell(grid, view, i, j, checkBoxType, index);
+                        this.setCell(grid, i, j, checkBoxType, index);
                     }
                 }
             }
             if (this.posY >= this.posYReleased || this.posX <= this.posXReleased) {
                 for (int i = this.posY; i >= this.posYReleased; i--) {
                     for (int j = this.posX; j <= this.posXReleased; j++) {
-                        this.setCell(grid, view, i, j, checkBoxType, index);
+                        this.setCell(grid, i, j, checkBoxType, index);
                     }
                 }
             }
         }
-
     }
 
     public void resetPos() {
@@ -106,9 +106,9 @@ public class MouseInput implements MouseListener {
     }
 
     private void setCell(
-        Grid grid, View view, int i,
+        Grid grid, int i,
         int j, CheckBoxType checkBoxType, int index) {
-        if (view.isUnderground()) {
+        if (GridState.UNDERGROUND.isActive()) {
             grid.setUndergroundGridCell(
                 i, j, checkBoxType.getCellTypes()[index]);
         } else {

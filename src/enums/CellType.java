@@ -13,7 +13,8 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/gameTools/BulldozerSelected.png")
         },
-        new Image().getBufferedImage("res/gameTools/EmptyCell.png")
+        new Image().getBufferedImage("res/gameTools/EmptyCell.png"),
+        false
     ),
 
     RESIDENTIAL(
@@ -23,7 +24,8 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/zones/ResidentialSelected.png")
         },
-        new Image().getBufferedImage("res/zones/Residential.png")
+        new Image().getBufferedImage("res/zones/Residential.png"),
+        false
     ),
 
     COMMERCIAL(
@@ -33,7 +35,8 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/zones/CommercialSelected.png")
         },
-        new Image().getBufferedImage("res/zones/Commercial.png")
+        new Image().getBufferedImage("res/zones/Commercial.png"),
+        false
     ),
 
     INDUSTRIAL(
@@ -43,7 +46,8 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/zones/IndustrialSelected.png")
         },
-        new Image().getBufferedImage("res/zones/Industrial.png")
+        new Image().getBufferedImage("res/zones/Industrial.png"),
+        false
     ),
 
     CROSSROAD(
@@ -53,7 +57,8 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/roads/CrossroadSelected.png")
         },
-        new Image().getBufferedImage("res/roads/Crossroad.png")
+        new Image().getBufferedImage("res/roads/Crossroad.png"),
+        false
     ),
 
     VERTICAL_ROAD(
@@ -63,7 +68,8 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/roads/VerticalSelected.png")
         },
-        new Image().getBufferedImage("res/roads/Vertical.png")
+        new Image().getBufferedImage("res/roads/Vertical.png"),
+        false
     ),
 
     HORIZONTAL_ROAD(
@@ -73,7 +79,8 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/roads/HorizontalSelected.png")
         },
-        new Image().getBufferedImage("res/roads/Horizontal.png")
+        new Image().getBufferedImage("res/roads/Horizontal.png"),
+        false
     ),
 
     CROSS_PIPE(
@@ -83,7 +90,8 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/water/CrossPipeSelected.png")
         },
-        new Image().getBufferedImage("res/water/CrossPipe.png")
+        new Image().getBufferedImage("res/water/CrossPipe.png"),
+        false
     ),
 
     VERTICAL_PIPE(
@@ -93,7 +101,8 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/water/VerticalPipeSelected.png")
         },
-        new Image().getBufferedImage("res/water/VerticalPipe.png")
+        new Image().getBufferedImage("res/water/VerticalPipe.png"),
+        false
     ),
 
     HORIZONTAL_PIPE(
@@ -103,7 +112,8 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/water/HorizontalPipeSelected.png")
         },
-        new Image().getBufferedImage("res/water/HorizontalPipe.png")
+        new Image().getBufferedImage("res/water/HorizontalPipe.png"),
+        false
     ),
 
     CROSS_CABLE(
@@ -113,7 +123,8 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/power/CrossCableSelected.png")
         },
-        new Image().getBufferedImage("res/power/CrossCable.png")
+        new Image().getBufferedImage("res/power/CrossCable.png"),
+        false
     ),
 
     VERTICAL_CABLE(
@@ -123,7 +134,8 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/power/VerticalCableSelected.png")
         },
-        new Image().getBufferedImage("res/power/VerticalCable.png")
+        new Image().getBufferedImage("res/power/VerticalCable.png"),
+        false
     ),
 
     HORIZONTAL_CABLE(
@@ -133,15 +145,18 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/power/HorizontalCableSelected.png")
         },
-        new Image().getBufferedImage("res/power/HorizontalCable.png")
+        new Image().getBufferedImage("res/power/HorizontalCable.png"),
+        false
     );
 
     private final ImageIcon[] imageIcons;
     private final BufferedImage bufferedImage;
+    private boolean connected;
 
-    CellType(ImageIcon[] imageIcons, BufferedImage bufferedImage) {
+    CellType(ImageIcon[] imageIcons, BufferedImage bufferedImage, boolean connected) {
         this.imageIcons = imageIcons;
         this.bufferedImage = bufferedImage;
+        this.connected = connected;
     }
 
     public ImageIcon[] getImageIcons() {
@@ -150,5 +165,13 @@ public enum CellType {
 
     public BufferedImage getBufferedImage() {
         return this.bufferedImage;
+    }
+
+    public boolean isConnected() {
+        return this.connected;
+    }
+
+    public void setConnected(boolean value) {
+        this.connected = value;
     }
 }

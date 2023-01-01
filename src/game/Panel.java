@@ -1,7 +1,7 @@
 package game;
 
 import enums.CheckBoxType;
-import enums.GridView;
+import enums.GridState;
 import tools.*;
 import tools.Canvas;
 import tools.Image;
@@ -31,10 +31,8 @@ public class Panel extends JPanel implements ActionListener {
     private final MouseInput mouseInput;
     private final MoneyBar moneyBar;
     private final Canvas canvas;
-    private final JLabel label;
     private final Graph graph;
     private final Grid grid;
-    private final View view;
     private final Save save;
     private CheckBox bulldozerCheckBoxes;
     private CheckBox viewCheckBox;
@@ -44,7 +42,6 @@ public class Panel extends JPanel implements ActionListener {
             CELL_SIZE, GAME_PANEL_WIDTH,
             PANEL_HEIGHT);
         this.canvas = new Canvas(CELL_SIZE);
-        this.view = new View();
         this.save = new Save();
 
         this.checkBoxes = new CheckBox[CheckBoxType.values().length - 1];
@@ -65,7 +62,6 @@ public class Panel extends JPanel implements ActionListener {
             GAME_PANEL_WIDTH,
             CELL_SIZE,
             this.save);
-        this.label = new JLabel();
 
         this.addMouseListener(this.mouseInput);
         this.add(this.satisfaction);
@@ -89,23 +85,21 @@ public class Panel extends JPanel implements ActionListener {
         this.canvas.drawEnergyBuildings(
             new Image().getBufferedImage("res/power/Power.png"),
             new Image().getBufferedImage("res/water/Water.png"));
-        if (this.view.isUnderground()) {
+        if (GridState.UNDERGROUND.isActive()) {
             this.canvas.drawGridWithInfra(this.grid.getUndergroundGrid());
         }
-        this.graph.setRightGraph(this.grid.getOvergroundGrid());
-        this.moneyBar.countCells(this.grid.getOvergroundGrid());
-        this.checkBoxesFunction();
     }
 
-    /**
-     * Metoda ktora vypisuje fps do okna hry.
-     */
-    public void setFpsLabel(String text) {
-        this.label.setFont(new Font("Arial", Font.BOLD, 20));
-        this.label.setBounds(PANEL_WIDTH - 25, 0, 25, 25);
-        this.label.setForeground(Color.ORANGE);
-        this.label.setText(text);
-        this.add(this.label);
+    public Grid getGrid() {
+        return this.grid;
+    }
+
+    public MoneyBar getMoneyBar() {
+        return this.moneyBar;
+    }
+
+    public Graph getGraph() {
+        return this.graph;
     }
 
     /**
@@ -150,8 +144,8 @@ public class Panel extends JPanel implements ActionListener {
             CheckBoxType.EMPTY_CELL.getCellTypes()[0].getImageIcons()[1]
         );
         this.viewCheckBox.setLook(
-            GridView.OVERGROUND.getImageIcon(),
-            GridView.UNDERGROUND.getImageIcon());
+            GridState.OVERGROUND.getImageIcon(),
+            GridState.UNDERGROUND.getImageIcon());
     }
 
     private void setButtons() {
@@ -198,21 +192,21 @@ public class Panel extends JPanel implements ActionListener {
      * cyklu. To pozostava z nastavenia bunky a typu bunky do 2D array. Na konci
      * uz len premeni check box iconu na selected
      */
-    private void checkBoxesFunction() {
+    public void checkBoxesFunction() {
         for (int i = 0; i < this.checkBoxes.length; i++) {
             if (this.checkBoxes[i].isSelected()
-                && this.mouseInput.isClicked()) {
-                if (i > 1 && this.view.isUnderground()) {
+                && this.mouseInput.isClicked()
+//                && this.moneyBar.getAccount() > -1000
+            ) {
+                if (i > 1 && GridState.UNDERGROUND.isActive()) {
                     this.mouseInput.drag(
                         this.grid,
-                        this.view,
                         CheckBoxType.values()[i],
                         this.gameButtons[i].getCounter());
                     this.mouseInput.resetPos();
-                } else if (i < 2 && !this.view.isUnderground()) {
+                } else if (i < 2 && GridState.OVERGROUND.isActive()) {
                     this.mouseInput.drag(
                         this.grid,
-                        this.view,
                         CheckBoxType.values()[i],
                         this.gameButtons[i].getCounter());
                     this.mouseInput.resetPos();
@@ -222,7 +216,7 @@ public class Panel extends JPanel implements ActionListener {
             if (this.bulldozerCheckBoxes.isSelected()
                 && this.mouseInput.isClicked()) {
                 this.mouseInput.drag(
-                    this.grid, this.view, CheckBoxType.EMPTY_CELL, 0);
+                    this.grid, CheckBoxType.EMPTY_CELL, 0);
             }
 
             if (!this.bulldozerCheckBoxes.isSelected()
@@ -234,10 +228,12 @@ public class Panel extends JPanel implements ActionListener {
             }
 
             if (this.viewCheckBox.isSelected()) {
-                this.view.setGridView(GridView.UNDERGROUND);
+                GridState.OVERGROUND.setActive(false);
+                GridState.UNDERGROUND.setActive(true);
                 this.setBackground(new Color(131, 101, 57));
             } else {
-                this.view.setGridView(GridView.OVERGROUND);
+                GridState.OVERGROUND.setActive(true);
+                GridState.UNDERGROUND.setActive(false);
                 this.setBackground(new Color(80, 200, 120));
             }
             this.setCheckBoxesLook(i, this.gameButtons[i].getCounter());

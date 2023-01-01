@@ -1,7 +1,5 @@
 package game;
 
-import enums.CheckBoxType;
-
 public class Game implements Runnable {
     private final Panel panel;
 
@@ -18,23 +16,27 @@ public class Game implements Runnable {
     @Override
     public void run() {
         int fps = 60;
-        int frames = 0;
         double timePerFrame = 1000000000.0 / fps;
         long lastFrame = System.nanoTime();
-        long lastCheck = System.currentTimeMillis();
+        long lastCurrentTime = System.currentTimeMillis();
 
         while (true) {
             long now = System.nanoTime();
             if (now - lastFrame >= timePerFrame) {
                 this.panel.repaint();
+                this.panel.getGraph().setRightGraph(this.panel.getGrid().getOvergroundGrid());
+                this.panel.checkBoxesFunction();
+                this.panel.getMoneyBar().countCells(
+                    this.panel.getGrid().getOvergroundGrid(),
+                    this.panel.getGrid().getUndergroundGrid());
+                this.panel.getMoneyBar().calculateFees();
+                this.panel.getMoneyBar().setBar();
                 lastFrame = now;
-                frames++;
             }
 
-            if (System.currentTimeMillis() - lastCheck >= 1000) {
-                lastCheck = System.currentTimeMillis();
-                this.panel.setFpsLabel("" + frames);
-                frames = 0;
+            if (System.currentTimeMillis() - lastCurrentTime >= 30000) {
+                lastCurrentTime = System.currentTimeMillis();
+                this.panel.getMoneyBar().calculateIncome();
             }
         }
     }

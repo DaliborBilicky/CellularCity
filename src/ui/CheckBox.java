@@ -1,5 +1,7 @@
 package ui;
 
+import enums.CellType;
+
 import javax.swing.*;
 import java.awt.Color;
 
@@ -8,28 +10,35 @@ import java.awt.Color;
  * !!! To, ze trieda dedi od JCheckBox mam naucene z internetu. !!!
  */
 public class CheckBox extends JCheckBox {
-    private static final int C_B_WIDTH = 125;
-    private static final int C_B_HEIGHT = 125;
-
     /**
      * V kostruktore okrem inicializacie sa nastavuju hodnoty pre check box.
      */
-    public CheckBox(int posX, int posY) {
+    public CheckBox(int posX, int posY, int size) {
         this.setBounds(
-            posX - (C_B_WIDTH / 2),
-            posY - (C_B_HEIGHT / 2),
-            C_B_WIDTH,
-            C_B_HEIGHT);
+            posX - (size / 2),
+            posY,
+            size,
+            size);
         this.setFocusable(false);
         this.setBackground(Color.LIGHT_GRAY);
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setBorderPainted(true);
     }
 
-    public void setLook(ImageIcon imageIcon, ImageIcon selectedImageIcon) {
-        this.setIcon(imageIcon);
+    public void setLook(CellType cellType) {
+        this.setIcon(cellType.getImageIcons()[0]);
         if (this.isSelected()) {
-            this.setSelectedIcon(selectedImageIcon);
+            this.setSelectedIcon(cellType.getImageIcons()[1]);
+        } else {
+            // resetovat ikonu lebo si program pamatal predchadzajucu ikonu
+            this.setSelectedIcon(null);
+        }
+    }
+
+    public void setLook(ImageIcon icon, ImageIcon selectedIcon) {
+        this.setIcon(icon);
+        if (this.isSelected()) {
+            this.setSelectedIcon(selectedIcon);
         } else {
             // resetovat ikonu lebo si program pamatal predchadzajucu ikonu
             this.setSelectedIcon(null);

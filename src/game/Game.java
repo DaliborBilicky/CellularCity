@@ -1,6 +1,8 @@
 package game;
 
 public class Game implements Runnable {
+    private static final int FPS = 60;
+    private static final int SECOND = 1000;
     private final Panel panel;
 
     public Game() {
@@ -9,42 +11,29 @@ public class Game implements Runnable {
         this.startGameLoop();
     }
 
-    /**
-     * Metoda na obnovovanie platna v urcenej hodnote fps.
-     * !!! Metoda je z internetu. Link v dokumentacii. !!!
-     */
     @Override
     public void run() {
-        int fps = 60;
-        double timePerFrame = 1000000000.0 / fps;
-        long lastFrame = System.nanoTime();
-        long lastCurrentTime = System.currentTimeMillis();
+        double timePerFrame = 1000000000.0 / FPS; // secunda v nano sekundach
+        long previousFrame = System.nanoTime();
+        long previousTime = System.currentTimeMillis();
 
         while (true) {
-            long now = System.nanoTime();
-            if (now - lastFrame >= timePerFrame) {
+            long currentFrame = System.nanoTime();
+            if (currentFrame - previousFrame >= timePerFrame) {
                 this.panel.repaint();
-                this.panel.getGraph().setRightGraph(this.panel.getGrid().getOvergroundGrid());
-                this.panel.checkBoxesFunction();
-                this.panel.getMoneyBar().countCells(
-                    this.panel.getGrid().getOvergroundGrid(),
-                    this.panel.getGrid().getUndergroundGrid());
-                this.panel.getMoneyBar().calculateFees();
-                this.panel.getMoneyBar().setBar();
-                lastFrame = now;
+                this.panel.checkBoxesAction();
+                this.panel.getAccount().countCells();
+                this.panel.getAccount().calculateFees();
+                previousFrame = currentFrame;
             }
 
-            if (System.currentTimeMillis() - lastCurrentTime >= 30000) {
-                lastCurrentTime = System.currentTimeMillis();
-                this.panel.getMoneyBar().calculateIncome();
+            if (System.currentTimeMillis() - previousTime >= 20 * SECOND) {
+                this.panel.getAccount().calculateIncome();
+                previousTime = System.currentTimeMillis();
             }
         }
     }
 
-    /**
-     * Metoda spusti game loop.
-     * !!! Metoda je z internetu (spolu s run()). Link v dokumentacii. !!!
-     */
     private void startGameLoop() {
         Thread gameThread = new Thread(this);
         gameThread.start();

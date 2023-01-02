@@ -9,15 +9,15 @@ import javax.swing.JLabel;
  * Trieda pridava na platno stlpcovy graf dopytu po zonach.
  */
 public class Graph extends JLabel {
-    private static final int GRAPH_WIDTH = 150;
-    private static final int GRAPH_HEIGHT = 150;
+    private final int size;
 
-    public Graph(int posX, int posY) {
+    public Graph(int posX, int posY, int size) {
+        this.size = size;
         this.setBounds(
-            posX - (GRAPH_WIDTH / 2),
-            posY - (GRAPH_HEIGHT / 2),
-            GRAPH_WIDTH,
-            GRAPH_HEIGHT);
+            posX - (size / 2),
+            posY,
+            this.size,
+            this.size);
         this.setFocusable(false);
         this.setGraphIcon(4);
     }
@@ -67,7 +67,7 @@ public class Graph extends JLabel {
 
     private void setGraphIcon(int num) {
         this.setIcon(new Image().getImageIcon(
-            String.format("res/graphs/%d.png", num),
-            GRAPH_WIDTH));
+            String.format("res/graph/%d.png", num),
+            this.size));
     }
 }

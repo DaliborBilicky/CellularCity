@@ -1,7 +1,9 @@
 package tools;
 
+import enums.CellType;
 import enums.CheckBoxType;
 import enums.GridState;
+import game.Account;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -11,6 +13,7 @@ import java.awt.event.MouseListener;
  * !!! Napad na vznik triedy je z internetu. Link v dokumentacii !!!
  */
 public class MouseInput implements MouseListener {
+    private final Account account;
     private final int cellSize;
     private final int gamePanelWidth;
     private final int gamePanelHeight;
@@ -18,10 +21,11 @@ public class MouseInput implements MouseListener {
     private int posY;
     private int posXReleased;
     private int posYReleased;
-
     private boolean isClicked;
 
-    public MouseInput(int cellSize, int gamePanelWidth, int gamePanelHeight) {
+    public MouseInput(
+        Account account, int cellSize, int gamePanelWidth, int gamePanelHeight) {
+        this.account = account;
         this.cellSize = cellSize;
         this.gamePanelWidth = gamePanelWidth;
         this.gamePanelHeight = gamePanelHeight;
@@ -106,14 +110,19 @@ public class MouseInput implements MouseListener {
     }
 
     private void setCell(
-        Grid grid, int i,
-        int j, CheckBoxType checkBoxType, int index) {
-        if (GridState.UNDERGROUND.isActive()) {
-            grid.setUndergroundGridCell(
-                i, j, checkBoxType.getCellTypes()[index]);
-        } else {
-            grid.setOvergroundGridCell(
-                i, j, checkBoxType.getCellTypes()[index]);
+        Grid grid, int i, int j, CheckBoxType checkBoxType, int index) {
+        this.account.countCells();
+        this.account.calculateFees();
+        if (checkBoxType.getCellTypes()[index].name()
+            .equals(CellType.EMPTY_CELL.name())
+            || this.account.getAccount() > this.account.getMinimum()) {
+            if (GridState.UNDERGROUND.isActive()) {
+                grid.setUndergroundGridCell(
+                    i, j, checkBoxType.getCellTypes()[index]);
+            } else {
+                grid.setOvergroundGridCell(
+                    i, j, checkBoxType.getCellTypes()[index]);
+            }
         }
     }
 }

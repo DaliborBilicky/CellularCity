@@ -1,23 +1,19 @@
 package game;
 
-import javax.swing.JFrame;
-import javax.swing.ImageIcon;
-import java.awt.*;
+import tools.Image;
 
-/**
- * Trieda na zobrazenie okna.
- * !!! To, ze trieda dedi od JFrame mam naucene z internetu. !!!
- */
+import javax.swing.JFrame;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
 public class Frame extends JFrame {
     private static final GraphicsDevice device =
         GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 
     public Frame(Panel panel) {
-        ImageIcon image = new ImageIcon("res/zones/Commercial.png");
-
-        panel.requestFocus();
         this.setTitle("Cellular City");
-        this.setIconImage(image.getImage());
+        this.setIconImage(new Image().getImageIcon(
+            "res/zones/Commercial.png").getImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
         this.setUndecorated(true);
@@ -25,5 +21,6 @@ public class Frame extends JFrame {
         this.add(panel);
         this.pack();
         device.setFullScreenWindow(this);
+        panel.requestFocus();
     }
 }

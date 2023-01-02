@@ -2,18 +2,15 @@ package enums;
 
 import tools.Image;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 
-/**
- * Enum uchovava typ bunky, cesty k obrazkom a nazov bunky.
- */
 public enum GridState {
     OVERGROUND(
-        new Image().getImageIcon("res/gameTools/Overground.png", 110),
+        new Image().getImageIcon("res/tools/Overground.png"),
         true
     ),
     UNDERGROUND(
-        new Image().getImageIcon("res/gameTools/Underground.png", 110),
+        new Image().getImageIcon("res/tools/Underground.png"),
         false
     );
 
@@ -36,4 +33,5 @@ public enum GridState {
     public void setActive(boolean value) {
         this.active = value;
     }
+
 }

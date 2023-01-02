@@ -38,6 +38,6 @@ public class Image {
     }
 
     public ImageIcon getImageIcon(String imagePath) {
-        return this.getImageIcon(imagePath, 110);
+        return this.getImageIcon(imagePath, 100);
     }
 }

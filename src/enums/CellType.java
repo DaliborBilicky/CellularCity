@@ -2,19 +2,18 @@ package enums;
 
 import tools.Image;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.awt.image.BufferedImage;
 
 public enum CellType {
     EMPTY_CELL(
         new ImageIcon[]{
             new Image().getImageIcon(
-                "res/gameTools/Bulldozer.png"),
+                "res/tools/Bulldozer.png"),
             new Image().getImageIcon(
-                "res/gameTools/BulldozerSelected.png")
+                "res/tools/BulldozerSelected.png")
         },
-        new Image().getBufferedImage("res/gameTools/EmptyCell.png"),
-        false
+        new Image().getBufferedImage("res/tools/EmptyCell.png")
     ),
 
     RESIDENTIAL(
@@ -24,8 +23,7 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/zones/ResidentialSelected.png")
         },
-        new Image().getBufferedImage("res/zones/Residential.png"),
-        false
+        new Image().getBufferedImage("res/zones/Residential.png")
     ),
 
     COMMERCIAL(
@@ -35,8 +33,7 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/zones/CommercialSelected.png")
         },
-        new Image().getBufferedImage("res/zones/Commercial.png"),
-        false
+        new Image().getBufferedImage("res/zones/Commercial.png")
     ),
 
     INDUSTRIAL(
@@ -46,19 +43,17 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/zones/IndustrialSelected.png")
         },
-        new Image().getBufferedImage("res/zones/Industrial.png"),
-        false
+        new Image().getBufferedImage("res/zones/Industrial.png")
     ),
 
     CROSSROAD(
         new ImageIcon[]{
             new Image().getImageIcon(
-                "res/roads/Crossroad.png"),
+                "res/roads/Cross.png"),
             new Image().getImageIcon(
-                "res/roads/CrossroadSelected.png")
+                "res/roads/CrossSelected.png")
         },
-        new Image().getBufferedImage("res/roads/Crossroad.png"),
-        false
+        new Image().getBufferedImage("res/roads/Cross.png")
     ),
 
     VERTICAL_ROAD(
@@ -68,8 +63,7 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/roads/VerticalSelected.png")
         },
-        new Image().getBufferedImage("res/roads/Vertical.png"),
-        false
+        new Image().getBufferedImage("res/roads/Vertical.png")
     ),
 
     HORIZONTAL_ROAD(
@@ -79,84 +73,75 @@ public enum CellType {
             new Image().getImageIcon(
                 "res/roads/HorizontalSelected.png")
         },
-        new Image().getBufferedImage("res/roads/Horizontal.png"),
-        false
+        new Image().getBufferedImage("res/roads/Horizontal.png")
     ),
 
     CROSS_PIPE(
         new ImageIcon[]{
             new Image().getImageIcon(
-                "res/water/CrossPipe.png"),
+                "res/pipe/Cross.png"),
             new Image().getImageIcon(
-                "res/water/CrossPipeSelected.png")
+                "res/pipe/CrossSelected.png")
         },
-        new Image().getBufferedImage("res/water/CrossPipe.png"),
-        false
+        new Image().getBufferedImage("res/pipe/Cross.png")
     ),
 
     VERTICAL_PIPE(
         new ImageIcon[]{
             new Image().getImageIcon(
-                "res/water/VerticalPipe.png"),
+                "res/pipe/Vertical.png"),
             new Image().getImageIcon(
-                "res/water/VerticalPipeSelected.png")
+                "res/pipe/VerticalSelected.png")
         },
-        new Image().getBufferedImage("res/water/VerticalPipe.png"),
-        false
+        new Image().getBufferedImage("res/pipe/Vertical.png")
     ),
 
     HORIZONTAL_PIPE(
         new ImageIcon[]{
             new Image().getImageIcon(
-                "res/water/HorizontalPipe.png"),
+                "res/pipe/Horizontal.png"),
             new Image().getImageIcon(
-                "res/water/HorizontalPipeSelected.png")
+                "res/pipe/HorizontalSelected.png")
         },
-        new Image().getBufferedImage("res/water/HorizontalPipe.png"),
-        false
+        new Image().getBufferedImage("res/pipe/Horizontal.png")
     ),
 
     CROSS_CABLE(
         new ImageIcon[]{
             new Image().getImageIcon(
-                "res/power/CrossCable.png"),
+                "res/cable/Cross.png"),
             new Image().getImageIcon(
-                "res/power/CrossCableSelected.png")
+                "res/cable/CrossSelected.png")
         },
-        new Image().getBufferedImage("res/power/CrossCable.png"),
-        false
+        new Image().getBufferedImage("res/cable/Cross.png")
     ),
 
     VERTICAL_CABLE(
         new ImageIcon[]{
             new Image().getImageIcon(
-                "res/power/VerticalCable.png"),
+                "res/cable/Vertical.png"),
             new Image().getImageIcon(
-                "res/power/VerticalCableSelected.png")
+                "res/cable/VerticalSelected.png")
         },
-        new Image().getBufferedImage("res/power/VerticalCable.png"),
-        false
+        new Image().getBufferedImage("res/cable/Vertical.png")
     ),
 
     HORIZONTAL_CABLE(
         new ImageIcon[]{
             new Image().getImageIcon(
-                "res/power/HorizontalCable.png"),
+                "res/cable/Horizontal.png"),
             new Image().getImageIcon(
-                "res/power/HorizontalCableSelected.png")
+                "res/cable/HorizontalSelected.png")
         },
-        new Image().getBufferedImage("res/power/HorizontalCable.png"),
-        false
+        new Image().getBufferedImage("res/cable/Horizontal.png")
     );
 
     private final ImageIcon[] imageIcons;
     private final BufferedImage bufferedImage;
-    private boolean connected;
 
-    CellType(ImageIcon[] imageIcons, BufferedImage bufferedImage, boolean connected) {
+    CellType(ImageIcon[] imageIcons, BufferedImage bufferedImage) {
         this.imageIcons = imageIcons;
         this.bufferedImage = bufferedImage;
-        this.connected = connected;
     }
 
     public ImageIcon[] getImageIcons() {
@@ -167,11 +152,4 @@ public enum CellType {
         return this.bufferedImage;
     }
 
-    public boolean isConnected() {
-        return this.connected;
-    }
-
-    public void setConnected(boolean value) {
-        this.connected = value;
-    }
 }

@@ -32,25 +32,21 @@ public class Grid {
                 [this.panelHeight / this.cellSize]
                 [this.gamePanelWidth / this.cellSize];
         ArrayList<String[]> fileOverground = save.loadGame(
-            "saves/saveOverground.txt");
+            "save/saveOverground.txt");
         ArrayList<String[]> fileUnderground = save.loadGame(
-            "saves/saveUnderground.txt");
+            "save/saveUnderground.txt");
 
         this.setGrid();
         if (!fileOverground.isEmpty()) {
-            this.setLoadedGrid(fileOverground, this.overgroundGrid);
+            this.loadGrid(fileOverground, this.overgroundGrid);
         }
         if (!fileUnderground.isEmpty()) {
-            this.setLoadedGrid(fileUnderground, this.undergroundGrid);
+            this.loadGrid(fileUnderground, this.undergroundGrid);
         }
     }
 
     public void setOvergroundGridCell(int i, int j, CellType cellType) {
         this.overgroundGrid[i][j] = cellType;
-    }
-
-    public CellType getOvergroundGridCell(int i, int j) {
-        return this.overgroundGrid[i][j];
     }
 
     public CellType[][] getOvergroundGrid() {
@@ -59,10 +55,6 @@ public class Grid {
 
     public void setUndergroundGridCell(int i, int j, CellType cellType) {
         this.undergroundGrid[i][j] = cellType;
-    }
-
-    public CellType getUndergroundGridCell(int i, int j) {
-        return this.undergroundGrid[i][j];
     }
 
     public CellType[][] getUndergroundGrid() {
@@ -79,7 +71,7 @@ public class Grid {
         }
     }
 
-    private void setLoadedGrid(ArrayList<String[]> file, CellType[][] grid) {
+    private void loadGrid(ArrayList<String[]> file, CellType[][] grid) {
         for (int i = 0; i < this.panelHeight / this.cellSize; i++) {
             for (int j = 0; j < this.gamePanelWidth / this.cellSize; j++) {
                 for (String[] line : file) {

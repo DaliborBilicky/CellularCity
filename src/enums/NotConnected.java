@@ -2,35 +2,25 @@ package enums;
 
 import tools.Image;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public enum NotConnected {
     NO_ROAD(
-        new Image().getBufferedImage("res/roads/NoRoad.png"),
-        "NoRoad"),
+        new Image().getBufferedImage("res/notConnected/NoRoad.png")),
+    NO_WATER(
+        new Image().getBufferedImage("res/notConnected/NoWater")),
 
     NO_POWER(
-        new Image().getBufferedImage("res/resources/NoPower"),
-        "NoPower"),
-
-    NO_WATER(
-        new Image().getBufferedImage("res/resources/NoWater"),
-        "NoWater");
+        new Image().getBufferedImage("res/notConnected/NoPower"));
 
     private final BufferedImage bufferedImage;
-    private final String cellName;
 
-    NotConnected(BufferedImage bufferedImage, String cellName) {
+    NotConnected(BufferedImage bufferedImage) {
         this.bufferedImage = bufferedImage;
-        this.cellName = cellName;
     }
 
     public BufferedImage getBufferedImage() {
         return this.bufferedImage;
     }
 
-    public String getCellName() {
-        return this.cellName;
-    }
 }

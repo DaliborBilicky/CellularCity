@@ -4,16 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ControlButton extends JButton {
-    private static final int BUTTON_WIDTH = 200;
-    private static final int BUTTON_HEIGHT = 50;
     private static final String[] NAMES = new String[]{"SAVE", "QUIT"};
 
-    public ControlButton(int posX, int posY) {
+    public ControlButton(int posX, int posY, int width, int height) {
         this.setBounds(
-            posX - (BUTTON_WIDTH / 2),
-            posY - (BUTTON_HEIGHT / 2),
-            BUTTON_WIDTH,
-            BUTTON_HEIGHT);
+            posX - (width / 2),
+            posY,
+            width,
+            height);
         this.setFocusable(false);
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setBackground(Color.LIGHT_GRAY);

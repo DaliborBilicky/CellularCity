@@ -2,7 +2,7 @@ package tools;
 
 import enums.CellType;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Save {
-
-    public Save() {
-
-    }
 
     public void saveGame(String filePath, CellType[][] grid) {
         try {

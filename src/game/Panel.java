@@ -24,149 +24,124 @@ public class Panel extends JPanel implements ActionListener {
     private static final int SIDE_PANEL_WIDTH = (PANEL_WIDTH - PANEL_HEIGHT) / 2;
     private static final int GAME_PANEL_WIDTH = PANEL_WIDTH - SIDE_PANEL_WIDTH;
     private static final int CELL_SIZE = 35;
-    private final ControlButton[] controlButtons;
-    private final GameButton[] gameButtons;
-    private final CheckBox[] checkBoxes;
-    private final Satisfaction satisfaction;
     private final MouseInput mouseInput;
-    private final MoneyBar moneyBar;
     private final Canvas canvas;
-    private final Graph graph;
-    private final Grid grid;
     private final Save save;
+    private final Grid grid;
+    private final Account account;
+    private Thumb thumb;
+    private MoneyBar moneyBar;
+    private Graph graph;
+    private ControlButton[] controlButtons;
+    private GameButton[] gameButtons;
+    private CheckBox[] checkBoxes;
     private CheckBox bulldozerCheckBoxes;
     private CheckBox viewCheckBox;
 
     public Panel() {
-        this.mouseInput = new MouseInput(
-            CELL_SIZE, GAME_PANEL_WIDTH,
-            PANEL_HEIGHT);
-        this.canvas = new Canvas(CELL_SIZE);
         this.save = new Save();
-
-        this.checkBoxes = new CheckBox[CheckBoxType.values().length - 1];
-        this.gameButtons = new GameButton[CheckBoxType.values().length - 1];
-        this.controlButtons = new ControlButton[2];
-
-        this.satisfaction = new Satisfaction(
-            GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4,
-            830);
-        this.graph = new Graph(
-            GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * 3 / 4,
-            830);
-        this.moneyBar = new MoneyBar(
-            GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2,
-            955);
+        this.canvas = new Canvas(CELL_SIZE);
         this.grid = new Grid(
             PANEL_HEIGHT,
             GAME_PANEL_WIDTH,
             CELL_SIZE,
             this.save);
+        this.account = new Account(this.grid);
+        this.mouseInput = new MouseInput(
+            this.account,
+            CELL_SIZE,
+            GAME_PANEL_WIDTH,
+            PANEL_HEIGHT);
 
+        this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+        this.setFocusable(true);
+        this.setLayout(null);
+        this.setUICheckBoxes();
+        this.setUIButtons();
+        this.setGraph();
+        this.setUIThumb();
+        this.setUIMoneyBar();
         this.addMouseListener(this.mouseInput);
-        this.add(this.satisfaction);
-        this.add(this.moneyBar);
-        this.add(this.graph);
-
-        this.setCheckBoxes();
-        this.setButtons();
-        this.setPanel();
     }
 
-    /**
-     * Metoda na vykreslovanie tvarou a obrazkov pomocou Graphics.
-     * !!! Nazov metody a riadok pod tym mam naucene z internetu. !!!
-     */
-    public void paintComponent(Graphics graphics) {
-        super.paintComponent(graphics);
-        this.canvas.setGraphics(graphics);
-        this.canvas.drawGrid(GAME_PANEL_WIDTH, PANEL_HEIGHT);
-        this.canvas.drawGridWithInfra(this.grid.getOvergroundGrid());
-        this.canvas.drawEnergyBuildings(
-            new Image().getBufferedImage("res/power/Power.png"),
-            new Image().getBufferedImage("res/water/Water.png"));
-        if (GridState.UNDERGROUND.isActive()) {
-            this.canvas.drawGridWithInfra(this.grid.getUndergroundGrid());
-        }
+    public Account getAccount() {
+        return this.account;
     }
 
     public Grid getGrid() {
         return this.grid;
     }
 
-    public MoneyBar getMoneyBar() {
-        return this.moneyBar;
-    }
-
-    public Graph getGraph() {
-        return this.graph;
-    }
-
-    /**
-     * Metoda na nastavenie hodnot panelu.
-     * Oddelene od konstruktora pre citatelnost.
-     */
-    private void setPanel() {
-        this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        this.setFocusable(true);
-        this.setLayout(null);
-    }
-
-    /**
-     * Metoda zoberie array check boxov a interaciu ich prida na panel.
-     */
-    private void setCheckBoxes() {
+    private void setUICheckBoxes() {
+        this.checkBoxes = new CheckBox[CheckBoxType.values().length - 1];
         for (int i = 0; i < this.checkBoxes.length; i++) {
             this.checkBoxes[i] = new CheckBox(
                 GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4,
-                225 + (150 * i));
+                PANEL_HEIGHT * (i + 1) / 8,
+                PANEL_HEIGHT / 9);
             this.add(this.checkBoxes[i]);
         }
         this.bulldozerCheckBoxes = new CheckBox(
             GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4,
-            75);
+            0,
+            PANEL_HEIGHT / 9);
         this.add(this.bulldozerCheckBoxes);
         this.viewCheckBox = new CheckBox(
             GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * 3 / 4,
-            75);
+            0,
+            PANEL_HEIGHT / 9);
         this.add(this.viewCheckBox);
     }
 
-    public void setCheckBoxesLook(int checkBoxIndex, int index) {
-        this.checkBoxes[checkBoxIndex].setLook(
-            CheckBoxType.values()[checkBoxIndex]
-                .getCellTypes()[index].getImageIcons()[0],
-            CheckBoxType.values()[checkBoxIndex]
-                .getCellTypes()[index].getImageIcons()[1]
-        );
-        this.bulldozerCheckBoxes.setLook(
-            CheckBoxType.EMPTY_CELL.getCellTypes()[0].getImageIcons()[0],
-            CheckBoxType.EMPTY_CELL.getCellTypes()[0].getImageIcons()[1]
-        );
-        this.viewCheckBox.setLook(
-            GridState.OVERGROUND.getImageIcon(),
-            GridState.UNDERGROUND.getImageIcon());
-    }
-
-    private void setButtons() {
+    private void setUIButtons() {
+        this.gameButtons = new GameButton[CheckBoxType.values().length - 1];
         for (int i = 0; i < this.gameButtons.length; i++) {
             this.gameButtons[i] = new GameButton(
                 GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * 3 / 4,
-                225 + (150 * i));
+                PANEL_HEIGHT * (i + 1) / 8,
+                PANEL_HEIGHT / 9);
             this.gameButtons[i].setCounterLimit(
                 CheckBoxType.values()[i].getCellTypes().length);
             this.gameButtons[i].addActionListener(this);
             this.add(this.gameButtons[i]);
         }
+        this.controlButtons = new ControlButton[2];
         for (int i = 0; i < this.controlButtons.length; i++) {
             this.controlButtons[i] = new ControlButton(
                 GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * (1 + 2 * i) / 4,
-                1030
-            );
+                PANEL_HEIGHT * 7 / 8,
+                SIDE_PANEL_WIDTH / 2,
+                PANEL_HEIGHT / 14);
             this.controlButtons[i].setName(i);
             this.controlButtons[i].addActionListener(this);
             this.add(this.controlButtons[i]);
         }
+    }
+
+    private void setUIThumb() {
+        this.thumb = new Thumb(
+            GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4,
+            PANEL_HEIGHT * 5 / 8,
+            PANEL_HEIGHT / 9);
+        this.add(this.thumb);
+    }
+
+    private void setGraph() {
+        this.graph = new Graph(
+            GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * 3 / 4,
+            PANEL_HEIGHT * 5 / 8,
+            PANEL_HEIGHT / 9);
+        this.add(this.graph);
+    }
+
+    private void setUIMoneyBar() {
+        this.moneyBar = new MoneyBar(
+            GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2,
+            PANEL_HEIGHT * 6 / 8,
+            SIDE_PANEL_WIDTH,
+            PANEL_HEIGHT / 12);
+        this.moneyBar.setMinMax(this.account.getMinimum(), this.account.getGoal());
+        this.add(this.moneyBar);
     }
 
     @Override
@@ -178,9 +153,9 @@ public class Panel extends JPanel implements ActionListener {
         }
         if (e.getSource() == this.controlButtons[0]) {
             this.save.saveGame(
-                "saves/saveOverground.txt", this.grid.getOvergroundGrid());
+                "save/saveOverground.txt", this.grid.getOvergroundGrid());
             this.save.saveGame(
-                "saves/saveUnderground.txt", this.grid.getUndergroundGrid());
+                "save/saveUnderground.txt", this.grid.getUndergroundGrid());
         }
         if (e.getSource() == this.controlButtons[1]) {
             System.exit(0);
@@ -192,19 +167,12 @@ public class Panel extends JPanel implements ActionListener {
      * cyklu. To pozostava z nastavenia bunky a typu bunky do 2D array. Na konci
      * uz len premeni check box iconu na selected
      */
-    public void checkBoxesFunction() {
+    public void checkBoxesAction() {
         for (int i = 0; i < this.checkBoxes.length; i++) {
             if (this.checkBoxes[i].isSelected()
-                && this.mouseInput.isClicked()
-//                && this.moneyBar.getAccount() > -1000
-            ) {
-                if (i > 1 && GridState.UNDERGROUND.isActive()) {
-                    this.mouseInput.drag(
-                        this.grid,
-                        CheckBoxType.values()[i],
-                        this.gameButtons[i].getCounter());
-                    this.mouseInput.resetPos();
-                } else if (i < 2 && GridState.OVERGROUND.isActive()) {
+                && this.mouseInput.isClicked()) {
+                if (i > 1 && GridState.UNDERGROUND.isActive()
+                    || i < 2 && GridState.OVERGROUND.isActive()) {
                     this.mouseInput.drag(
                         this.grid,
                         CheckBoxType.values()[i],
@@ -236,7 +204,41 @@ public class Panel extends JPanel implements ActionListener {
                 GridState.UNDERGROUND.setActive(false);
                 this.setBackground(new Color(80, 200, 120));
             }
-            this.setCheckBoxesLook(i, this.gameButtons[i].getCounter());
         }
+    }
+
+    public void setCheckBoxesLook() {
+        for (int i = 0; i < this.checkBoxes.length; i++) {
+            this.checkBoxes[i].setLook(
+                CheckBoxType.values()[i].getCellTypes()
+                    [this.gameButtons[i].getCounter()]);
+        }
+        this.bulldozerCheckBoxes.setLook(
+            CheckBoxType.EMPTY_CELL.getCellTypes()[0]);
+        this.viewCheckBox.setLook(
+            GridState.OVERGROUND.getImageIcon(),
+            GridState.UNDERGROUND.getImageIcon());
+    }
+
+    /**
+     * Metoda na vykreslovanie tvarou a obrazkov pomocou Graphics.
+     * !!! Nazov metody a riadok pod tym mam naucene z internetu. !!!
+     */
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        this.canvas.setGraphics(graphics);
+        this.canvas.drawGrid(GAME_PANEL_WIDTH, PANEL_HEIGHT);
+        this.canvas.drawGridWithInfra(this.grid.getOvergroundGrid());
+        this.canvas.drawEnergyBuildings(
+            new Image().getBufferedImage("res/tools/Power.png"),
+            new Image().getBufferedImage("res/tools/Water.png"));
+        if (GridState.UNDERGROUND.isActive()) {
+            this.canvas.drawGridWithInfra(this.grid.getUndergroundGrid());
+        }
+
+        this.setCheckBoxesLook();
+        this.moneyBar.updateBar(this.account.getAccount());
+        this.graph.setRightGraph(this.grid.getOvergroundGrid());
+        this.thumb.setRightThump(40);
     }
 }

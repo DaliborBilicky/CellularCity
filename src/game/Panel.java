@@ -48,6 +48,7 @@ public class Panel extends JPanel implements ActionListener {
             this.save);
         this.account = new Account(this.grid);
         this.mouseInput = new MouseInput(
+            this.grid,
             this.account,
             CELL_SIZE,
             GAME_PANEL_WIDTH,
@@ -173,9 +174,7 @@ public class Panel extends JPanel implements ActionListener {
                 && this.mouseInput.isClicked()) {
                 if (i > 1 && GridState.UNDERGROUND.isActive()
                     || i < 2 && GridState.OVERGROUND.isActive()) {
-                    this.mouseInput.drag(
-                        this.grid,
-                        CheckBoxType.values()[i],
+                    this.mouseInput.drag(CheckBoxType.values()[i],
                         this.gameButtons[i].getCounter());
                     this.mouseInput.resetPos();
                 }
@@ -183,8 +182,7 @@ public class Panel extends JPanel implements ActionListener {
 
             if (this.bulldozerCheckBoxes.isSelected()
                 && this.mouseInput.isClicked()) {
-                this.mouseInput.drag(
-                    this.grid, CheckBoxType.EMPTY_CELL, 0);
+                this.mouseInput.drag(CheckBoxType.EMPTY_CELL, 0);
             }
 
             if (!this.bulldozerCheckBoxes.isSelected()

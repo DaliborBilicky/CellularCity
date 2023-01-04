@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CellularCity:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CellularCity_jar</output-path>
+    <root id="archive" name="CellularCity.jar">
+      <element id="module-output" name="CellularCity" />
+    </root>
+  </artifact>
+</component>

@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
  * !!! Napad na vznik triedy je z internetu. Link v dokumentacii !!!
  */
 public class MouseInput implements MouseListener {
+    private final Grid grid;
     private final Account account;
     private final int cellSize;
     private final int gamePanelWidth;
@@ -24,7 +25,9 @@ public class MouseInput implements MouseListener {
     private boolean isClicked;
 
     public MouseInput(
-        Account account, int cellSize, int gamePanelWidth, int gamePanelHeight) {
+        Grid grid, Account account, int cellSize,
+        int gamePanelWidth, int gamePanelHeight) {
+        this.grid = grid;
         this.account = account;
         this.cellSize = cellSize;
         this.gamePanelWidth = gamePanelWidth;
@@ -35,33 +38,33 @@ public class MouseInput implements MouseListener {
         return this.isClicked;
     }
 
-    public void drag(Grid grid, CheckBoxType checkBoxType, int index) {
+    public void drag(CheckBoxType checkBoxType, int index) {
         if (this.posX > -1 && this.posY > -1) {
             if (this.posY >= this.posYReleased || this.posX >= this.posXReleased) {
                 for (int i = this.posY; i >= this.posYReleased; i--) {
                     for (int j = this.posX; j >= this.posXReleased; j--) {
-                        this.setCell(grid, i, j, checkBoxType, index);
+                        this.setCell(i, j, checkBoxType, index);
                     }
                 }
             }
             if (this.posY <= this.posYReleased || this.posX <= this.posXReleased) {
                 for (int i = this.posY; i <= this.posYReleased; i++) {
                     for (int j = this.posX; j <= this.posXReleased; j++) {
-                        this.setCell(grid, i, j, checkBoxType, index);
+                        this.setCell(i, j, checkBoxType, index);
                     }
                 }
             }
             if (this.posY <= this.posYReleased || this.posX >= this.posXReleased) {
                 for (int i = this.posY; i <= this.posYReleased; i++) {
                     for (int j = this.posX; j >= this.posXReleased; j--) {
-                        this.setCell(grid, i, j, checkBoxType, index);
+                        this.setCell(i, j, checkBoxType, index);
                     }
                 }
             }
             if (this.posY >= this.posYReleased || this.posX <= this.posXReleased) {
                 for (int i = this.posY; i >= this.posYReleased; i--) {
                     for (int j = this.posX; j <= this.posXReleased; j++) {
-                        this.setCell(grid, i, j, checkBoxType, index);
+                        this.setCell(i, j, checkBoxType, index);
                     }
                 }
             }
@@ -109,18 +112,17 @@ public class MouseInput implements MouseListener {
 
     }
 
-    private void setCell(
-        Grid grid, int i, int j, CheckBoxType checkBoxType, int index) {
+    private void setCell(int i, int j, CheckBoxType checkBoxType, int index) {
         this.account.countCells();
         this.account.calculateFees();
         if (checkBoxType.getCellTypes()[index].name()
             .equals(CellType.EMPTY_CELL.name())
             || this.account.getAccount() > this.account.getMinimum()) {
             if (GridState.UNDERGROUND.isActive()) {
-                grid.setUndergroundGridCell(
+                this.grid.setUndergroundGridCell(
                     i, j, checkBoxType.getCellTypes()[index]);
             } else {
-                grid.setOvergroundGridCell(
+                this.grid.setOvergroundGridCell(
                     i, j, checkBoxType.getCellTypes()[index]);
             }
         }

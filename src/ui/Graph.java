@@ -65,9 +65,9 @@ public class Graph extends JLabel {
         }
     }
 
-    private void setGraphIcon(int num) {
+    private void setGraphIcon(int graphNum) {
         this.setIcon(new Image().getImageIcon(
-            String.format("res/graph/%d.png", num),
+            String.format("res/graph/%d.png", graphNum),
             this.size));
     }
 }

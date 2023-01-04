@@ -2,7 +2,7 @@ package ui;
 
 import tools.Image;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 public class Thumb extends JLabel {
     private final int size;

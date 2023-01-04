@@ -11,6 +11,13 @@ import java.util.Scanner;
 
 public class Save {
 
+    /**
+     * Metoda zapisuje typ bunky, i-ty riadok a j-ty stlpec z 2d array.
+     * Ignoruje ale prazdne bunky.
+     *
+     * @param filePath cesta k suboru
+     * @param grid     hodnoty ktore metoda zapisuje
+     */
     public void saveGame(String filePath, CellType[][] grid) {
         try {
             PrintWriter writer = new PrintWriter(filePath);
@@ -23,12 +30,22 @@ public class Save {
             }
             writer.close();
         } catch (FileNotFoundException exception) {
+            /*
+            Riadok kodu je totozny s riadkom v triede Image.
+             */
             JOptionPane.showMessageDialog(
                 null,
                 "File " + filePath + " not found.");
         }
     }
 
+    /**
+     * Metoda cita zo suboru a rozdeluje riadok podla znaku ";" a zapisuje
+     * tieto hodnoty do ArrayListu.
+     *
+     * @param filePath cesta k suboru z ktoreho cita
+     * @return ArrayList
+     */
     public ArrayList<String[]> loadGame(String filePath) {
         ArrayList<String[]> file = new ArrayList<>();
         try {

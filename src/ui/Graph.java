@@ -6,11 +6,19 @@ import tools.Image;
 import javax.swing.JLabel;
 
 /**
- * Trieda pridava na platno stlpcovy graf dopytu po zonach.
+ * Trieda pridava na platno stlpcovy graf dopytu po zonach. Taktiez dedi a
+ * upravuje zakladnu triedu JLabel na specifickejsie poziadavky.
  */
 public class Graph extends JLabel {
     private final int size;
 
+    /**
+     * Konstruktor nastavuje JLabel podla poziadaviek.
+     *
+     * @param posX int
+     * @param posY int
+     * @param size rozmer grafu
+     */
     public Graph(int posX, int posY, int size) {
         this.size = size;
         this.setBounds(
@@ -23,7 +31,7 @@ public class Graph extends JLabel {
     }
 
     /**
-     * Metoda cita 2D array a nascitava jedotlive typy buniek a podla tho
+     * Metoda cita 2D array a nascitava jedotlive typy buniek a podla toho
      * nastavi graf.
      */
     public void setRightGraph(CellType[][] grid) {
@@ -65,6 +73,11 @@ public class Graph extends JLabel {
         }
     }
 
+    /**
+     * Oddelena metoda pre lepsiu citatelnost a udrzanie principu DRY
+     *
+     * @param graphNum cislo grafu
+     */
     private void setGraphIcon(int graphNum) {
         this.setIcon(new Image().getImageIcon(
             String.format("res/graph/%d.png", graphNum),

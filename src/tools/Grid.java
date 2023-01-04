@@ -18,8 +18,13 @@ public class Grid {
     /**
      * Konstruktor inicializuje 2D array a potom pomocou for cyklu nastavi na
      * vsetky pozicie prazdnu bunku.
+     *
+     * @param gamePanelWidth sirka hracieho platna
+     * @param panelHeight    vyska platna
+     * @param cellSize       velkost bunky
+     * @param save           trieda sava
      */
-    public Grid(int panelHeight, int gamePanelWidth, int cellSize, Save save) {
+    public Grid(int gamePanelWidth, int panelHeight, int cellSize, Save save) {
         this.panelHeight = panelHeight;
         this.gamePanelWidth = gamePanelWidth;
         this.cellSize = cellSize;
@@ -37,6 +42,11 @@ public class Grid {
             "save/saveUnderground.txt");
 
         this.setGrid();
+
+        /*
+        Podmienka zarucuje, ze sa hra nacita z ulozenych hodnot iba ak nie su
+        subory prazdne.
+         */
         if (!fileOverground.isEmpty()) {
             this.loadGrid(fileOverground, this.overgroundGrid);
         }
@@ -61,7 +71,6 @@ public class Grid {
         return this.undergroundGrid;
     }
 
-
     private void setGrid() {
         for (int i = 0; i < this.panelHeight / this.cellSize; i++) {
             for (int j = 0; j < this.gamePanelWidth / this.cellSize; j++) {
@@ -71,6 +80,12 @@ public class Grid {
         }
     }
 
+    /**
+     * Metoda cita subor a prideluje zapisane hodnoty do mriezky.
+     *
+     * @param file cesta k suboru
+     * @param grid 2D array
+     */
     private void loadGrid(ArrayList<String[]> file, CellType[][] grid) {
         for (int i = 0; i < this.panelHeight / this.cellSize; i++) {
             for (int j = 0; j < this.gamePanelWidth / this.cellSize; j++) {

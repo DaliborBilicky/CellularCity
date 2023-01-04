@@ -1,7 +1,8 @@
 package tools;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +28,11 @@ public class Image {
     /**
      * Metoda zoberie cestu k ikone a vrati ikonu.
      * !!! Aby sa rescalela ikona som nasiel na internete. !!!
+     * https://stackoverflow.com/questions/6714045/how-to-resize-jlabel-imageicon
+     *
+     * @param imagePath cesta k obrazku
+     * @param scale     hodnota na ktoru sa nastavi velkost icony
+     * @return icona nastavena na spravnu velkost.
      */
     public ImageIcon getImageIcon(String imagePath, int scale) {
         ImageIcon imageIcon = new ImageIcon(imagePath);
@@ -37,6 +43,12 @@ public class Image {
         return imageIcon;
     }
 
+    /**
+     * Overloadovanie pretoze nie vzdy je potrebne nastavit velkost ikony.
+     *
+     * @param imagePath cesta k obrazku
+     * @return ikona s pozadovanou velkostou
+     */
     public ImageIcon getImageIcon(String imagePath) {
         return this.getImageIcon(imagePath, 100);
     }

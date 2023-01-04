@@ -1,5 +1,9 @@
 package enums;
 
+
+/**
+ * Enum rozdeluje bunky do podkategorii aby sa lepsie pracovalo s check boxmi.
+ */
 public enum CheckBoxType {
     ZONE(
         new CellType[]{

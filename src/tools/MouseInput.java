@@ -10,7 +10,8 @@ import java.awt.event.MouseListener;
 
 /**
  * Trieda implementuje Listenerer a obashuje metody na overrideovanie.
- * !!! Napad na vznik triedy je z internetu. Link v dokumentacii !!!
+ * !!! Napad na vznik triedy je z internetu. !!!
+ * https://www.youtube.com/watch?v=6Tj6XYGWfko
  */
 public class MouseInput implements MouseListener {
     private final Grid grid;
@@ -24,6 +25,13 @@ public class MouseInput implements MouseListener {
     private int posYReleased;
     private boolean isClicked;
 
+    /**
+     * @param grid            trieda
+     * @param account         trieda
+     * @param cellSize        velkost bunky
+     * @param gamePanelWidth  sirka hracieho platna
+     * @param gamePanelHeight vyska hracieho platna
+     */
     public MouseInput(
         Grid grid, Account account, int cellSize,
         int gamePanelWidth, int gamePanelHeight) {
@@ -34,12 +42,26 @@ public class MouseInput implements MouseListener {
         this.gamePanelHeight = gamePanelHeight;
     }
 
+    /**
+     * @return hodnuta ci sa kliklo s misou
+     */
     public boolean isClicked() {
         return this.isClicked;
     }
 
+    /**
+     * Metoda podla podmienok vyplni oznacenu cast hracieho pola vybranou
+     * bunkou.
+     *
+     * @param checkBoxType enum
+     * @param index        hodnota na ktorom check boxe sa nachadzame
+     */
     public void drag(CheckBoxType checkBoxType, int index) {
         if (this.posX > -1 && this.posY > -1) {
+
+            /*
+            Podmienka vyplna smerom na severozapad
+             */
             if (this.posY >= this.posYReleased || this.posX >= this.posXReleased) {
                 for (int i = this.posY; i >= this.posYReleased; i--) {
                     for (int j = this.posX; j >= this.posXReleased; j--) {
@@ -47,6 +69,10 @@ public class MouseInput implements MouseListener {
                     }
                 }
             }
+
+            /*
+            Podmienka vyplna smerom na juhovychod
+             */
             if (this.posY <= this.posYReleased || this.posX <= this.posXReleased) {
                 for (int i = this.posY; i <= this.posYReleased; i++) {
                     for (int j = this.posX; j <= this.posXReleased; j++) {
@@ -54,6 +80,10 @@ public class MouseInput implements MouseListener {
                     }
                 }
             }
+
+            /*
+            Podmienka vyplna smerom na juhozapad
+             */
             if (this.posY <= this.posYReleased || this.posX >= this.posXReleased) {
                 for (int i = this.posY; i <= this.posYReleased; i++) {
                     for (int j = this.posX; j >= this.posXReleased; j--) {
@@ -61,6 +91,10 @@ public class MouseInput implements MouseListener {
                     }
                 }
             }
+
+            /*
+            Podmienka vyplna smerom na severovychod
+             */
             if (this.posY >= this.posYReleased || this.posX <= this.posXReleased) {
                 for (int i = this.posY; i >= this.posYReleased; i--) {
                     for (int j = this.posX; j <= this.posXReleased; j++) {
@@ -71,6 +105,9 @@ public class MouseInput implements MouseListener {
         }
     }
 
+    /**
+     * Vynulovanie pozicii.
+     */
     public void resetPos() {
         this.posX = -1;
         this.posY = -1;
@@ -82,6 +119,11 @@ public class MouseInput implements MouseListener {
     public void mouseClicked(MouseEvent e) {
     }
 
+    /**
+     * Metoda nastavje prve pozicie na tie kde bola mys stlacena.
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getX() < this.gamePanelWidth && e.getY() < this.gamePanelHeight) {
@@ -91,6 +133,11 @@ public class MouseInput implements MouseListener {
         this.isClicked = false;
     }
 
+    /**
+     * Metoda nastavuje druhe pozicie na tie kde bola mys pustena.
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         if (e.getX() < this.gamePanelWidth && e.getY() < this.gamePanelHeight) {
@@ -112,9 +159,24 @@ public class MouseInput implements MouseListener {
 
     }
 
+    /**
+     * Oddelena metoda pre lepsiu citatelnost.
+     * Prideluje na vybrane pozicie typ bunky. Taktiez sa ale kontroluje ci
+     * sme nepresiahly rozpocet.
+     *
+     * @param i            i-ty riadok
+     * @param j            j-ty stlpec
+     * @param checkBoxType typ check boxu
+     * @param index        pozicia na ktorej je pozadovany typ bunky
+     */
     private void setCell(int i, int j, CheckBoxType checkBoxType, int index) {
         this.account.countCells();
         this.account.calculateFees();
+
+        /*
+        Podmienka ignoruje ak sa uzivatel snazi pridat do hracieho pola
+        prazdnu bunku.
+         */
         if (checkBoxType.getCellTypes()[index].name()
             .equals(CellType.EMPTY_CELL.name())
             || this.account.getAccount() > this.account.getMinimum()) {

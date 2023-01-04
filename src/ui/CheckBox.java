@@ -2,16 +2,24 @@ package ui;
 
 import enums.CellType;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
 import java.awt.Color;
 
 /**
- * Trieda nastavuje hodnoty pre check box ake potrebujem do programu.
- * !!! To, ze trieda dedi od JCheckBox mam naucene z internetu. !!!
+ * Trieda dedi a upravuje zakladnu triedu JCheckBox na specifickejsie
+ * poziadavky.
+ * !!! Dedenie mam naucene z internetu!!!
  */
 public class CheckBox extends JCheckBox {
+
     /**
-     * V kostruktore okrem inicializacie sa nastavuju hodnoty pre check box.
+     * Konstruktor nastavuje JCheckBox podla poziadaviek.
+     *
+     * @param posX int
+     * @param posY int
+     * @param size rozmer check boxu
      */
     public CheckBox(int posX, int posY, int size) {
         this.setBounds(
@@ -25,20 +33,32 @@ public class CheckBox extends JCheckBox {
         this.setBorderPainted(true);
     }
 
-    public void setLook(CellType cellType) {
-        this.setIcon(cellType.getImageIcons()[0]);
+
+    /**
+     * Metoda priradi ikony do sprav.
+     *
+     * @param icon         obycaja ikona
+     * @param selectedIcon ikona ked je check box oznaceny
+     */
+    public void setLook(ImageIcon icon, ImageIcon selectedIcon) {
+        this.setIcon(icon);
         if (this.isSelected()) {
-            this.setSelectedIcon(cellType.getImageIcons()[1]);
+            this.setSelectedIcon(selectedIcon);
         } else {
             // resetovat ikonu lebo si program pamatal predchadzajucu ikonu
             this.setSelectedIcon(null);
         }
     }
 
-    public void setLook(ImageIcon icon, ImageIcon selectedIcon) {
-        this.setIcon(icon);
+    /**
+     * Overloadovanie pre lepsiu citatelnost pri pouzivani metody.
+     *
+     * @param cellType typ bunky podla ktoreho ma vyzerat check box
+     */
+    public void setLook(CellType cellType) {
+        this.setIcon(cellType.getImageIcons()[0]);
         if (this.isSelected()) {
-            this.setSelectedIcon(selectedIcon);
+            this.setSelectedIcon(cellType.getImageIcons()[1]);
         } else {
             // resetovat ikonu lebo si program pamatal predchadzajucu ikonu
             this.setSelectedIcon(null);

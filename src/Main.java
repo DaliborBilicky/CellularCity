@@ -2,7 +2,6 @@ import game.Game;
 
 /**
  * @author Dalibor Bilicky
- * Projekt programovany v IntelliJ IDEA
  */
 public class Main {
 

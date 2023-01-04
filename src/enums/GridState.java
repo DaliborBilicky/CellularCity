@@ -4,6 +4,10 @@ import tools.Image;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Enum uchovava stavy hri. Kazdy stav obsahuje ikonu pre check box a boolean
+ * ci je stav aktivny alebo nie.
+ */
 public enum GridState {
     OVERGROUND(
         new Image().getImageIcon("res/tools/Overground.png"),

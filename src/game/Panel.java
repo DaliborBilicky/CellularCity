@@ -2,27 +2,51 @@ package game;
 
 import enums.CheckBoxType;
 import enums.GridState;
-import tools.*;
 import tools.Canvas;
+import tools.Grid;
 import tools.Image;
-import ui.*;
+import tools.MouseInput;
+import tools.Save;
+import ui.CheckBox;
+import ui.ControlButton;
+import ui.GameButton;
+import ui.Graph;
+import ui.MoneyBar;
+import ui.Thumb;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 /**
- * Trieda na vykreslovanie komponentov do GameFramu.
- * !!! To, ze trieda dedi od JPanel mam naucene z internetu. !!!
+ * Trieda sluzi na vykreslovanie grafiky
+ * !!! Dedenie mam naucene z internetu!!!
  */
 public class Panel extends JPanel implements ActionListener {
+    /**
+     * Konstanty pre uchovanie rozmeru platna.
+     * !!! Pouzitie Toolkit triedy mam z internetu. !!!
+     * https://alvinalexander.com/blog/post/jfc-swing/how-determine-get-screen-size-java-swing-app/
+     */
     private static final int PANEL_WIDTH =
         (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     private static final int PANEL_HEIGHT =
         (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-    private static final int SIDE_PANEL_WIDTH = (PANEL_WIDTH - PANEL_HEIGHT) / 2;
+    /**
+     * Konstany pre uchovanie rozmeru hracieho pola a bocneho panelu. Su
+     * vypocitane podla rozmeru platna.
+     */
+    private static final int SIDE_PANEL_WIDTH =
+        (PANEL_WIDTH - PANEL_HEIGHT) / 2;
     private static final int GAME_PANEL_WIDTH = PANEL_WIDTH - SIDE_PANEL_WIDTH;
+    /**
+     * Konstanta ktora uchovava velkost stvorca v mriezke.
+     */
     private static final int CELL_SIZE = 35;
     private final MouseInput mouseInput;
     private final Canvas canvas;
@@ -38,12 +62,17 @@ public class Panel extends JPanel implements ActionListener {
     private CheckBox bulldozerCheckBoxes;
     private CheckBox viewCheckBox;
 
+
+    /**
+     * V konstruktore okrem incializacie komponentov sa nastavuje aj panel
+     * podla poziadaviek.
+     */
     public Panel() {
         this.save = new Save();
         this.canvas = new Canvas(CELL_SIZE);
         this.grid = new Grid(
-            PANEL_HEIGHT,
             GAME_PANEL_WIDTH,
+            PANEL_HEIGHT,
             CELL_SIZE,
             this.save);
         this.account = new Account(this.grid);
@@ -65,6 +94,11 @@ public class Panel extends JPanel implements ActionListener {
         this.addMouseListener(this.mouseInput);
     }
 
+    /**
+     * Geter pre instanciu triedy Account.
+     *
+     * @return Account
+     */
     public Account getAccount() {
         return this.account;
     }
@@ -73,6 +107,9 @@ public class Panel extends JPanel implements ActionListener {
         return this.grid;
     }
 
+    /**
+     * Metoda nastvuje CheckBoxy a pridava ich na Platno.
+     */
     private void setUICheckBoxes() {
         this.checkBoxes = new CheckBox[CheckBoxType.values().length - 1];
         for (int i = 0; i < this.checkBoxes.length; i++) {
@@ -94,6 +131,9 @@ public class Panel extends JPanel implements ActionListener {
         this.add(this.viewCheckBox);
     }
 
+    /**
+     * Metoda nastavuje tlacidla a pridava ich na Platno.
+     */
     private void setUIButtons() {
         this.gameButtons = new GameButton[CheckBoxType.values().length - 1];
         for (int i = 0; i < this.gameButtons.length; i++) {
@@ -119,6 +159,9 @@ public class Panel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Metoda nastavuje a pridava na Platno ukazatel spokojnosti (Thumb).
+     */
     private void setUIThumb() {
         this.thumb = new Thumb(
             GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4,
@@ -127,6 +170,9 @@ public class Panel extends JPanel implements ActionListener {
         this.add(this.thumb);
     }
 
+    /**
+     * Metoda nastavuje a pridava na Platno graf dopytu po zonach.
+     */
     private void setGraph() {
         this.graph = new Graph(
             GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * 3 / 4,
@@ -135,6 +181,9 @@ public class Panel extends JPanel implements ActionListener {
         this.add(this.graph);
     }
 
+    /**
+     * Metoda nastavuje a pridava na Platno ukazatel zostatku penazi.
+     */
     private void setUIMoneyBar() {
         this.moneyBar = new MoneyBar(
             GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2,
@@ -145,6 +194,12 @@ public class Panel extends JPanel implements ActionListener {
         this.add(this.moneyBar);
     }
 
+    /**
+     * Metoda ktora po obdrazni eventu a porovnani ci event pochadza od
+     * spravneho tlacidla vykona telo podmienky.
+     *
+     * @param e event, ktorá sa má spracovať
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         for (GameButton button : this.gameButtons) {
@@ -164,11 +219,15 @@ public class Panel extends JPanel implements ActionListener {
     }
 
     /**
-     * Metoda interuje cez check boxy a ked je daky z nich oznaceny vykona telo
-     * cyklu. To pozostava z nastavenia bunky a typu bunky do 2D array. Na konci
-     * uz len premeni check box iconu na selected
+     * Metoda kontroluje aky check box bol oznaceny a podla toho vykona telo
+     * podmienky.
      */
     public void checkBoxesAction() {
+        /*
+          Cyklus iteruje cez list check boxov a po spleni podmienky priradi
+          bunku do platna. Podmienka pozostava z kotroly ci hra je pod/nad
+          zemou a povoluje priradovat bunky iba do tej mriezky do ktorej patria.
+         */
         for (int i = 0; i < this.checkBoxes.length; i++) {
             if (this.checkBoxes[i].isSelected()
                 && this.mouseInput.isClicked()) {
@@ -179,32 +238,43 @@ public class Panel extends JPanel implements ActionListener {
                     this.mouseInput.resetPos();
                 }
             }
+        }
 
-            if (this.bulldozerCheckBoxes.isSelected()
-                && this.mouseInput.isClicked()) {
-                this.mouseInput.drag(CheckBoxType.EMPTY_CELL, 0);
-            }
+        if (this.bulldozerCheckBoxes.isSelected()
+            && this.mouseInput.isClicked()) {
+            this.mouseInput.drag(CheckBoxType.EMPTY_CELL, 0);
+        }
+        /*
+        Podmienka resetuje pozicie ak nie je ziadny check box oznaceny. Bez
+        tejto podmienky sa da kliknut na platno a po oznaceny check boxu sa
+        pridala prislusna bunka.
+         */
+        if (!this.bulldozerCheckBoxes.isSelected()
+            && !this.checkBoxes[0].isSelected()
+            && !this.checkBoxes[1].isSelected()
+            && !this.checkBoxes[2].isSelected()
+            && !this.checkBoxes[3].isSelected()) {
+            this.mouseInput.resetPos();
+        }
 
-            if (!this.bulldozerCheckBoxes.isSelected()
-                && !this.checkBoxes[0].isSelected()
-                && !this.checkBoxes[1].isSelected()
-                && !this.checkBoxes[2].isSelected()
-                && !this.checkBoxes[3].isSelected()) {
-                this.mouseInput.resetPos();
-            }
-
-            if (this.viewCheckBox.isSelected()) {
-                GridState.OVERGROUND.setActive(false);
-                GridState.UNDERGROUND.setActive(true);
-                this.setBackground(new Color(131, 101, 57));
-            } else {
-                GridState.OVERGROUND.setActive(true);
-                GridState.UNDERGROUND.setActive(false);
-                this.setBackground(new Color(80, 200, 120));
-            }
+        /*
+        Nastavuje pozadie Platna podla stavu hry a tiez nastavuje ktory stav
+        je prave aktivny.
+         */
+        if (this.viewCheckBox.isSelected()) {
+            GridState.OVERGROUND.setActive(false);
+            GridState.UNDERGROUND.setActive(true);
+            this.setBackground(new Color(131, 101, 57));
+        } else {
+            GridState.OVERGROUND.setActive(true);
+            GridState.UNDERGROUND.setActive(false);
+            this.setBackground(new Color(80, 200, 120));
         }
     }
 
+    /**
+     * Metoda nastavuje vzhlad check boxov.
+     */
     public void setCheckBoxesLook() {
         for (int i = 0; i < this.checkBoxes.length; i++) {
             this.checkBoxes[i].setLook(
@@ -220,7 +290,10 @@ public class Panel extends JPanel implements ActionListener {
 
     /**
      * Metoda na vykreslovanie tvarou a obrazkov pomocou Graphics.
-     * !!! Nazov metody a riadok pod tym mam naucene z internetu. !!!
+     * !!! To ze metodu ma nazov "paintComponent", pozaduje parameter
+     * Graphics a obsahuje riadok "super.paintComponent(graphics);" mam z
+     * internetu. !!!
+     * https://www.javatpoint.com/Graphics-in-swing
      */
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);

@@ -10,6 +10,7 @@
       <list>
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
+        <ConfigurationLocation id="1c4f8a9f-56bb-4caa-9aae-cb0919707826" type="LOCAL_FILE" scope="All" description="FRI">$USER_HOME$/AppData/Local/JetBrains/IdeaIC2022.3/plugins/default_checks.xml</ConfigurationLocation>
       </list>
     </option>
   </component>

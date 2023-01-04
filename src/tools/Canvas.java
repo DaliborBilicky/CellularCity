@@ -6,22 +6,31 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
- * Trieda ktora vykresluje komplexnejsie veci ako len stvorec a pod.
+ * Trieda ktora vykresluje komplexnejsie veci ako len stvorec, ciaru a pod.
  */
 public class Canvas {
     private final int cellSize;
     private Graphics graphics;
 
+    /**
+     * @param cellSize velkost bunky
+     */
     public Canvas(int cellSize) {
         this.cellSize = cellSize;
     }
 
+    /**
+     * @param graphics setter pre lepsiu manipulaciu s triedou.
+     */
     public void setGraphics(Graphics graphics) {
         this.graphics = graphics;
     }
 
     /**
-     * Metoda zoberie parametre vysku a sirku a podla nich vykresli mriezku.
+     * Metoda vykresli vzdy pekne zarovnanu mriezku.
+     *
+     * @param width  sirka mriezky
+     * @param height vyska mriezky
      */
     public void drawGrid(int width, int height) {
         for (int i = 0; i <= width / this.cellSize; i++) {
@@ -33,7 +42,7 @@ public class Canvas {
                     height - (height % this.cellSize));
                 this.graphics.drawLine(
                     0,
-                    j * cellSize,
+                    j * this.cellSize,
                     width - (width % this.cellSize),
                     j * this.cellSize);
             }
@@ -41,8 +50,10 @@ public class Canvas {
     }
 
     /**
-     * Metoda zoberie pridelene obrazky a vykresli do laveho horneho rohu
-     * elektraren a vodnu nadrz.
+     * Metoda vykresli do laveho horneho rohu elektraren a vodnu nadrz.
+     *
+     * @param power obrazok vodnej nadrze (kvapka)
+     * @param water obrazok elektrarne (blesk)
      */
     public void drawEnergyBuildings(BufferedImage power, BufferedImage water) {
         int sideSize = 2;
@@ -69,6 +80,8 @@ public class Canvas {
 
     /**
      * Metoda zoberie 2D array a vykresli ho do mriezky.
+     *
+     * @param grid array ktory vykresluje
      */
     public void drawGridWithInfra(CellType[][] grid) {
         for (int i = 0; i < grid.length; i++) {

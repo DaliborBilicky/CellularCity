@@ -5,6 +5,11 @@ import tools.Image;
 import javax.swing.ImageIcon;
 import java.awt.image.BufferedImage;
 
+
+/**
+ * Enum uchovava typy buniek a kazdy typ odahuje ikonu alebo obrazok pre
+ * dalsie puzitie.
+ */
 public enum CellType {
     EMPTY_CELL(
         new ImageIcon[]{

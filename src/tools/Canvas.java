@@ -1,6 +1,7 @@
 package tools;
 
 import enums.CellType;
+import enums.Warning;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -82,6 +83,20 @@ public class Canvas {
      * @param grid array ktory vykresluje
      */
     public void drawGridWithInfra(CellType[][] grid) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                this.graphics.drawImage(
+                    grid[i][j].getBufferedImage(),
+                    this.cellSize * j,
+                    this.cellSize * i,
+                    this.cellSize,
+                    this.cellSize,
+                    null);
+            }
+        }
+    }
+
+    public void drawWarnings(Warning[][] grid) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 this.graphics.drawImage(

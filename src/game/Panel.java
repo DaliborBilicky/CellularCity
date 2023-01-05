@@ -5,7 +5,6 @@ import enums.CheckBoxType;
 import enums.GridState;
 import tools.Canvas;
 import tools.Grid;
-import tools.Image;
 import tools.MouseInput;
 import ui.CheckBox;
 import ui.ControlButton;
@@ -93,6 +92,10 @@ public class Panel extends JPanel implements ActionListener {
         this.addMouseListener(this.mouseInput);
     }
 
+    public int getCellSize() {
+        return CELL_SIZE;
+    }
+
 
     /**
      * Metoda na vykreslovanie tvarou a obrazkov pomocou Graphics.
@@ -106,9 +109,10 @@ public class Panel extends JPanel implements ActionListener {
         this.canvas.setCanvas(graphics, CELL_SIZE);
         this.canvas.drawGrid(GAME_PANEL_WIDTH, PANEL_HEIGHT);
         this.canvas.drawGridWithInfra(this.grid.getOvergroundGrid());
-        this.canvas.drawEnergyBuildings(
-            new Image().getBufferedImage("res/tools/Power.png"),
-            new Image().getBufferedImage("res/tools/Water.png"));
+        this.canvas.drawWarnings(this.grid.getZonesConnectionToRoad());
+//        this.canvas.drawEnergyBuildings(
+//            new Image().getBufferedImage("res/tools/Power.png"),
+//            new Image().getBufferedImage("res/tools/Water.png"));
         if (GridState.UNDERGROUND.isActive()) {
             this.canvas.drawGridWithInfra(this.grid.getUndergroundGrid());
         }

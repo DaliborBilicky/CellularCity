@@ -15,13 +15,15 @@
   <component name="ChangeListManager">
     <list default="true" id="4bfc27f2-b967-400a-9284-80f80cf3aa3f" name="Changes" comment="nothing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/notConnected/NoPower.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/warning/NoPower.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/notConnected/NoRoad.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/warning/NoRoad.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/notConnected/NoWater.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/warning/NoWater.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/NotConnected.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/Warning.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Panel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/Canvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Canvas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Grid.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/MouseInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/MouseInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Frame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/Thumb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Thumb.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

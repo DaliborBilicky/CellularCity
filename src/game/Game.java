@@ -1,5 +1,8 @@
 package game;
 
+import enums.CellType;
+import enums.CheckBoxType;
+import enums.Warning;
 import tools.Canvas;
 import tools.Grid;
 import tools.MouseInput;
@@ -17,10 +20,11 @@ public class Game implements Runnable {
     private static final int SECOND = 1000;
     private final Account account;
     private final Panel panel;
+    private final Grid grid;
 
     public Game() {
         Save save = new Save();
-        Grid grid = new Grid(save);
+        this.grid = new Grid(save);
         this.account = new Account(grid);
         MouseInput mouseInput = new MouseInput(grid, this.account);
         Canvas canvas = new Canvas();
@@ -28,6 +32,43 @@ public class Game implements Runnable {
             grid, canvas, mouseInput, this.account);
         new Frame(this.panel);
         this.startGameLoop();
+    }
+
+    public void checkConnection() {
+        for (int i = 0; i < this.grid.getOvergroundGrid().length; i++) {
+            for (int j = 0; j < this.grid.getOvergroundGrid()[i].length; j++) {
+                switch (this.grid.getOvergroundGrid()[i][j]) {
+                    case RESIDENTIAL, COMMERCIAL, INDUSTRIAL:
+                        this.grid.setZoneConnectionToRoad(i, j,
+                            Warning.NO_ROAD);
+                        for (CellType road :
+                            CheckBoxType.ROAD.getCellTypes()) {
+                            if (0 < i && i < this.grid.getOvergroundGrid().length - 1
+                                || 0 < j && j < this.grid.getOvergroundGrid()[i].length - 1) {
+
+
+                                if (this.grid.getOvergroundGrid()[i + 1][j]
+                                    .name().equals(road.name())
+                                    || this.grid.getOvergroundGrid()[i][j + 1]
+                                    .name().equals(road.name())) {
+                                    this.grid.setZoneConnectionToRoad(
+                                        i, j, Warning.EMPTY);
+
+                                } else if (this.grid.getOvergroundGrid()[i - 1][j]
+                                    .name().equals(road.name())
+                                    || this.grid.getOvergroundGrid()[i][j - 1]
+                                    .name().equals(road.name())) {
+                                    this.grid.setZoneConnectionToRoad(
+                                        i, j, Warning.EMPTY);
+                                }
+                            }
+                        }
+                        break;
+                    case EMPTY_CELL:
+                        break;
+                }
+            }
+        }
     }
 
     /**
@@ -55,6 +96,8 @@ public class Game implements Runnable {
 
                 this.account.countCells();
                 this.account.calculateFees();
+
+                this.checkConnection();
 
                 previousFrame = currentFrame;
             }

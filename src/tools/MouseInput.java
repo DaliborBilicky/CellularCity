@@ -16,9 +16,9 @@ import java.awt.event.MouseListener;
 public class MouseInput implements MouseListener {
     private final Grid grid;
     private final Account account;
-    private final int cellSize;
-    private final int gamePanelWidth;
-    private final int gamePanelHeight;
+    private int cellSize;
+    private int gamePanelWidth;
+    private int gamePanelHeight;
     private int posX;
     private int posY;
     private int posXReleased;
@@ -26,20 +26,26 @@ public class MouseInput implements MouseListener {
     private boolean isClicked;
 
     /**
-     * @param grid            trieda
-     * @param account         trieda
+     * @param grid    trieda
+     * @param account trieda
+     */
+    public MouseInput(Grid grid, Account account) {
+        this.grid = grid;
+        this.account = account;
+    }
+
+    /**
+     * Nastavovanie hodnout v ktorych pracuje trieda.
+     *
      * @param cellSize        velkost bunky
      * @param gamePanelWidth  sirka hracieho platna
      * @param gamePanelHeight vyska hracieho platna
      */
-    public MouseInput(
-        Grid grid, Account account, int cellSize,
-        int gamePanelWidth, int gamePanelHeight) {
-        this.grid = grid;
-        this.account = account;
-        this.cellSize = cellSize;
+    public void setDimensions(
+        int gamePanelWidth, int gamePanelHeight, int cellSize) {
         this.gamePanelWidth = gamePanelWidth;
         this.gamePanelHeight = gamePanelHeight;
+        this.cellSize = cellSize;
     }
 
     /**

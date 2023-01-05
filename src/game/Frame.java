@@ -1,6 +1,5 @@
-package ui;
+package game;
 
-import game.Panel;
 import tools.Image;
 
 import javax.swing.JFrame;
@@ -12,10 +11,9 @@ import java.awt.GraphicsEnvironment;
  * Trieda sluzi na zobrazenie okna v pocitaci.
  */
 public class Frame extends JFrame {
+
     /**
      * Konstruktor nastavuje hodnoty okna podla poziadaviek.
-     *
-     * @param panel konstrukto potrebuje Panel aby ho priradal.
      */
     public Frame(Panel panel) {
         /*

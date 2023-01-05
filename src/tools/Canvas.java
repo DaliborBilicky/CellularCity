@@ -9,21 +9,19 @@ import java.awt.image.BufferedImage;
  * Trieda ktora vykresluje komplexnejsie veci ako len stvorec, ciaru a pod.
  */
 public class Canvas {
-    private final int cellSize;
+    private int cellSize;
     private Graphics graphics;
 
-    /**
-     * @param cellSize velkost bunky
-     */
-    public Canvas(int cellSize) {
-        this.cellSize = cellSize;
+    public Canvas() {
     }
 
     /**
-     * @param graphics setter pre lepsiu manipulaciu s triedou.
+     * @param graphics grafika
+     * @param cellSize velkost bunky
      */
-    public void setGraphics(Graphics graphics) {
+    public void setCanvas(Graphics graphics, int cellSize) {
         this.graphics = graphics;
+        this.cellSize = cellSize;
     }
 
     /**

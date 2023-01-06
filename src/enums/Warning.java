@@ -6,10 +6,10 @@ import java.awt.image.BufferedImage;
 
 public enum Warning {
     EMPTY(new Image().getBufferedImage("res/tools/EmptyCell.png")),
-    NO_ROAD(new Image().getBufferedImage("res/warning/NoRoad.png")),
-    NO_WATER(new Image().getBufferedImage("res/warning/NoWater.png")),
-
-    NO_POWER(new Image().getBufferedImage("res/warning/NoPower.png"));
+    NO_ROAD(new Image().getBufferedImage("res/roads/NoRoad.png")),
+    NO_WATER(new Image().getBufferedImage("res/resources/NoWater.png")),
+    NO_POWER(new Image().getBufferedImage("res/resources/NoPower.png")),
+    CONNECTED(new Image().getBufferedImage("res/tools/EmptyCell.png"));
 
     private final BufferedImage bufferedImage;
 

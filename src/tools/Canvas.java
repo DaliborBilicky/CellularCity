@@ -4,7 +4,6 @@ import enums.CellType;
 import enums.Warning;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 /**
  * Trieda ktora vykresluje komplexnejsie veci ako len stvorec, ciaru a pod.
@@ -46,35 +45,6 @@ public class Canvas {
                     j * this.cellSize);
             }
         }
-    }
-
-    /**
-     * Metoda vykresli do laveho horneho rohu elektraren a vodnu nadrz.
-     *
-     * @param power obrazok vodnej nadrze (kvapka)
-     * @param water obrazok elektrarne (blesk)
-     */
-    public void drawEnergyBuildings(BufferedImage power, BufferedImage water) {
-        int sideSize = 2;
-        this.graphics.fillRect(
-            0,
-            0,
-            (sideSize * 2) * this.cellSize,
-            sideSize * this.cellSize);
-        this.graphics.drawImage(
-            power,
-            0,
-            0,
-            this.cellSize * sideSize,
-            this.cellSize * sideSize,
-            null);
-        this.graphics.drawImage(
-            water,
-            this.cellSize * sideSize,
-            0,
-            this.cellSize * sideSize,
-            this.cellSize * sideSize,
-            null);
     }
 
     /**

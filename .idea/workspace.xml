@@ -15,15 +15,35 @@
   <component name="ChangeListManager">
     <list default="true" id="4bfc27f2-b967-400a-9284-80f80cf3aa3f" name="Changes" comment="nothing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/notConnected/NoPower.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/warning/NoPower.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/notConnected/NoRoad.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/warning/NoRoad.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/notConnected/NoWater.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/warning/NoWater.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enums/NotConnected.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/Warning.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/cable/Cross.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/cable/CrossSelected.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/cable/Horizontal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/cable/HorizontalSelected.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/cable/Vertical.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/cable/VerticalSelected.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/pipe/Cross.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/pipe/CrossSelected.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/pipe/Horizontal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/pipe/HorizontalSelected.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/pipe/Vertical.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/pipe/VerticalSelected.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/tools/Power.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/tools/Water.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/warning/NoPower.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/warning/NoRoad.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/warning/NoWater.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/CellType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/CellType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/CheckBoxType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/CheckBoxType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/Warning.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/Warning.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Account.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Panel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/Canvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Canvas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Grid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tools/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Image.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tools/MouseInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/MouseInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/MoneyBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/MoneyBar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/Thumb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Thumb.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

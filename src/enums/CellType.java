@@ -81,64 +81,24 @@ public enum CellType {
         new Image().getBufferedImage("res/roads/Horizontal.png")
     ),
 
-    CROSS_PIPE(
+    WATER(
         new ImageIcon[]{
             new Image().getImageIcon(
-                "res/pipe/Cross.png"),
+                "res/resources/Water.png"),
             new Image().getImageIcon(
-                "res/pipe/CrossSelected.png")
+                "res/resources/WaterSelected.png")
         },
-        new Image().getBufferedImage("res/pipe/Cross.png")
+        new Image().getBufferedImage("res/resources/Water.png")
     ),
 
-    VERTICAL_PIPE(
+    POWER(
         new ImageIcon[]{
             new Image().getImageIcon(
-                "res/pipe/Vertical.png"),
+                "res/resources/Power.png"),
             new Image().getImageIcon(
-                "res/pipe/VerticalSelected.png")
+                "res/resources/PowerSelected.png")
         },
-        new Image().getBufferedImage("res/pipe/Vertical.png")
-    ),
-
-    HORIZONTAL_PIPE(
-        new ImageIcon[]{
-            new Image().getImageIcon(
-                "res/pipe/Horizontal.png"),
-            new Image().getImageIcon(
-                "res/pipe/HorizontalSelected.png")
-        },
-        new Image().getBufferedImage("res/pipe/Horizontal.png")
-    ),
-
-    CROSS_CABLE(
-        new ImageIcon[]{
-            new Image().getImageIcon(
-                "res/cable/Cross.png"),
-            new Image().getImageIcon(
-                "res/cable/CrossSelected.png")
-        },
-        new Image().getBufferedImage("res/cable/Cross.png")
-    ),
-
-    VERTICAL_CABLE(
-        new ImageIcon[]{
-            new Image().getImageIcon(
-                "res/cable/Vertical.png"),
-            new Image().getImageIcon(
-                "res/cable/VerticalSelected.png")
-        },
-        new Image().getBufferedImage("res/cable/Vertical.png")
-    ),
-
-    HORIZONTAL_CABLE(
-        new ImageIcon[]{
-            new Image().getImageIcon(
-                "res/cable/Horizontal.png"),
-            new Image().getImageIcon(
-                "res/cable/HorizontalSelected.png")
-        },
-        new Image().getBufferedImage("res/cable/Horizontal.png")
+        new Image().getBufferedImage("res/resources/Power.png")
     );
 
     private final ImageIcon[] imageIcons;

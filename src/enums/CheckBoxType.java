@@ -19,20 +19,13 @@ public enum CheckBoxType {
             CellType.HORIZONTAL_ROAD
         }
     ),
-    PIPE(
+    RESOURCES(
         new CellType[]{
-            CellType.CROSS_PIPE,
-            CellType.VERTICAL_PIPE,
-            CellType.HORIZONTAL_PIPE
+            CellType.WATER,
+            CellType.POWER
         }
     ),
-    CABLE(
-        new CellType[]{
-            CellType.CROSS_CABLE,
-            CellType.VERTICAL_CABLE,
-            CellType.HORIZONTAL_CABLE
-        }
-    ),
+
     EMPTY_CELL(
         new CellType[]{
             CellType.EMPTY_CELL

@@ -28,7 +28,6 @@ public class Image {
     /**
      * Metoda zoberie cestu k ikone a vrati ikonu.
      * !!! Aby sa rescalela ikona som nasiel na internete. !!!
-     * https://stackoverflow.com/questions/6714045/how-to-resize-jlabel-imageicon
      *
      * @param imagePath cesta k obrazku
      * @param scale     hodnota na ktoru sa nastavi velkost icony

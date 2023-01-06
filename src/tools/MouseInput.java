@@ -3,7 +3,6 @@ package tools;
 import enums.CellType;
 import enums.CheckBoxType;
 import enums.GridState;
-import enums.Warning;
 import game.Account;
 
 import java.awt.event.MouseEvent;
@@ -12,7 +11,6 @@ import java.awt.event.MouseListener;
 /**
  * Trieda implementuje Listenerer a obashuje metody na overrideovanie.
  * !!! Napad na vznik triedy je z internetu. !!!
- * https://www.youtube.com/watch?v=6Tj6XYGWfko
  */
 public class MouseInput implements MouseListener {
     private final Grid grid;
@@ -184,32 +182,15 @@ public class MouseInput implements MouseListener {
         Podmienka ignoruje ak sa uzivatel snazi pridat do hracieho pola
         prazdnu bunku.
          */
-        if (checkBoxType.getCellTypes()[index].name()
+        if (this.account.getAccount() > this.account.getMinimum()
+            || checkBoxType.getCellTypes()[index].name()
             .equals(CellType.EMPTY_CELL.name())) {
             if (GridState.UNDERGROUND.isActive()) {
                 this.grid.setUndergroundGridCell(
                     i, j, checkBoxType.getCellTypes()[index]);
-                this.grid.setZoneConnectionToRoad(i, j, Warning.EMPTY);
             } else {
                 this.grid.setOvergroundGridCell(
                     i, j, checkBoxType.getCellTypes()[index]);
-                this.grid.setZoneConnectionToRoad(i, j, Warning.EMPTY);
-            }
-        } else {
-            if (this.account.getAccount() > this.account.getMinimum()) {
-                if (GridState.UNDERGROUND.isActive()) {
-                    this.grid.setUndergroundGridCell(
-                        i, j, checkBoxType.getCellTypes()[index]);
-                } else {
-                    this.grid.setOvergroundGridCell(
-                        i, j, checkBoxType.getCellTypes()[index]);
-                    for (int num = 0; num < CheckBoxType.ZONE.getCellTypes().length; num++) {
-                        if (checkBoxType.getCellTypes()[num].name()
-                            .equals(CheckBoxType.ZONE.getCellTypes()[num].name())) {
-                            this.grid.setZoneConnectionToRoad(i, j, Warning.NO_ROAD);
-                        }
-                    }
-                }
             }
         }
     }

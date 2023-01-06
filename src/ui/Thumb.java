@@ -1,5 +1,6 @@
 package ui;
 
+import enums.Warning;
 import tools.Image;
 
 import javax.swing.JLabel;
@@ -19,7 +20,30 @@ public class Thumb extends JLabel {
         this.setFocusable(false);
     }
 
-    public void setRightThump(int percent) {
+    public void calculateSatisfaction(Warning[][] grid) {
+        double onePercent;
+        int percent;
+        int good = 0;
+        int bad = 0;
+        for (Warning[] warnings : grid) {
+            for (Warning warning : warnings) {
+                switch (warning) {
+                    case CONNECTED:
+                        good++;
+                        break;
+                    case NO_ROAD, NO_WATER, NO_POWER:
+                        bad++;
+                        break;
+                }
+            }
+        }
+
+        onePercent = 100.0 / (bad + good);
+        percent = (int) (good * onePercent);
+        this.setRightThump(percent);
+    }
+
+    private void setRightThump(int percent) {
         if (75 <= percent && percent <= 100) {
             this.setIcon(this.image.getImageIcon(
                 "res/thumb/Up.png",

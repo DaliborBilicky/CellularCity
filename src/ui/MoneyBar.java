@@ -59,7 +59,6 @@ public class MoneyBar extends JProgressBar {
     /**
      * Sluzi na prepisanie predvolenych hodnout.
      * !!! Metoda je z internetu. !!!
-     * https://stackoverflow.com/questions/3480125/setting-the-colors-of-a-jprogressbar-text
      */
     private void setOwnColors() {
         setUI(new BasicProgressBarUI() {

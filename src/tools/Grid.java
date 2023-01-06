@@ -13,8 +13,7 @@ public class Grid {
     private final Save save;
     private CellType[][] undergroundGrid;
     private CellType[][] overgroundGrid;
-    private Warning[][] zonesConnectedToRoad;
-    private boolean[][] cableConnection;
+    private Warning[][] zonesConnection;
 
     /**
      * Konstruktor inicializuje 2D array a potom pomocou for cyklu nastavi na
@@ -24,20 +23,12 @@ public class Grid {
         this.save = save;
     }
 
-    public void setZoneConnectionToRoad(int i, int j, Warning value) {
-        this.zonesConnectedToRoad[i][j] = value;
+    public void setZoneConnection(int i, int j, Warning value) {
+        this.zonesConnection[i][j] = value;
     }
 
-    public Warning[][] getZonesConnectionToRoad() {
-        return this.zonesConnectedToRoad;
-    }
-
-    public void setCableConnectionValue(int i, int j, boolean value) {
-        this.cableConnection[i][j] = value;
-    }
-
-    public boolean isCableConnected(int i, int j) {
-        return this.cableConnection[i][j];
+    public Warning[][] getZonesConnection() {
+        return this.zonesConnection;
     }
 
 
@@ -75,14 +66,12 @@ public class Grid {
         int n = gamePanelWidth / cellSize;
         this.undergroundGrid = new CellType[m][n];
         this.overgroundGrid = new CellType[m][n];
-        this.cableConnection = new boolean[m][n];
-        this.zonesConnectedToRoad = new Warning[m][n];
-        this.cableConnection[2][2] = true;
+        this.zonesConnection = new Warning[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 this.overgroundGrid[i][j] = CellType.EMPTY_CELL;
                 this.undergroundGrid[i][j] = CellType.EMPTY_CELL;
-                this.zonesConnectedToRoad[i][j] = Warning.EMPTY;
+                this.zonesConnection[i][j] = Warning.EMPTY;
             }
         }
         this.setSavedGrid();

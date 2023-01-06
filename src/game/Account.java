@@ -2,6 +2,7 @@ package game;
 
 import enums.CellType;
 import enums.CheckBoxType;
+import enums.Warning;
 import tools.Grid;
 
 /**
@@ -19,13 +20,13 @@ public class Account {
      * Konstanty uchovavju hodnoty podla ktory trieda rata prijem a vydaje
      * mesta.
      */
-    private static final int ZONES_INCOME = 6;
-    private static final int RESOURCES_EXPENSES = 40;
-    private static final int[] CELL_FEES = new int[]{100, 150, 50, 30};
+    private static final int[] ZONES_INCOME = new int[]{5, 6, 8};
+    private static final int RESOURCES_EXPENSES = 20;
+    private static final int[] CELL_FEES = new int[]{100, 150, 500};
     private final Grid grid;
+    private int[] zoneCounters;
     private int[] counters;
     private int[] tempCounters;
-    private int zoneLimit;
     private int fees;
     private int income;
 
@@ -35,7 +36,6 @@ public class Account {
     public Account(Grid grid) {
         this.grid = grid;
         this.tempCounters = new int[CheckBoxType.values().length - 1];
-        this.zoneLimit = 50;
     }
 
     public int getMinimum() {
@@ -44,6 +44,10 @@ public class Account {
 
     public int getGoal() {
         return GOAL;
+    }
+
+    public int[] getZoneCounters() {
+        return this.zoneCounters;
     }
 
     /**
@@ -63,6 +67,7 @@ public class Account {
      */
     public void countCells() {
         this.counters = new int[CheckBoxType.values().length - 1];
+        this.zoneCounters = new int[CheckBoxType.ZONE.getCellTypes().length];
         for (int i = 0; i < this.grid.getOvergroundGrid().length; i++) {
             for (int j = 0; j < this.grid.getOvergroundGrid()[i].length; j++) {
                 this.addToSpecificCounter(i, j);
@@ -83,22 +88,17 @@ public class Account {
                 this.fees += this.counters[i] * CELL_FEES[i];
             }
         }
-        /*
-        Podmienka zvacsi limit ak pocet buniek zony v pocitadle prekroci limit.
-         */
-        if (this.counters[0] > this.zoneLimit) {
-            this.zoneLimit += 50;
-        }
     }
 
     /**
-     * Metoda rata prijem. Za kazdu aktivnu bunku zony sa prirata konstanta a
-     * od toho sa odcitaju vydaje na energie ktore sa linearne zvacsuju podla
-     * limitu buniek.
+     *
      */
     public void calculateIncome() {
-        this.income += (this.counters[0] * ZONES_INCOME) -
-            (RESOURCES_EXPENSES * (this.zoneLimit / 50));
+        for (int i = 0; i < this.zoneCounters.length; i++) {
+            this.income += (this.zoneCounters[i] * ZONES_INCOME[i]);
+            this.zoneCounters[i] = 0;
+        }
+        this.income -= (this.counters[2] * RESOURCES_EXPENSES);
     }
 
     /**
@@ -113,10 +113,19 @@ public class Account {
     private void addToSpecificCounter(int i, int j) {
         for (int g = 0; g < this.counters.length; g++) {
             for (CellType cellType : CheckBoxType.values()[g].getCellTypes()) {
-                if (this.grid.getOvergroundGrid()[i][j].name().equals(cellType.name())
-                    || this.grid.getUndergroundGrid()[i][j].name().equals(cellType.name())) {
+                if (this.grid.getOvergroundGrid()[i][j].name()
+                    .equals(cellType.name())
+                    || this.grid.getUndergroundGrid()[i][j].name()
+                    .equals(cellType.name())) {
                     this.counters[g]++;
                 }
+            }
+
+            if (this.grid.getOvergroundGrid()[i][j].name()
+                .equals(CheckBoxType.ZONE.getCellTypes()[g].name())
+                && this.grid.getZonesConnection()[i][j].name()
+                .equals(Warning.CONNECTED.name())) {
+                this.zoneCounters[g]++;
             }
         }
     }

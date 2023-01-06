@@ -35,37 +35,98 @@ public class Game implements Runnable {
     }
 
     public void checkConnection() {
-        for (int i = 0; i < this.grid.getOvergroundGrid().length; i++) {
-            for (int j = 0; j < this.grid.getOvergroundGrid()[i].length; j++) {
+        int m = this.grid.getOvergroundGrid().length;
+        int n = this.grid.getOvergroundGrid()[0].length;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+
                 switch (this.grid.getOvergroundGrid()[i][j]) {
                     case RESIDENTIAL, COMMERCIAL, INDUSTRIAL:
-                        this.grid.setZoneConnectionToRoad(i, j,
-                            Warning.NO_ROAD);
-                        for (CellType road :
-                            CheckBoxType.ROAD.getCellTypes()) {
-                            if (0 < i && i < this.grid.getOvergroundGrid().length - 1
-                                || 0 < j && j < this.grid.getOvergroundGrid()[i].length - 1) {
-
-
-                                if (this.grid.getOvergroundGrid()[i + 1][j]
-                                    .name().equals(road.name())
-                                    || this.grid.getOvergroundGrid()[i][j + 1]
-                                    .name().equals(road.name())) {
-                                    this.grid.setZoneConnectionToRoad(
-                                        i, j, Warning.EMPTY);
-
-                                } else if (this.grid.getOvergroundGrid()[i - 1][j]
-                                    .name().equals(road.name())
-                                    || this.grid.getOvergroundGrid()[i][j - 1]
-                                    .name().equals(road.name())) {
-                                    this.grid.setZoneConnectionToRoad(
-                                        i, j, Warning.EMPTY);
-                                }
-                            }
+                        switch (this.grid.getZonesConnection()[i][j]) {
+                            case EMPTY:
+                                this.grid.setZoneConnection(i, j, Warning.NO_ROAD);
+                                break;
+                            case NO_ROAD:
+                                this.roadCheck(i, j, m, n);
+                                break;
+                            case NO_WATER:
+                                this.waterCheck(i, j, m, n);
+                                break;
+                            case NO_POWER:
+                                this.powerCheck(i, j, m, n);
+                                break;
                         }
                         break;
                     case EMPTY_CELL:
+                        this.grid.setZoneConnection(i, j, Warning.EMPTY);
                         break;
+                }
+            }
+        }
+    }
+
+    private void roadCheck(int i, int j, int m, int n) {
+        for (CellType road :
+            CheckBoxType.ROAD.getCellTypes()) {
+            if (0 < i && i < m - 1) {
+                if (this.grid.getOvergroundGrid()[i + 1][j]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i - 1][j]
+                    .name().equals(road.name())) {
+                    this.grid.setZoneConnection(i, j,
+                        Warning.NO_WATER);
+                }
+            }
+            if (0 < j && j < n - 1) {
+                if (this.grid.getOvergroundGrid()[i][j + 1]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i][j - 1]
+                    .name().equals(road.name())) {
+                    this.grid.setZoneConnection(i, j,
+                        Warning.NO_WATER);
+                }
+            }
+        }
+    }
+
+    private void waterCheck(int i, int j, int m, int n) {
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 5; x++) {
+                if (x <= i && i < m - x
+                    && y <= j && j < n - y) {
+                    if (this.grid.getUndergroundGrid()[i + x][j + y]
+                        .name().equals(CellType.WATER.name())
+                        || this.grid.getUndergroundGrid()[i + x][j - y]
+                        .name().equals(CellType.WATER.name())
+                        || this.grid.getUndergroundGrid()[i - x][j + y]
+                        .name().equals(CellType.WATER.name())
+                        || this.grid.getUndergroundGrid()[i - x][j - y]
+                        .name().equals(CellType.WATER.name())) {
+                        this.grid.setZoneConnection(i, j,
+                            Warning.NO_POWER);
+                    }
+                }
+            }
+        }
+    }
+
+    private void powerCheck(int i, int j, int m, int n) {
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 5; x++) {
+                if (x <= i && i < m - x
+                    && y <= j && j < n - y) {
+                    if (this.grid.getUndergroundGrid()[i + x][j + y]
+                        .name().equals(CellType.POWER.name())
+                        || this.grid.getUndergroundGrid()[i + x][j - y]
+                        .name().equals(CellType.POWER.name())
+                        || this.grid.getUndergroundGrid()[i - x][j + y]
+                        .name().equals(CellType.POWER.name())
+                        || this.grid.getUndergroundGrid()[i - x][j - y]
+                        .name().equals(CellType.POWER.name())) {
+                        this.grid.setZoneConnection(i, j,
+                            Warning.CONNECTED);
+                    }
                 }
             }
         }
@@ -74,7 +135,6 @@ public class Game implements Runnable {
     /**
      * Metoda obmedzuje bezanie hry podla podmienok.
      * !!! Metoda je z internetu. !!!
-     * https://www.youtube.com/watch?v=aFS9Whsoecc
      */
     @Override
     public void run() {

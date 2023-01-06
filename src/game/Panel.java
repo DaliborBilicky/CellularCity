@@ -30,7 +30,6 @@ public class Panel extends JPanel implements ActionListener {
     /**
      * Konstanty pre uchovanie rozmeru platna.
      * !!! Pouzitie Toolkit triedy mam z internetu. !!!
-     * https://alvinalexander.com/blog/post/jfc-swing/how-determine-get-screen-size-java-swing-app/
      */
     private static final int PANEL_WIDTH =
         (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -92,34 +91,25 @@ public class Panel extends JPanel implements ActionListener {
         this.addMouseListener(this.mouseInput);
     }
 
-    public int getCellSize() {
-        return CELL_SIZE;
-    }
-
-
     /**
      * Metoda na vykreslovanie tvarou a obrazkov pomocou Graphics.
      * !!! To ze metodu ma nazov "paintComponent", pozaduje parameter
      * Graphics a obsahuje riadok "super.paintComponent(graphics);" mam z
      * internetu. !!!
-     * https://www.javatpoint.com/Graphics-in-swing
      */
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         this.canvas.setCanvas(graphics, CELL_SIZE);
         this.canvas.drawGrid(GAME_PANEL_WIDTH, PANEL_HEIGHT);
         this.canvas.drawGridWithInfra(this.grid.getOvergroundGrid());
-        this.canvas.drawWarnings(this.grid.getZonesConnectionToRoad());
-//        this.canvas.drawEnergyBuildings(
-//            new Image().getBufferedImage("res/tools/Power.png"),
-//            new Image().getBufferedImage("res/tools/Water.png"));
+        this.canvas.drawWarnings(this.grid.getZonesConnection());
         if (GridState.UNDERGROUND.isActive()) {
             this.canvas.drawGridWithInfra(this.grid.getUndergroundGrid());
         }
 
         this.moneyBar.updateBar(this.account.getAccount());
         this.graph.setRightGraph(this.grid.getOvergroundGrid());
-        this.thumb.setRightThump(40);
+        this.thumb.calculateSatisfaction(this.grid.getZonesConnection());
     }
 
     /**
@@ -135,7 +125,6 @@ public class Panel extends JPanel implements ActionListener {
                 button.increaseCounter();
             }
         }
-
         if (e.getSource() == this.controlButtons[0]) {
             this.grid.saveGrids();
         }
@@ -161,14 +150,15 @@ public class Panel extends JPanel implements ActionListener {
                     || i < 2 && GridState.OVERGROUND.isActive()) {
                     this.mouseInput.drag(CheckBoxType.values()[i],
                         this.gameButtons[i].getCounter());
-                    this.mouseInput.resetPos();
                 }
+                this.mouseInput.resetPos();
             }
         }
 
         if (this.bulldozerCheckBoxes.isSelected()
             && this.mouseInput.isClicked()) {
             this.mouseInput.drag(CheckBoxType.EMPTY_CELL, 0);
+            this.mouseInput.resetPos();
         }
         /*
         Podmienka resetuje pozicie ak nie je ziadny check box oznaceny. Bez
@@ -178,8 +168,7 @@ public class Panel extends JPanel implements ActionListener {
         if (!this.bulldozerCheckBoxes.isSelected()
             && !this.checkBoxes[0].isSelected()
             && !this.checkBoxes[1].isSelected()
-            && !this.checkBoxes[2].isSelected()
-            && !this.checkBoxes[3].isSelected()) {
+            && !this.checkBoxes[2].isSelected()) {
             this.mouseInput.resetPos();
         }
 
@@ -223,19 +212,19 @@ public class Panel extends JPanel implements ActionListener {
         for (int i = 0; i < this.checkBoxes.length; i++) {
             this.checkBoxes[i] = new CheckBox(
                 GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4,
-                PANEL_HEIGHT * (i + 1) / 8,
-                PANEL_HEIGHT / 9);
+                PANEL_HEIGHT * (i + 1) / 7,
+                PANEL_HEIGHT / 8);
             this.add(this.checkBoxes[i]);
         }
         this.bulldozerCheckBoxes = new CheckBox(
             GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4,
             0,
-            PANEL_HEIGHT / 9);
+            PANEL_HEIGHT / 8);
         this.add(this.bulldozerCheckBoxes);
         this.viewCheckBox = new CheckBox(
             GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * 3 / 4,
             0,
-            PANEL_HEIGHT / 9);
+            PANEL_HEIGHT / 8);
         this.add(this.viewCheckBox);
     }
 
@@ -247,8 +236,8 @@ public class Panel extends JPanel implements ActionListener {
         for (int i = 0; i < this.gameButtons.length; i++) {
             this.gameButtons[i] = new GameButton(
                 GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * 3 / 4,
-                PANEL_HEIGHT * (i + 1) / 8,
-                PANEL_HEIGHT / 9);
+                PANEL_HEIGHT * (i + 1) / 7,
+                PANEL_HEIGHT / 8);
             this.gameButtons[i].setCounterLimit(
                 CheckBoxType.values()[i].getCellTypes().length);
             this.gameButtons[i].addActionListener(this);
@@ -258,7 +247,7 @@ public class Panel extends JPanel implements ActionListener {
         for (int i = 0; i < this.controlButtons.length; i++) {
             this.controlButtons[i] = new ControlButton(
                 GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * (1 + 2 * i) / 4,
-                PANEL_HEIGHT * 7 / 8,
+                PANEL_HEIGHT * 6 / 7,
                 SIDE_PANEL_WIDTH / 2,
                 PANEL_HEIGHT / 14);
             this.controlButtons[i].setName(i);
@@ -273,7 +262,7 @@ public class Panel extends JPanel implements ActionListener {
     private void setUIThumb() {
         this.thumb = new Thumb(
             GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 4,
-            PANEL_HEIGHT * 5 / 8,
+            PANEL_HEIGHT * 4 / 7,
             PANEL_HEIGHT / 9);
         this.add(this.thumb);
     }
@@ -284,7 +273,7 @@ public class Panel extends JPanel implements ActionListener {
     private void setGraph() {
         this.graph = new Graph(
             GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH * 3 / 4,
-            PANEL_HEIGHT * 5 / 8,
+            PANEL_HEIGHT * 4 / 7,
             PANEL_HEIGHT / 9);
         this.add(this.graph);
     }
@@ -295,7 +284,7 @@ public class Panel extends JPanel implements ActionListener {
     private void setUIMoneyBar() {
         this.moneyBar = new MoneyBar(
             GAME_PANEL_WIDTH + SIDE_PANEL_WIDTH / 2,
-            PANEL_HEIGHT * 6 / 8,
+            PANEL_HEIGHT * 5 / 7,
             SIDE_PANEL_WIDTH,
             PANEL_HEIGHT / 12);
         this.moneyBar.setMinMax(

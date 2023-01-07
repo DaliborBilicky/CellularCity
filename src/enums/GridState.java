@@ -26,14 +26,23 @@ public enum GridState {
         this.active = active;
     }
 
+    /**
+     * @return ikonu pre check box
+     */
     public ImageIcon getImageIcon() {
         return this.imageIcon;
     }
 
+    /**
+     * @return ci je stav aktivny
+     */
     public boolean isActive() {
         return this.active;
     }
 
+    /**
+     * @param value nastavi ci je stav aktivny
+     */
     public void setActive(boolean value) {
         this.active = value;
     }

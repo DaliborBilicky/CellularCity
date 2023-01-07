@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 
 /**
- * Enum uchovava typy buniek a kazdy typ odahuje ikonu a obrazok predalsie
+ * Enum uchovava typy buniek a kazdy typ obsahuje ikonu a obrazok pre dalsie
  * puzitie.
  */
 public enum CellType {
@@ -109,10 +109,16 @@ public enum CellType {
         this.bufferedImage = bufferedImage;
     }
 
+    /**
+     * @return ikona typu bunky
+     */
     public ImageIcon[] getImageIcons() {
         return this.imageIcons;
     }
 
+    /**
+     * @return obrazok typu bunky
+     */
     public BufferedImage getBufferedImage() {
         return this.bufferedImage;
     }

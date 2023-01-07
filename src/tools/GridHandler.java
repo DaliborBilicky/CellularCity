@@ -24,26 +24,50 @@ public class GridHandler {
         this.saver = saver;
     }
 
+    /**
+     * @param i     i-ty riadok
+     * @param j     j-ty stlpec
+     * @param value hodnotu ktoru nastavujem
+     */
     public void setZoneConnectionWarning(int i, int j, Warning value) {
         this.zonesConnection[i][j] = value;
     }
 
+    /**
+     * @return array upozorneni
+     */
     public Warning[][] getZonesConnection() {
         return this.zonesConnection;
     }
 
+    /**
+     * @param i        i-ty riadok
+     * @param j        j-ty stlpec
+     * @param cellType hodnotu ktoru nastavujem
+     */
     public void setOvergroundGridCell(int i, int j, CellType cellType) {
         this.overgroundGrid[i][j] = cellType;
     }
 
+    /**
+     * @return array buniek
+     */
     public CellType[][] getOvergroundGrid() {
         return this.overgroundGrid;
     }
 
+    /**
+     * @param i        i-ty riadok
+     * @param j        j-ty stlpec
+     * @param cellType hodnotu ktoru nastavujem
+     */
     public void setUndergroundGridCell(int i, int j, CellType cellType) {
         this.undergroundGrid[i][j] = cellType;
     }
 
+    /**
+     * @return array buniek
+     */
     public CellType[][] getUndergroundGrid() {
         return this.undergroundGrid;
     }

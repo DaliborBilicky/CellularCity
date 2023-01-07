@@ -1,6 +1,6 @@
 package game;
 
-import tools.Image;
+import enums.CellType;
 
 import javax.swing.JFrame;
 import java.awt.GraphicsDevice;
@@ -11,6 +11,10 @@ import java.awt.GraphicsEnvironment;
  * Trieda sluzi na zobrazenie okna v pocitaci.
  */
 public class Frame extends JFrame {
+    /**
+     * Nadpis okna
+     */
+    private static final String TITLE = "Cellular City";
 
     /**
      * Konstruktor nastavuje hodnoty okna podla poziadaviek.
@@ -24,9 +28,8 @@ public class Frame extends JFrame {
             .getLocalGraphicsEnvironment().getScreenDevices()[0];
 
 
-        this.setTitle("Cellular City");
-        this.setIconImage(new Image().getImageIcon(
-            "res/zones/Commercial.png").getImage());
+        this.setTitle(TITLE);
+        this.setIconImage(CellType.COMMERCIAL.getBufferedImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
         this.setUndecorated(true);

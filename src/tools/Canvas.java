@@ -66,6 +66,11 @@ public class Canvas {
         }
     }
 
+    /**
+     * Metoda zoberie 2D array a vykresli ho do mriezky.
+     *
+     * @param grid array ktory vykresluje
+     */
     public void drawWarnings(Warning[][] grid) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {

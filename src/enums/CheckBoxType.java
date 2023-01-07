@@ -39,6 +39,9 @@ public enum CheckBoxType {
         this.cellTypes = cellTypes;
     }
 
+    /**
+     * @return list typov buniek
+     */
     public CellType[] getCellTypes() {
         return this.cellTypes;
     }

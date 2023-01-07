@@ -5,8 +5,8 @@ import tools.Image;
 import java.awt.image.BufferedImage;
 
 /**
- * Enum uchovava typy upozorneni a kazde upozornenie odahuje obrazok ktory
- * reprezentuje pre dalsie puzitie.
+ * Enum uchovava typy upozorneni a kazde upozornenie obsahuje obrazok ktory
+ * reprezentuje.
  */
 public enum Warning {
     EMPTY(new Image().getBufferedImage("res/tools/EmptyCell.png")),
@@ -21,6 +21,9 @@ public enum Warning {
         this.bufferedImage = bufferedImage;
     }
 
+    /**
+     * @return obrazok pre typ upozornenia
+     */
     public BufferedImage getBufferedImage() {
         return this.bufferedImage;
     }

@@ -10,8 +10,9 @@ import tools.GridHandler;
  */
 public class Account {
     /**
-     * Konstanta GOAL uchovava cielovy rozpocet. BUDGET je rozpocet s ktorym
-     * hrac zacina. MINIMUM je najnizsie mozna hodnota ku ktorej sa da dostat.
+     * GOAL uchovava cielovy rozpocet.
+     * BUDGET je rozpocet s ktorym hrac zacina.
+     * MINIMUM je najnizsie mozna hodnota ku ktorej sa da dostat.
      */
     private static final int GOAL = 100000;
     private static final int BUDGED = 40000;
@@ -25,8 +26,8 @@ public class Account {
     private static final int[] CELL_FEES = new int[]{75, 115, 375};
     private final GridHandler gridHandler;
     private int[] zoneCounters;
-    private int[] counters;
-    private int[] tempCounters;
+    private int[] cellCounters;
+    private int[] tempCellCounters;
     private int fees;
     private int income;
 
@@ -36,13 +37,19 @@ public class Account {
      */
     public Account(GridHandler gridHandler) {
         this.gridHandler = gridHandler;
-        this.tempCounters = new int[CheckBoxType.values().length - 1];
+        this.tempCellCounters = new int[CheckBoxType.values().length - 1];
     }
 
+    /**
+     * @return konstana MINIMUM
+     */
     public int getMinimum() {
         return MINIMUM;
     }
 
+    /**
+     * @return konstanta GOAL
+     */
     public int getGoal() {
         return GOAL;
     }
@@ -63,7 +70,7 @@ public class Account {
      * Metoda iteruje cez grid a nascitava pocet obsadenych buniek.
      */
     public void countCells() {
-        this.counters = new int[CheckBoxType.values().length - 1];
+        this.cellCounters = new int[CheckBoxType.values().length - 1];
         this.zoneCounters = new int[CheckBoxType.ZONE.getCellTypes().length];
         for (int i = 0; i < this.gridHandler.getOvergroundGrid().length; i++) {
             for (int j = 0; j < this.gridHandler.getOvergroundGrid()[i].length; j++) {
@@ -78,11 +85,11 @@ public class Account {
      * vydaje.
      */
     public void calculateFees() {
-        if (this.counters != this.tempCounters) {
+        if (this.cellCounters != this.tempCellCounters) {
             this.fees = 0;
-            this.tempCounters = this.counters;
-            for (int i = 0; i < this.counters.length; i++) {
-                this.fees += this.counters[i] * CELL_FEES[i];
+            this.tempCellCounters = this.cellCounters;
+            for (int i = 0; i < this.cellCounters.length; i++) {
+                this.fees += this.cellCounters[i] * CELL_FEES[i];
             }
         }
     }
@@ -96,7 +103,7 @@ public class Account {
             this.income += (this.zoneCounters[i] * ZONES_INCOME[i]);
             this.zoneCounters[i] = 0;
         }
-        this.income -= (this.counters[2] * RESOURCES_EXPENSES);
+        this.income -= (this.cellCounters[2] * RESOURCES_EXPENSES);
     }
 
     /**
@@ -109,13 +116,13 @@ public class Account {
      * @param j j-ty stlpec
      */
     private void addToSpecificCounter(int i, int j) {
-        for (int g = 0; g < this.counters.length; g++) {
+        for (int g = 0; g < this.cellCounters.length; g++) {
             for (CellType cellType : CheckBoxType.values()[g].getCellTypes()) {
                 if (this.gridHandler.getOvergroundGrid()[i][j].name()
                     .equals(cellType.name())
                     || this.gridHandler.getUndergroundGrid()[i][j].name()
                     .equals(cellType.name())) {
-                    this.counters[g]++;
+                    this.cellCounters[g]++;
                 }
             }
 

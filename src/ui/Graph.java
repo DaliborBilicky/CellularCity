@@ -10,6 +10,10 @@ import javax.swing.JLabel;
  * upravuje zakladnu triedu JLabel na specifickejsie poziadavky.
  */
 public class Graph extends JLabel {
+    /**
+     * Formatovana cesta k obrazkom.
+     */
+    private static final String GRAPH = "res/graph/%d.png";
     private final int size;
 
     /**
@@ -80,7 +84,7 @@ public class Graph extends JLabel {
      */
     private void setGraphIcon(int graphNum) {
         this.setIcon(new Image().getImageIcon(
-            String.format("res/graph/%d.png", graphNum),
+            String.format(GRAPH, graphNum),
             this.size));
     }
 }

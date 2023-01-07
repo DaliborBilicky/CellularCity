@@ -11,8 +11,8 @@ import tools.GridHandler;
  */
 public class ConnectionChecker {
     private final GridHandler gridHandler;
-    private final int m;
-    private final int n;
+    private final int m; // pocet riadkov
+    private final int n; // pocet stlpcov
 
     /**
      * Kostruktor pre ConnectionChecker
@@ -40,11 +40,11 @@ public class ConnectionChecker {
                                     i, j, Warning.NO_ROAD);
                                 break;
                             case NO_ROAD:
-                                this.roadCheck(i, j);
+                                this.checkForRoad(i, j);
                                 break;
                             case NO_WATER:
                                 if (this.roadConnectionCheck(i, j)) {
-                                    this.resCheck(
+                                    this.checkForRes(
                                         CellType.WATER, Warning.NO_POWER, i, j);
                                 } else {
                                     this.gridHandler.setZoneConnectionWarning(
@@ -54,7 +54,7 @@ public class ConnectionChecker {
                             case NO_POWER:
                                 if (this.resConnectionCheck(
                                     CellType.WATER, i, j)) {
-                                    this.resCheck(
+                                    this.checkForRes(
                                         CellType.POWER, Warning.CONNECTED, i, j);
                                 } else {
                                     this.gridHandler.setZoneConnectionWarning(
@@ -85,15 +85,11 @@ public class ConnectionChecker {
      * @param i i-ty riadok
      * @param j j-ty stlpec
      */
-    private void roadCheck(int i, int j) {
+    private void checkForRoad(int i, int j) {
         for (CellType road :
             CheckBoxType.ROAD.getCellTypes()) {
             if (0 < i && 0 < j) {
                 if (this.gridHandler.getOvergroundGrid()[i - 1][j - 1]
-                    .name().equals(road.name())
-                    || this.gridHandler.getOvergroundGrid()[i - 1][j]
-                    .name().equals(road.name())
-                    || this.gridHandler.getOvergroundGrid()[i][j - 1]
                     .name().equals(road.name())) {
                     this.gridHandler.setZoneConnectionWarning(
                         i, j, Warning.NO_WATER);
@@ -101,10 +97,6 @@ public class ConnectionChecker {
             }
             if (i < this.m - 1 && j < this.n - 1) {
                 if (this.gridHandler.getOvergroundGrid()[i + 1][j + 1]
-                    .name().equals(road.name())
-                    || this.gridHandler.getOvergroundGrid()[i + 1][j]
-                    .name().equals(road.name())
-                    || this.gridHandler.getOvergroundGrid()[i][j + 1]
                     .name().equals(road.name())) {
                     this.gridHandler.setZoneConnectionWarning(
                         i, j, Warning.NO_WATER);
@@ -112,6 +104,8 @@ public class ConnectionChecker {
             }
             if (0 < i && j < this.n - 1) {
                 if (this.gridHandler.getOvergroundGrid()[i - 1][j + 1]
+                    .name().equals(road.name())
+                    || this.gridHandler.getOvergroundGrid()[i][j + 1]
                     .name().equals(road.name())) {
                     this.gridHandler.setZoneConnectionWarning(
                         i, j, Warning.NO_WATER);
@@ -119,6 +113,26 @@ public class ConnectionChecker {
             }
             if (0 < j && i < this.m - 1) {
                 if (this.gridHandler.getOvergroundGrid()[i + 1][j - 1]
+                    .name().equals(road.name())
+                    || this.gridHandler.getOvergroundGrid()[i][j - 1]
+                    .name().equals(road.name())) {
+                    this.gridHandler.setZoneConnectionWarning(
+                        i, j, Warning.NO_WATER);
+                }
+            }
+            if (0 < i && i < this.m - 1) {
+                if (this.gridHandler.getOvergroundGrid()[i + 1][j]
+                    .name().equals(road.name())
+                    || this.gridHandler.getOvergroundGrid()[i - 1][j]
+                    .name().equals(road.name())) {
+                    this.gridHandler.setZoneConnectionWarning(
+                        i, j, Warning.NO_WATER);
+                }
+            }
+            if (0 < j && j < this.n - 1) {
+                if (this.gridHandler.getOvergroundGrid()[i][j + 1]
+                    .name().equals(road.name())
+                    || this.gridHandler.getOvergroundGrid()[i][j - 1]
                     .name().equals(road.name())) {
                     this.gridHandler.setZoneConnectionWarning(
                         i, j, Warning.NO_WATER);
@@ -140,32 +154,44 @@ public class ConnectionChecker {
             CheckBoxType.ROAD.getCellTypes()) {
             if (0 < i && 0 < j) {
                 if (this.gridHandler.getOvergroundGrid()[i - 1][j - 1]
-                    .name().equals(road.name())
-                    || this.gridHandler.getOvergroundGrid()[i - 1][j]
-                    .name().equals(road.name())
-                    || this.gridHandler.getOvergroundGrid()[i][j - 1]
                     .name().equals(road.name())) {
                     roadCounter++;
                 }
             }
             if (i < this.m - 1 && j < this.n - 1) {
                 if (this.gridHandler.getOvergroundGrid()[i + 1][j + 1]
-                    .name().equals(road.name())
-                    || this.gridHandler.getOvergroundGrid()[i + 1][j]
-                    .name().equals(road.name())
-                    || this.gridHandler.getOvergroundGrid()[i][j + 1]
                     .name().equals(road.name())) {
                     roadCounter++;
                 }
             }
             if (0 < i && j < this.n - 1) {
                 if (this.gridHandler.getOvergroundGrid()[i - 1][j + 1]
+                    .name().equals(road.name())
+                    || this.gridHandler.getOvergroundGrid()[i][j + 1]
                     .name().equals(road.name())) {
                     roadCounter++;
                 }
             }
             if (0 < j && i < this.m - 1) {
                 if (this.gridHandler.getOvergroundGrid()[i + 1][j - 1]
+                    .name().equals(road.name())
+                    || this.gridHandler.getOvergroundGrid()[i][j - 1]
+                    .name().equals(road.name())) {
+                    roadCounter++;
+                }
+            }
+            if (0 < i && i < this.m - 1) {
+                if (this.gridHandler.getOvergroundGrid()[i + 1][j]
+                    .name().equals(road.name())
+                    || this.gridHandler.getOvergroundGrid()[i - 1][j]
+                    .name().equals(road.name())) {
+                    roadCounter++;
+                }
+            }
+            if (0 < j && j < this.n - 1) {
+                if (this.gridHandler.getOvergroundGrid()[i][j + 1]
+                    .name().equals(road.name())
+                    || this.gridHandler.getOvergroundGrid()[i][j - 1]
                     .name().equals(road.name())) {
                     roadCounter++;
                 }
@@ -183,7 +209,7 @@ public class ConnectionChecker {
      * @param i       i-ty riadok
      * @param j       j-ty stlpec
      */
-    private void resCheck(CellType type, Warning warning, int i, int j) {
+    private void checkForRes(CellType type, Warning warning, int i, int j) {
         for (int y = 0; y <= 3; y++) {
             for (int x = 0; x <= 3; x++) {
                 if (y <= i && x <= j) {

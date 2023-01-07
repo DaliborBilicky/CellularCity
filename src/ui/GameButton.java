@@ -12,6 +12,10 @@ import java.awt.Color;
  * !!! Dedenie mam naucene z internetu!!!
  */
 public class GameButton extends JButton {
+    /**
+     * Cesta k obrazku
+     */
+    private static final String BUTTON = "res/tools/Button.png";
     private int counterLimit;
     private int counter;
 
@@ -32,8 +36,7 @@ public class GameButton extends JButton {
         this.setBackground(Color.LIGHT_GRAY);
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setBorderPainted(true);
-        this.setIcon(new Image().getImageIcon(
-            "res/tools/Button.png", 125));
+        this.setIcon(new Image().getImageIcon(BUTTON, 125));
     }
 
     /**

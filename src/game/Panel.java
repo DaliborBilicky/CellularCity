@@ -46,6 +46,11 @@ public class Panel extends JPanel implements ActionListener {
      * Konstanta ktora uchovava velkost stvorca v mriezke.
      */
     private static final int CELL_SIZE = 35;
+    /**
+     * Farby pozadia
+     */
+    private static final Color BROWN = new Color(131, 101, 57);
+    private static final Color GREEN = new Color(80, 200, 120);
     private final MouseInput mouseInput;
     private final Canvas canvas;
     private final GridHandler gridHandler;
@@ -65,7 +70,8 @@ public class Panel extends JPanel implements ActionListener {
      * podla poziadaviek.
      */
     public Panel(
-        GridHandler gridHandler, Canvas canvas, MouseInput mouseInput, Account account) {
+        GridHandler gridHandler, Canvas canvas,
+        MouseInput mouseInput, Account account) {
         this.gridHandler = gridHandler;
         this.canvas = canvas;
         this.mouseInput = mouseInput;
@@ -160,31 +166,9 @@ public class Panel extends JPanel implements ActionListener {
             this.mouseInput.drag(CheckBoxType.EMPTY_CELL, 0);
             this.mouseInput.resetPos();
         }
-        /*
-        Podmienka resetuje pozicie ak nie je ziadny check box oznaceny. Bez
-        tejto podmienky sa da kliknut na platno a po oznaceny check boxu sa
-        pridala prislusna bunka.
-         */
-        if (!this.bulldozerCheckBoxes.isSelected()
-            && !this.checkBoxes[0].isSelected()
-            && !this.checkBoxes[1].isSelected()
-            && !this.checkBoxes[2].isSelected()) {
-            this.mouseInput.resetPos();
-        }
 
-        /*
-        Nastavuje pozadie Platna podla stavu hry a tiez nastavuje ktory stav
-        je prave aktivny.
-         */
-        if (this.viewCheckBox.isSelected()) {
-            GridState.OVERGROUND.setActive(false);
-            GridState.UNDERGROUND.setActive(true);
-            this.setBackground(new Color(131, 101, 57));
-        } else {
-            GridState.OVERGROUND.setActive(true);
-            GridState.UNDERGROUND.setActive(false);
-            this.setBackground(new Color(80, 200, 120));
-        }
+        this.checkIfAreChecked();
+        this.stateSwitch();
     }
 
     /**
@@ -203,6 +187,37 @@ public class Panel extends JPanel implements ActionListener {
             GridState.UNDERGROUND.getImageIcon());
     }
 
+    /**
+     * Metoda resetuje pozicie ak nie je ziadny check box oznaceny.
+     */
+    private void checkIfAreChecked() {
+        int counter = 0;
+        for (CheckBox checkBox : this.checkBoxes) {
+            if (!this.bulldozerCheckBoxes.isSelected()
+                && !checkBox.isSelected()) {
+                counter++;
+            }
+        }
+        if (counter == this.checkBoxes.length) {
+            this.mouseInput.resetPos();
+        }
+    }
+
+    /**
+     * Nastavuje pozadie Platna podla stavu hry a tiez nastavuje ktory stav
+     * je prave aktivny.
+     */
+    private void stateSwitch() {
+        if (this.viewCheckBox.isSelected()) {
+            GridState.OVERGROUND.setActive(false);
+            GridState.UNDERGROUND.setActive(true);
+            this.setBackground(BROWN);
+        } else {
+            GridState.OVERGROUND.setActive(true);
+            GridState.UNDERGROUND.setActive(false);
+            this.setBackground(GREEN);
+        }
+    }
 
     /**
      * Metoda nastvuje CheckBoxy a pridava ich na Platno.

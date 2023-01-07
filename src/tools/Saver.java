@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Saver {
+    public Saver() {
+        
+    }
 
     /**
      * Metoda zapisuje typ bunky, i-ty riadok a j-ty stlpec z 2d array.

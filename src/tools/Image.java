@@ -8,8 +8,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class Image {
+    public Image() {
+
+    }
+
     /**
-     * Metoda nacita obrazok zo zadanej cetsty k obrazku.
+     * Metoda nacita obrazok zo zadanej cesty k obrazku.
      * Ak sa obrazok nenajde vyhodi chybu a program bezi dalej.
      * !!! Metoda je zobrana z TvaryV4 trieda Obrazok. !!!
      */

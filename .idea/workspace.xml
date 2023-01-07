@@ -14,9 +14,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4bfc27f2-b967-400a-9284-80f80cf3aa3f" name="Changes" comment="nothing">
+      <change afterPath="$PROJECT_DIR$/src/game/ConnectionChecker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/save/saveOverground.txt" beforeDir="false" afterPath="$PROJECT_DIR$/save/saveOverground.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/CellType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/CellType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/GridState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/GridState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/Warning.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/Warning.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Account.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Panel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tools/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/GridHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tools/MouseInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/MouseInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tools/Save.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Saver.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

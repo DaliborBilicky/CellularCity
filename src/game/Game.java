@@ -1,12 +1,9 @@
 package game;
 
-import enums.CellType;
-import enums.CheckBoxType;
-import enums.Warning;
 import tools.Canvas;
-import tools.Grid;
+import tools.GridHandler;
 import tools.MouseInput;
-import tools.Save;
+import tools.Saver;
 
 /**
  * Trieda sa stara o spravne bezanie aplikacie.
@@ -20,196 +17,24 @@ public class Game implements Runnable {
     private static final int SECOND = 1000;
     private final Account account;
     private final Panel panel;
-    private final Grid grid;
+    private final ConnectionChecker connectChecker;
 
+    /**
+     * Konstruktor pre triedu Game.
+     */
     public Game() {
-        Save save = new Save();
-        this.grid = new Grid(save);
-        this.account = new Account(grid);
-        MouseInput mouseInput = new MouseInput(grid, this.account);
+        Saver saver = new Saver();
+        GridHandler gridHandler = new GridHandler(saver);
+        this.account = new Account(gridHandler);
+        MouseInput mouseInput = new MouseInput(gridHandler, this.account);
         Canvas canvas = new Canvas();
         this.panel = new Panel(
-            grid, canvas, mouseInput, this.account);
+            gridHandler, canvas, mouseInput, this.account);
         new Frame(this.panel);
+        this.connectChecker = new ConnectionChecker(gridHandler);
         this.startGameLoop();
     }
 
-    public void checkConnection() {
-        int m = this.grid.getOvergroundGrid().length;
-        int n = this.grid.getOvergroundGrid()[0].length;
-
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-
-                switch (this.grid.getOvergroundGrid()[i][j]) {
-                    case RESIDENTIAL, COMMERCIAL, INDUSTRIAL:
-                        switch (this.grid.getZonesConnection()[i][j]) {
-                            case EMPTY:
-                                this.grid.setZoneConnection(i, j,
-                                    Warning.NO_ROAD);
-                                break;
-                            case NO_ROAD:
-                                this.roadCheck(i, j, m, n);
-                                break;
-                            case NO_WATER:
-                                if (this.roadConnectionCheck(i, j, m, n)) {
-                                    this.waterCheck(i, j, m, n);
-                                } else {
-                                    this.grid.setZoneConnection(i, j,
-                                        Warning.NO_ROAD);
-                                }
-                                break;
-                            case NO_POWER:
-                                if (this.resConnectionCheck(
-                                    CellType.WATER, i, j, m, n)) {
-                                    this.powerCheck(i, j, m, n);
-                                } else {
-                                    this.grid.setZoneConnection(i, j,
-                                        Warning.NO_WATER);
-                                }
-                                break;
-                            case CONNECTED:
-                                if (!this.resConnectionCheck(
-                                    CellType.POWER, i, j, m, n)) {
-                                    this.grid.setZoneConnection(i, j,
-                                        Warning.NO_POWER);
-                                }
-                        }
-                        break;
-                    case EMPTY_CELL:
-                        this.grid.setZoneConnection(i, j, Warning.EMPTY);
-                        break;
-                }
-            }
-        }
-    }
-
-    private void roadCheck(int i, int j, int m, int n) {
-        for (CellType road :
-            CheckBoxType.ROAD.getCellTypes()) {
-            if (0 < i && i < m - 1
-                && 0 <= j && j < n - 1) {
-                if (this.grid.getOvergroundGrid()[i + 1][j + 1]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i + 1][j - 1]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i - 1][j + 1]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i - 1][j - 1]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i + 1][j]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i][j + 1]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i - 1][j]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i][j - 1]
-                    .name().equals(road.name())) {
-                    this.grid.setZoneConnection(i, j,
-                        Warning.NO_WATER);
-                }
-            }
-        }
-    }
-
-    private boolean roadConnectionCheck(int i, int j, int m, int n) {
-        int counter = 0;
-        for (CellType road :
-            CheckBoxType.ROAD.getCellTypes()) {
-            if (0 < i && i < m - 1 && 0 <= j && j < n - 1) {
-                if (this.grid.getOvergroundGrid()[i + 1][j + 1]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i + 1][j - 1]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i - 1][j + 1]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i - 1][j - 1]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i + 1][j]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i][j + 1]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i - 1][j]
-                    .name().equals(road.name())
-                    || this.grid.getOvergroundGrid()[i][j - 1]
-                    .name().equals(road.name())) {
-                    counter++;
-                }
-            }
-        }
-        return counter != 0;
-    }
-
-    private boolean resConnectionCheck(
-        CellType type, int i, int j, int m, int n) {
-        for (int y = 0; y < 5; y++) {
-            for (int x = 0; x < 5; x++) {
-                if (0 < i && i < m - 1 && 0 <= j && j < n - 1) {
-                    if (this.grid.getUndergroundGrid()[i + y][j + x]
-                        .name().equals(type.name())
-                        || this.grid.getUndergroundGrid()[i + y][j - x]
-                        .name().equals(type.name())
-                        || this.grid.getUndergroundGrid()[i - y][j + x]
-                        .name().equals(type.name())
-                        || this.grid.getUndergroundGrid()[i - y][j - x]
-                        .name().equals(type.name())
-                        || this.grid.getUndergroundGrid()[i + y][j]
-                        .name().equals(type.name())
-                        || this.grid.getUndergroundGrid()[i][j + x]
-                        .name().equals(type.name())
-                        || this.grid.getUndergroundGrid()[i - y][j]
-                        .name().equals(type.name())
-                        || this.grid.getUndergroundGrid()[i][j - x]
-                        .name().equals(type.name())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    private void waterCheck(int i, int j, int m, int n) {
-        for (int y = 0; y < 5; y++) {
-            for (int x = 0; x < 5; x++) {
-                if (x <= i && i < m - x
-                    && y <= j && j < n - y) {
-                    if (this.grid.getUndergroundGrid()[i + x][j + y]
-                        .name().equals(CellType.WATER.name())
-                        || this.grid.getUndergroundGrid()[i + x][j - y]
-                        .name().equals(CellType.WATER.name())
-                        || this.grid.getUndergroundGrid()[i - x][j + y]
-                        .name().equals(CellType.WATER.name())
-                        || this.grid.getUndergroundGrid()[i - x][j - y]
-                        .name().equals(CellType.WATER.name())) {
-                        this.grid.setZoneConnection(i, j,
-                            Warning.NO_POWER);
-                    }
-                }
-            }
-        }
-    }
-
-    private void powerCheck(int i, int j, int m, int n) {
-        for (int y = 0; y < 5; y++) {
-            for (int x = 0; x < 5; x++) {
-                if (x <= i && i < m - x
-                    && y <= j && j < n - y) {
-                    if (this.grid.getUndergroundGrid()[i + x][j + y]
-                        .name().equals(CellType.POWER.name())
-                        || this.grid.getUndergroundGrid()[i + x][j - y]
-                        .name().equals(CellType.POWER.name())
-                        || this.grid.getUndergroundGrid()[i - x][j + y]
-                        .name().equals(CellType.POWER.name())
-                        || this.grid.getUndergroundGrid()[i - x][j - y]
-                        .name().equals(CellType.POWER.name())) {
-                        this.grid.setZoneConnection(i, j,
-                            Warning.CONNECTED);
-                    }
-                }
-            }
-        }
-    }
 
     /**
      * Metoda obmedzuje bezanie hry podla podmienok.
@@ -236,7 +61,7 @@ public class Game implements Runnable {
                 this.account.countCells();
                 this.account.calculateFees();
 
-                this.checkConnection();
+                this.connectChecker.checkConnection();
 
                 previousFrame = currentFrame;
             }
@@ -245,7 +70,7 @@ public class Game implements Runnable {
             Podmienka zarucuje ze telo sa vykona kazdych 20 sekund. (Imitacia
              mesacneho prijmu).
              */
-            if (currentTime - previousTime >= 20 * SECOND) {
+            if (currentTime - previousTime >= 5 * SECOND) {
                 this.account.calculateIncome();
                 previousTime = System.currentTimeMillis();
             }

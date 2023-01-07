@@ -3,10 +3,10 @@ package game;
 import enums.CellType;
 import enums.CheckBoxType;
 import enums.Warning;
-import tools.Grid;
+import tools.GridHandler;
 
 /**
- * Trieda ma na starosti pocitat prijem a vydaje.
+ * Trieda ma na starosti pocitat prijem a vydaje mesta.
  */
 public class Account {
     /**
@@ -14,16 +14,16 @@ public class Account {
      * hrac zacina. MINIMUM je najnizsie mozna hodnota ku ktorej sa da dostat.
      */
     private static final int GOAL = 100000;
-    private static final int BUDGED = 25000;
+    private static final int BUDGED = 40000;
     private static final int MINIMUM = -5000;
     /**
      * Konstanty uchovavju hodnoty podla ktory trieda rata prijem a vydaje
      * mesta.
      */
-    private static final int[] ZONES_INCOME = new int[]{5, 6, 8};
+    private static final int[] ZONES_INCOME = new int[]{10, 12, 15};
     private static final int RESOURCES_EXPENSES = 20;
-    private static final int[] CELL_FEES = new int[]{100, 150, 500};
-    private final Grid grid;
+    private static final int[] CELL_FEES = new int[]{75, 115, 375};
+    private final GridHandler gridHandler;
     private int[] zoneCounters;
     private int[] counters;
     private int[] tempCounters;
@@ -31,10 +31,11 @@ public class Account {
     private int income;
 
     /**
-     * @param grid kostruktor si pyta grid aby s nim mohla trieda pracovat.
+     * @param gridHandler kostruktor si pyta gridHandler aby s nim mohla
+     *                    trieda pracovat.
      */
-    public Account(Grid grid) {
-        this.grid = grid;
+    public Account(GridHandler gridHandler) {
+        this.gridHandler = gridHandler;
         this.tempCounters = new int[CheckBoxType.values().length - 1];
     }
 
@@ -44,10 +45,6 @@ public class Account {
 
     public int getGoal() {
         return GOAL;
-    }
-
-    public int[] getZoneCounters() {
-        return this.zoneCounters;
     }
 
     /**
@@ -68,8 +65,8 @@ public class Account {
     public void countCells() {
         this.counters = new int[CheckBoxType.values().length - 1];
         this.zoneCounters = new int[CheckBoxType.ZONE.getCellTypes().length];
-        for (int i = 0; i < this.grid.getOvergroundGrid().length; i++) {
-            for (int j = 0; j < this.grid.getOvergroundGrid()[i].length; j++) {
+        for (int i = 0; i < this.gridHandler.getOvergroundGrid().length; i++) {
+            for (int j = 0; j < this.gridHandler.getOvergroundGrid()[i].length; j++) {
                 this.addToSpecificCounter(i, j);
             }
         }
@@ -77,7 +74,7 @@ public class Account {
 
     /**
      * Metoda vyrata vydaje ak sa obsah pocitadla zmeni voci docasnemu
-     * pocitadlu. Prechadza cez list pocitadla a pripocitava do premenej
+     * pocitadlu. Prejde cez list pocitadla a pripocitava do premenej
      * vydaje.
      */
     public void calculateFees() {
@@ -91,7 +88,8 @@ public class Account {
     }
 
     /**
-     *
+     * Metoda vypocita prijem pre kazdy druh zony a potom od prijmu odcita
+     * vydaje na energie.
      */
     public void calculateIncome() {
         for (int i = 0; i < this.zoneCounters.length; i++) {
@@ -104,8 +102,8 @@ public class Account {
     /**
      * Oddelena metoda aby sa lepsie cital kod v countCells metode. For
      * cyklus iteruje pocitadlo a druhy iteruje cez kategoriu buniek podla
-     * hodnoty preveho cyklu. Podmienka kontroluje ci bunka z gridu sa rovna
-     * bunke z for cyklu a podla toho zvacsi pocitadlo o jedna.
+     * hodnoty preveho cyklu. V pripade splnenej podmienky sa pocitadlo
+     * zvacsi o jedna.
      *
      * @param i i-ty riadok
      * @param j j-ty stlpec
@@ -113,17 +111,17 @@ public class Account {
     private void addToSpecificCounter(int i, int j) {
         for (int g = 0; g < this.counters.length; g++) {
             for (CellType cellType : CheckBoxType.values()[g].getCellTypes()) {
-                if (this.grid.getOvergroundGrid()[i][j].name()
+                if (this.gridHandler.getOvergroundGrid()[i][j].name()
                     .equals(cellType.name())
-                    || this.grid.getUndergroundGrid()[i][j].name()
+                    || this.gridHandler.getUndergroundGrid()[i][j].name()
                     .equals(cellType.name())) {
                     this.counters[g]++;
                 }
             }
 
-            if (this.grid.getOvergroundGrid()[i][j].name()
+            if (this.gridHandler.getOvergroundGrid()[i][j].name()
                 .equals(CheckBoxType.ZONE.getCellTypes()[g].name())
-                && this.grid.getZonesConnection()[i][j].name()
+                && this.gridHandler.getZonesConnection()[i][j].name()
                 .equals(Warning.CONNECTED.name())) {
                 this.zoneCounters[g]++;
             }

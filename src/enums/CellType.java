@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 
 
 /**
- * Enum uchovava typy buniek a kazdy typ odahuje ikonu alebo obrazok pre
- * dalsie puzitie.
+ * Enum uchovava typy buniek a kazdy typ odahuje ikonu a obrazok predalsie
+ * puzitie.
  */
 public enum CellType {
     EMPTY_CELL(

@@ -9,28 +9,28 @@ import java.util.ArrayList;
  * Trieda vyraba 2D array podla volby. Oddelil som tuto funkcionalitu kvoli
  * citatelnosti.
  */
-public class Grid {
-    private final Save save;
+public class GridHandler {
+    private static final String OVERGROUND_FILE = "save/saveOverground.txt";
+    private static final String UNDERGROUND_FILE = "save/saveUnderground.txt";
+    private final Saver saver;
     private CellType[][] undergroundGrid;
     private CellType[][] overgroundGrid;
     private Warning[][] zonesConnection;
 
     /**
-     * Konstruktor inicializuje 2D array a potom pomocou for cyklu nastavi na
-     * vsetky pozicie prazdnu bunku.
+     * @param saver trieda na ukladanie hry.
      */
-    public Grid(Save save) {
-        this.save = save;
+    public GridHandler(Saver saver) {
+        this.saver = saver;
     }
 
-    public void setZoneConnection(int i, int j, Warning value) {
+    public void setZoneConnectionWarning(int i, int j, Warning value) {
         this.zonesConnection[i][j] = value;
     }
 
     public Warning[][] getZonesConnection() {
         return this.zonesConnection;
     }
-
 
     public void setOvergroundGridCell(int i, int j, CellType cellType) {
         this.overgroundGrid[i][j] = cellType;
@@ -52,11 +52,14 @@ public class Grid {
      * Metoda uklada rozohranu hru.
      */
     public void saveGrids() {
-        this.save.saveGame("save/saveOverground.txt", this.overgroundGrid);
-        this.save.saveGame("save/saveUnderground.txt", this.undergroundGrid);
+        this.saver.saveGame(OVERGROUND_FILE, this.overgroundGrid);
+        this.saver.saveGame(UNDERGROUND_FILE, this.undergroundGrid);
     }
 
     /**
+     * Metoda inicializuje 2D array a potom pomocou for cyklu nastavi na
+     * vsetky pozicie prazdnu bunku.
+     *
      * @param gamePanelWidth sirka hracieho platna
      * @param panelHeight    vyska platna
      * @param cellSize       velkost bunky
@@ -81,10 +84,10 @@ public class Grid {
      * Metoda cita arraylist a prideluje zapisane hodnoty do mriezky.
      */
     private void setSavedGrid() {
-        ArrayList<String[]> fileOverground = save.loadGame(
-            "save/saveOverground.txt");
-        ArrayList<String[]> fileUnderground = save.loadGame(
-            "save/saveUnderground.txt");
+        ArrayList<String[]> fileOverground = this.saver.loadGame(
+            OVERGROUND_FILE);
+        ArrayList<String[]> fileUnderground = this.saver.loadGame(
+            UNDERGROUND_FILE);
 
         for (int i = 0; i < this.overgroundGrid.length; i++) {
             for (int j = 0; j < this.overgroundGrid[i].length; j++) {

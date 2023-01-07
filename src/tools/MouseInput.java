@@ -13,7 +13,7 @@ import java.awt.event.MouseListener;
  * !!! Napad na vznik triedy je z internetu. !!!
  */
 public class MouseInput implements MouseListener {
-    private final Grid grid;
+    private final GridHandler gridHandler;
     private final Account account;
     private int cellSize;
     private int gamePanelWidth;
@@ -25,11 +25,11 @@ public class MouseInput implements MouseListener {
     private boolean isClicked;
 
     /**
-     * @param grid    trieda
-     * @param account trieda
+     * @param gridHandler trieda
+     * @param account     trieda
      */
-    public MouseInput(Grid grid, Account account) {
-        this.grid = grid;
+    public MouseInput(GridHandler gridHandler, Account account) {
+        this.gridHandler = gridHandler;
         this.account = account;
     }
 
@@ -179,17 +179,17 @@ public class MouseInput implements MouseListener {
         this.account.calculateFees();
 
         /*
-        Podmienka ignoruje ak sa uzivatel snazi pridat do hracieho pola
-        prazdnu bunku.
+        Podmienka ignoruje kontrolu uctu ak sa uzivatel snazi pridat do
+        hracieho pola prazdnu bunku.
          */
         if (this.account.getAccount() > this.account.getMinimum()
             || checkBoxType.getCellTypes()[index].name()
             .equals(CellType.EMPTY_CELL.name())) {
             if (GridState.UNDERGROUND.isActive()) {
-                this.grid.setUndergroundGridCell(
+                this.gridHandler.setUndergroundGridCell(
                     i, j, checkBoxType.getCellTypes()[index]);
             } else {
-                this.grid.setOvergroundGridCell(
+                this.gridHandler.setOvergroundGridCell(
                     i, j, checkBoxType.getCellTypes()[index]);
             }
         }

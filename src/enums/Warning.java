@@ -4,6 +4,10 @@ import tools.Image;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Enum uchovava typy upozorneni a kazde upozornenie odahuje obrazok ktory
+ * reprezentuje pre dalsie puzitie.
+ */
 public enum Warning {
     EMPTY(new Image().getBufferedImage("res/tools/EmptyCell.png")),
     NO_ROAD(new Image().getBufferedImage("res/roads/NoRoad.png")),

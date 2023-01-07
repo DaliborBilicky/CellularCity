@@ -4,7 +4,7 @@ import enums.CellType;
 import enums.CheckBoxType;
 import enums.GridState;
 import tools.Canvas;
-import tools.Grid;
+import tools.GridHandler;
 import tools.MouseInput;
 import ui.CheckBox;
 import ui.ControlButton;
@@ -48,7 +48,7 @@ public class Panel extends JPanel implements ActionListener {
     private static final int CELL_SIZE = 35;
     private final MouseInput mouseInput;
     private final Canvas canvas;
-    private final Grid grid;
+    private final GridHandler gridHandler;
     private final Account account;
     private Thumb thumb;
     private MoneyBar moneyBar;
@@ -65,13 +65,13 @@ public class Panel extends JPanel implements ActionListener {
      * podla poziadaviek.
      */
     public Panel(
-        Grid grid, Canvas canvas, MouseInput mouseInput, Account account) {
-        this.grid = grid;
+        GridHandler gridHandler, Canvas canvas, MouseInput mouseInput, Account account) {
+        this.gridHandler = gridHandler;
         this.canvas = canvas;
         this.mouseInput = mouseInput;
         this.account = account;
 
-        this.grid.setGrids(
+        this.gridHandler.setGrids(
             GAME_PANEL_WIDTH,
             PANEL_HEIGHT,
             CELL_SIZE);
@@ -101,15 +101,15 @@ public class Panel extends JPanel implements ActionListener {
         super.paintComponent(graphics);
         this.canvas.setCanvas(graphics, CELL_SIZE);
         this.canvas.drawGrid(GAME_PANEL_WIDTH, PANEL_HEIGHT);
-        this.canvas.drawGridWithInfra(this.grid.getOvergroundGrid());
-        this.canvas.drawWarnings(this.grid.getZonesConnection());
+        this.canvas.drawGridWithInfra(this.gridHandler.getOvergroundGrid());
+        this.canvas.drawWarnings(this.gridHandler.getZonesConnection());
         if (GridState.UNDERGROUND.isActive()) {
-            this.canvas.drawGridWithInfra(this.grid.getUndergroundGrid());
+            this.canvas.drawGridWithInfra(this.gridHandler.getUndergroundGrid());
         }
 
         this.moneyBar.updateBar(this.account.getAccount());
-        this.graph.setRightGraph(this.grid.getOvergroundGrid());
-        this.thumb.calculateSatisfaction(this.grid.getZonesConnection());
+        this.graph.setRightGraph(this.gridHandler.getOvergroundGrid());
+        this.thumb.calculateSatisfaction(this.gridHandler.getZonesConnection());
     }
 
     /**
@@ -126,7 +126,7 @@ public class Panel extends JPanel implements ActionListener {
             }
         }
         if (e.getSource() == this.controlButtons[0]) {
-            this.grid.saveGrids();
+            this.gridHandler.saveGrids();
         }
         if (e.getSource() == this.controlButtons[1]) {
             System.exit(0);

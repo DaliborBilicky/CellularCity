@@ -45,17 +45,35 @@ public class Game implements Runnable {
                     case RESIDENTIAL, COMMERCIAL, INDUSTRIAL:
                         switch (this.grid.getZonesConnection()[i][j]) {
                             case EMPTY:
-                                this.grid.setZoneConnection(i, j, Warning.NO_ROAD);
+                                this.grid.setZoneConnection(i, j,
+                                    Warning.NO_ROAD);
                                 break;
                             case NO_ROAD:
                                 this.roadCheck(i, j, m, n);
                                 break;
                             case NO_WATER:
-                                this.waterCheck(i, j, m, n);
+                                if (this.roadConnectionCheck(i, j, m, n)) {
+                                    this.waterCheck(i, j, m, n);
+                                } else {
+                                    this.grid.setZoneConnection(i, j,
+                                        Warning.NO_ROAD);
+                                }
                                 break;
                             case NO_POWER:
-                                this.powerCheck(i, j, m, n);
+                                if (this.resConnectionCheck(
+                                    CellType.WATER, i, j, m, n)) {
+                                    this.powerCheck(i, j, m, n);
+                                } else {
+                                    this.grid.setZoneConnection(i, j,
+                                        Warning.NO_WATER);
+                                }
                                 break;
+                            case CONNECTED:
+                                if (!this.resConnectionCheck(
+                                    CellType.POWER, i, j, m, n)) {
+                                    this.grid.setZoneConnection(i, j,
+                                        Warning.NO_POWER);
+                                }
                         }
                         break;
                     case EMPTY_CELL:
@@ -69,17 +87,21 @@ public class Game implements Runnable {
     private void roadCheck(int i, int j, int m, int n) {
         for (CellType road :
             CheckBoxType.ROAD.getCellTypes()) {
-            if (0 < i && i < m - 1) {
-                if (this.grid.getOvergroundGrid()[i + 1][j]
+            if (0 < i && i < m - 1
+                && 0 <= j && j < n - 1) {
+                if (this.grid.getOvergroundGrid()[i + 1][j + 1]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i + 1][j - 1]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i - 1][j + 1]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i - 1][j - 1]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i + 1][j]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i][j + 1]
                     .name().equals(road.name())
                     || this.grid.getOvergroundGrid()[i - 1][j]
-                    .name().equals(road.name())) {
-                    this.grid.setZoneConnection(i, j,
-                        Warning.NO_WATER);
-                }
-            }
-            if (0 < j && j < n - 1) {
-                if (this.grid.getOvergroundGrid()[i][j + 1]
                     .name().equals(road.name())
                     || this.grid.getOvergroundGrid()[i][j - 1]
                     .name().equals(road.name())) {
@@ -88,6 +110,63 @@ public class Game implements Runnable {
                 }
             }
         }
+    }
+
+    private boolean roadConnectionCheck(int i, int j, int m, int n) {
+        int counter = 0;
+        for (CellType road :
+            CheckBoxType.ROAD.getCellTypes()) {
+            if (0 < i && i < m - 1 && 0 <= j && j < n - 1) {
+                if (this.grid.getOvergroundGrid()[i + 1][j + 1]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i + 1][j - 1]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i - 1][j + 1]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i - 1][j - 1]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i + 1][j]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i][j + 1]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i - 1][j]
+                    .name().equals(road.name())
+                    || this.grid.getOvergroundGrid()[i][j - 1]
+                    .name().equals(road.name())) {
+                    counter++;
+                }
+            }
+        }
+        return counter != 0;
+    }
+
+    private boolean resConnectionCheck(
+        CellType type, int i, int j, int m, int n) {
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 5; x++) {
+                if (0 < i && i < m - 1 && 0 <= j && j < n - 1) {
+                    if (this.grid.getUndergroundGrid()[i + y][j + x]
+                        .name().equals(type.name())
+                        || this.grid.getUndergroundGrid()[i + y][j - x]
+                        .name().equals(type.name())
+                        || this.grid.getUndergroundGrid()[i - y][j + x]
+                        .name().equals(type.name())
+                        || this.grid.getUndergroundGrid()[i - y][j - x]
+                        .name().equals(type.name())
+                        || this.grid.getUndergroundGrid()[i + y][j]
+                        .name().equals(type.name())
+                        || this.grid.getUndergroundGrid()[i][j + x]
+                        .name().equals(type.name())
+                        || this.grid.getUndergroundGrid()[i - y][j]
+                        .name().equals(type.name())
+                        || this.grid.getUndergroundGrid()[i][j - x]
+                        .name().equals(type.name())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private void waterCheck(int i, int j, int m, int n) {

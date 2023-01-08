@@ -40,11 +40,11 @@ public class ConnectionChecker {
                                     i, j, Warning.NO_ROAD);
                                 break;
                             case NO_ROAD:
-                                this.checkForRoad(i, j);
+                                this.checkRoadConnection(i, j);
                                 break;
                             case NO_WATER:
-                                if (this.roadConnectionCheck(i, j)) {
-                                    this.checkForRes(
+                                if (this.isConnectedToRoad(i, j)) {
+                                    this.checkResConnection(
                                         CellType.WATER, Warning.NO_POWER, i, j);
                                 } else {
                                     this.gridHandler.setZoneConnectionWarning(
@@ -52,9 +52,9 @@ public class ConnectionChecker {
                                 }
                                 break;
                             case NO_POWER:
-                                if (this.resConnectionCheck(
-                                    CellType.WATER, i, j)) {
-                                    this.checkForRes(
+                                if (this.isConnectedToRes(CellType.WATER, i, j)
+                                    && this.isConnectedToRoad(i, j)) {
+                                    this.checkResConnection(
                                         CellType.POWER, Warning.CONNECTED, i, j);
                                 } else {
                                     this.gridHandler.setZoneConnectionWarning(
@@ -62,10 +62,13 @@ public class ConnectionChecker {
                                 }
                                 break;
                             case CONNECTED:
-                                if (!this.resConnectionCheck(
+                                if (!this.isConnectedToRoad(i, j)
+                                    || !this.isConnectedToRes(
+                                    CellType.WATER, i, j)
+                                    || !this.isConnectedToRes(
                                     CellType.POWER, i, j)) {
                                     this.gridHandler.setZoneConnectionWarning(
-                                        i, j, Warning.NO_POWER);
+                                        i, j, Warning.NO_ROAD);
                                 }
                         }
                         break;
@@ -85,7 +88,7 @@ public class ConnectionChecker {
      * @param i i-ty riadok
      * @param j j-ty stlpec
      */
-    private void checkForRoad(int i, int j) {
+    private void checkRoadConnection(int i, int j) {
         for (CellType road :
             CheckBoxType.ROAD.getCellTypes()) {
             if (0 < i && 0 < j) {
@@ -148,7 +151,7 @@ public class ConnectionChecker {
      * @param j j-ty stlpec
      * @return ci je bunka stale napojena na cestu alebo nie
      */
-    private boolean roadConnectionCheck(int i, int j) {
+    private boolean isConnectedToRoad(int i, int j) {
         int roadCounter = 0;
         for (CellType road :
             CheckBoxType.ROAD.getCellTypes()) {
@@ -209,7 +212,7 @@ public class ConnectionChecker {
      * @param i       i-ty riadok
      * @param j       j-ty stlpec
      */
-    private void checkForRes(CellType type, Warning warning, int i, int j) {
+    private void checkResConnection(CellType type, Warning warning, int i, int j) {
         for (int y = 0; y <= 3; y++) {
             for (int x = 0; x <= 3; x++) {
                 if (y <= i && x <= j) {
@@ -252,7 +255,7 @@ public class ConnectionChecker {
      * @param j    j-ty stlpec
      * @return ci je bunka stale napojena alebo nie
      */
-    private boolean resConnectionCheck(
+    private boolean isConnectedToRes(
         CellType type, int i, int j) {
         for (int y = 0; y <= 3; y++) {
             for (int x = 0; x <= 3; x++) {
